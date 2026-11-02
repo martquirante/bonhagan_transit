@@ -77,9 +77,9 @@
                         <!-- GCash Option -->
                         <label class="payment-option-card selected">
                             <input type="radio" name="payment_method" value="gcash" checked style="accent-color: var(--color-accent-amber);">
-                            <div class="payment-icon">
-                                <img src="/assets/images/payments/gcash.svg" alt="GCash" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-                                <i class="fa-solid fa-mobile-screen-button" style="display: none; color: var(--color-info);"></i>
+                            <div class="payment-icon" style="background-color: #0A80FC;">
+                                <img src="/assets/images/payments/gcash_icon.png" alt="GCash" class="payment-brand-logo" onerror="this.src='/assets/images/payments/gcash.jpg';">
+                                <i class="fa-solid fa-mobile-screen-button" style="display: none; color: #fff;"></i>
                             </div>
                             <div style="flex: 1;">
                                 <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">GCash Express</strong>
@@ -91,9 +91,9 @@
                         <!-- Maya Option -->
                         <label class="payment-option-card">
                             <input type="radio" name="payment_method" value="maya" style="accent-color: var(--color-accent-amber);">
-                            <div class="payment-icon">
-                                <img src="/assets/images/payments/maya.svg" alt="Maya" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
-                                <i class="fa-solid fa-wallet" style="display: none; color: var(--color-success);"></i>
+                            <div class="payment-icon" style="background-color: #000000;">
+                                <img src="/assets/images/payments/maya_icon.png" alt="Maya" class="payment-brand-logo" onerror="this.src='/assets/images/payments/maya.png';">
+                                <i class="fa-solid fa-wallet" style="display: none; color: #00FFA3;"></i>
                             </div>
                             <div style="flex: 1;">
                                 <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">Maya / Digital Wallet</strong>
@@ -106,7 +106,7 @@
                         <label class="payment-option-card">
                             <input type="radio" name="payment_method" value="card" style="accent-color: var(--color-accent-amber);">
                             <div class="payment-icon">
-                                <img src="/assets/images/payments/cards.svg" alt="Visa / Mastercard" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                <img src="/assets/images/payments/cards.svg" alt="Visa / Mastercard" class="payment-brand-logo contain-pad" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
                                 <i class="fa-solid fa-credit-card" style="display: none; color: var(--color-info);"></i>
                             </div>
                             <div style="flex: 1;">
@@ -119,7 +119,7 @@
                         <label class="payment-option-card">
                             <input type="radio" name="payment_method" value="cash" style="accent-color: var(--color-accent-amber);">
                             <div class="payment-icon">
-                                <img src="/assets/images/payments/cash.svg" alt="Cash" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                <img src="/assets/images/payments/cash.svg" alt="Cash" class="payment-brand-logo contain-pad" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
                                 <i class="fa-solid fa-money-bill-wave" style="display: none; color: var(--color-success);"></i>
                             </div>
                             <div style="flex: 1;">
@@ -291,11 +291,13 @@
                         container.innerHTML = res.data.channels.map((ch, idx) => {
                             const isChecked = ch.id === currentSelected || (idx === 0 && !currentSelected);
                             const badgeHtml = ch.badge ? `<span class="badge badge-${ch.badge_type || 'info'}">${DOM.escapeHtml(ch.badge)}</span>` : '';
+                            const isPad = ch.id === 'card' || ch.id === 'cash';
+                            const bgStyle = ch.id === 'gcash' ? 'background-color: #0A80FC;' : (ch.id === 'maya' ? 'background-color: #000000;' : '');
                             return `
                                 <label class="payment-option-card ${isChecked ? 'selected' : ''}">
                                     <input type="radio" name="payment_method" value="${ch.id}" ${isChecked ? 'checked' : ''} style="accent-color: var(--color-accent-amber);">
-                                    <div class="payment-icon">
-                                        <img src="${ch.logo_url}" alt="${DOM.escapeHtml(ch.name)}" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                    <div class="payment-icon" style="${bgStyle}">
+                                        <img src="${ch.logo_url}" alt="${DOM.escapeHtml(ch.name)}" class="payment-brand-logo ${isPad ? 'contain-pad' : ''}" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
                                         <i class="${ch.fallback_icon || 'fa-solid fa-wallet'}" style="display: none; color: ${ch.accent_color || 'var(--color-info)'};"></i>
                                     </div>
                                     <div style="flex: 1;">

@@ -650,7 +650,7 @@ html[data-theme="dark"] .payment-option-card.selected {
     width: 48px;
     height: 48px;
     border-radius: var(--radius-md);
-    background-color: transparent;
+    background-color: var(--bg-surface-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -658,14 +658,21 @@ html[data-theme="dark"] .payment-option-card.selected {
     flex-shrink: 0;
     overflow: hidden;
     position: relative;
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .payment-brand-logo {
-    width: 44px;
-    height: 44px;
-    object-fit: contain;
-    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: calc(var(--radius-md) - 1px);
     transition: transform var(--transition-fast);
+}
+
+.payment-brand-logo.contain-pad {
+    padding: 6px;
+    object-fit: contain;
 }
 
 .payment-option-card:hover .payment-brand-logo {
