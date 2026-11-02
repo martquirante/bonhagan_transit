@@ -215,8 +215,8 @@
 
             const params = Router.getParams();
             const tripId = params.trip_id;
-            const originStopId = params.origin_stop_id || 1;
-            const destStopId = params.destination_stop_id || 7;
+            const originStopId = params.origin_stop_id || params.boarding_stop_id || 1;
+            const destStopId = params.destination_stop_id || params.dropoff_stop_id || 8;
             const maxPassengers = parseInt(params.passengers || '1', 10);
 
             if (!tripId) {
@@ -235,11 +235,13 @@
                     const res = await Api.get(API_CONFIG.ENDPOINTS.SEATS.GET_SEATS, {
                         trip_id: tripId,
                         origin_stop_id: originStopId,
-                        destination_stop_id: destStopId
+                        destination_stop_id: destStopId,
+                        boarding_stop_id: originStopId,
+                        dropoff_stop_id: destStopId
                     });
 
                     if (res.success && res.data) {
-                        tripData = res.data.trip || {};
+                        tripData = res.data.trip || res.data || {};
                         seatsData = res.data.seats || [];
                         updateTripHeader();
                         renderSeatGrid();

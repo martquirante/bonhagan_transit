@@ -9,6 +9,12 @@ require_once dirname(dirname(__DIR__)) . '/helpers/response.php';
 $routeId = isset($_GET['route_id']) ? (int)$_GET['route_id'] : 0;
 $direction = isset($_GET['direction']) ? strtolower(trim($_GET['direction'])) : '';
 $date = isset($_GET['date']) ? trim($_GET['date']) : '';
+if (!empty($date)) {
+    $ts = strtotime($date);
+    if ($ts !== false) {
+        $date = date('Y-m-d', $ts);
+    }
+}
 $limit = isset($_GET['limit']) ? min(300, max(1, (int)$_GET['limit'])) : 250;
 
 try {

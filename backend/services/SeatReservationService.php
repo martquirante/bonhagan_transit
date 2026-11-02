@@ -125,9 +125,12 @@ class SeatReservationService {
                 'seat_id' => (int)$s['seat_id'],
                 'seat_number' => $s['seat_number'],
                 'seat_row' => (int)$s['seat_row'],
+                'row_number' => (int)$s['seat_row'],
                 'seat_column' => (int)$s['seat_column'],
+                'column_letter' => substr($s['seat_number'], -1),
                 'seat_type' => $s['seat_type'],
-                'status' => $status
+                'status' => $status,
+                'is_available' => ($status === 'available')
             ];
         }
 

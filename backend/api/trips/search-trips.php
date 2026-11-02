@@ -28,6 +28,13 @@ $rawDest = isset($_GET['destination_id']) ? parseStopParam($_GET['destination_id
 $travelDate = isset($_GET['date']) ? trim($_GET['date']) : 
               (isset($_GET['travel_date']) ? trim($_GET['travel_date']) : '');
 
+if (!empty($travelDate)) {
+    $ts = strtotime($travelDate);
+    if ($ts !== false) {
+        $travelDate = date('Y-m-d', $ts);
+    }
+}
+
 $preferredTime = isset($_GET['time']) ? trim($_GET['time']) : '';
 $busTypeId = isset($_GET['bus_type_id']) ? (int)$_GET['bus_type_id'] : 0;
 $busType = isset($_GET['bus_type']) ? strtolower(trim($_GET['bus_type'])) : '';
