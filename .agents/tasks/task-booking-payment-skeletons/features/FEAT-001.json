@@ -1,0 +1,25 @@
+{
+  "id": "FEAT-001",
+  "type": "fix",
+  "description": "Fix Bug 1 (timezone mismatch causing payment rejection) and Bug 2 (expired trips still showing in get-schedules.php). These are two backend PHP files. They are independent of the frontend skeleton work (FEAT-002) and must be done first since the timezone fix also affects FEAT-002 verification (NOW() in SQL).",
+  "status": "completed",
+  "steps": [
+    "1. Read backend/config/database.php to confirm current state, then add one line after `self::$connection = new PDO($dsn, $user, $pass, $options);`: `self::$connection->exec(\"SET timezone = 'Asia/Manila'\");`. The return statement follows immediately. This aligns the PostgreSQL session timezone with PHP's Asia/Manila timezone so strtotime() comparisons in BookingService.php and PaymentService.php work correctly.",
+    "2. Read backend/api/trips/get-schedules.php to confirm lines 34-37, then add a today's time filter: after `$sql .= \" AND DATE(t.departure_datetime) = :date \";` and the `$params[':date'] = $date;` line, insert: `if ($date === date('Y-m-d')) { $sql .= \" AND t.departure_datetime >= (NOW() - INTERVAL '30 minutes') \"; }`. This matches the pattern already used in backend/api/trips/search-trips.php lines 86-91.",
+    "3. Confirm backend/services/BookingService.php and backend/services/PaymentService.php require NO changes — both use strtotime() on naive timestamp strings from the DB, and both compare against PHP time(). After the DB timezone fix these comparisons are correct. Document this in findings."
+  ],
+  "acceptance_criteria": [
+    "database.php has the exec('SET timezone = ...') call between the new PDO() line and the return statement",
+    "get-schedules.php appends the 30-minute filter only when the requested date equals today's date (matching search-trips.php pattern)",
+    "BookingService.php and PaymentService.php are unchanged",
+    "A manual test booking for a trip departing 2+ hours in the future does not throw 'Trip has already departed'",
+    "A GET request to get-schedules.php?date=<today> excludes trips that departed more than 30 minutes ago"
+  ],
+  "verification": [
+    "Read the modified database.php and confirm the exec line is present after `new PDO()`",
+    "Read the modified get-schedules.php and confirm the $date === date('Y-m-d') block is present within the date filter section",
+    "No syntax errors: run `php -l backend/config/database.php` and `php -l backend/api/trips/get-schedules.php` — both must report 'No syntax errors'"
+  ],
+  "blocked_reason": null,
+  "findings": "BookingService.php and PaymentService.php confirmed unchanged — both use strtotime() on naive timestamp strings from the DB and compare against PHP time(). With the DB timezone now aligned to Asia/Manila via the exec() call, these comparisons are correct without any modification to the service files."
+}

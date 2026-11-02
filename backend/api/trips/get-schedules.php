@@ -37,6 +37,9 @@ try {
     if (!empty($date)) {
         $sql .= " AND DATE(t.departure_datetime) = :date ";
         $params[':date'] = $date;
+        if ($date === date('Y-m-d')) {
+            $sql .= " AND t.departure_datetime >= (NOW() - INTERVAL '30 minutes') ";
+        }
     } else {
         $sql .= " AND DATE(t.departure_datetime) >= CURRENT_DATE ";
     }
