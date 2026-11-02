@@ -369,7 +369,7 @@
                             </div>
 
                             <div>
-                                <a href="${Router.toUrl('passenger/seat-selection.html')}?trip_id=${t.trip_id}&origin_stop_id=${originId}&destination_stop_id=${destId}&passengers=${passengers}" class="btn btn-primary w-100" style="font-weight: 700;">
+                                <a href="${Router.toUrl('passenger/seat-selection.html')}?trip_id=${t.trip_id}&origin_stop_id=${originId}&destination_stop_id=${destId}&boarding_stop_id=${originId}&dropoff_stop_id=${destId}&passengers=${passengers}&bus_number=${encodeURIComponent(t.bus_number || '')}&plate_number=${encodeURIComponent(t.plate_number || '')}&bus_type=${encodeURIComponent(t.bus_type_code || t.bus_type || '')}&departure_time=${encodeURIComponent(t.departure_time || '')}&fare=${fare}" class="btn btn-primary w-100" style="font-weight: 700;">
                                     Select Seats
                                 </a>
                             </div>

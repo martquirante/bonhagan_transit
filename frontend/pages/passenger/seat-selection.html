@@ -228,7 +228,53 @@
             let tripData = null;
             let seatsData = [];
             let selectedSeats = [];
-            let farePerSeat = 65.00;
+            let farePerSeat = parseFloat(params.fare || 65.00);
+
+            const STOP_NAMES = {
+                1: 'Sta. Cruz Terminal (Manila)',
+                2: 'Monumento / 5th Ave (Caloocan)',
+                3: 'Balintawak Transit Hub',
+                4: 'Marilao Exit (NLEX)',
+                5: 'Muzon Commercial Junction',
+                6: 'Tungko / SM San Jose del Monte',
+                7: 'San Jose del Monte City Hall',
+                8: 'Sapang Palay Central Terminal',
+                // Physical stop IDs
+                9: 'Balintawak Transit Hub',
+                10: 'Marilao Exit (NLEX)',
+                11: 'Muzon Commercial Junction',
+                12: 'Tungko / SM San Jose del Monte',
+                13: 'San Jose del Monte City Hall',
+                14: 'Sapang Palay Central Terminal'
+            };
+
+            function updateTripHeader() {
+                const busNum = (tripData && tripData.bus_number) || params.bus_number || 'BTH-101';
+                const plateNum = (tripData && tripData.plate_number) || params.plate_number || 'Plate Pending';
+                document.getElementById('trip-bus-title').textContent = `${busNum} (${plateNum})`;
+                
+                const busTypeStr = (tripData && (tripData.bus_type_code || tripData.bus_type)) || params.bus_type || 'aircon';
+                const isAircon = busTypeStr.toLowerCase().includes('air');
+                const badge = document.getElementById('trip-bus-badge');
+                badge.className = `bus-type-pill ${isAircon ? 'aircon' : 'ordinary'}`;
+                badge.innerHTML = isAircon ? '<i class="fa-solid fa-snowflake"></i> Aircon Express' : '<i class="fa-solid fa-wind"></i> Ordinary Commuter';
+
+                farePerSeat = parseFloat((tripData && tripData.base_fare) || params.fare || (isAircon ? 65.00 : 50.00));
+                document.getElementById('trip-base-fare').textContent = FormatUtil.currency(farePerSeat);
+                document.getElementById('sum-fare-each').textContent = FormatUtil.currency(farePerSeat);
+
+                const depTime = (tripData && tripData.departure_time) || params.departure_time || '';
+                document.getElementById('trip-depart-time').textContent = depTime ? FormatUtil.time(depTime) : 'Scheduled Departure';
+                
+                const origName = (tripData && tripData.origin_name) || STOP_NAMES[originStopId] || 'Sta. Cruz Terminal';
+                const destName = (tripData && tripData.destination_name) || STOP_NAMES[destStopId] || 'Sapang Palay Central Terminal';
+                document.getElementById('trip-route-desc').textContent = `${origName} → ${destName}`;
+                document.getElementById('sum-origin').textContent = origName;
+                document.getElementById('sum-dest').textContent = destName;
+            }
+
+            // Immediately set header details from query params
+            updateTripHeader();
 
             async function loadSeats() {
                 try {
@@ -251,29 +297,6 @@
                 } catch (e) {
                     Toast.error('Failed to connect to seat reservation service.');
                 }
-            }
-
-            function updateTripHeader() {
-                if (!tripData) return;
-
-                document.getElementById('trip-bus-title').textContent = `${tripData.bus_number || 'BTH-101'} (${tripData.plate_number || 'Plate Pending'})`;
-                
-                const isAircon = ((tripData.bus_type_code || tripData.bus_type || '').toLowerCase()).includes('air');
-                const badge = document.getElementById('trip-bus-badge');
-                badge.className = `bus-type-pill ${isAircon ? 'aircon' : 'ordinary'}`;
-                badge.innerHTML = isAircon ? '<i class="fa-solid fa-snowflake"></i> Aircon Express' : '<i class="fa-solid fa-wind"></i> Ordinary Commuter';
-
-                farePerSeat = parseFloat(tripData.base_fare || (isAircon ? 65.00 : 50.00));
-                document.getElementById('trip-base-fare').textContent = FormatUtil.currency(farePerSeat);
-                document.getElementById('sum-fare-each').textContent = FormatUtil.currency(farePerSeat);
-
-                document.getElementById('trip-depart-time').textContent = FormatUtil.time(tripData.departure_time);
-                
-                const origName = tripData.origin_name || 'Monumento';
-                const destName = tripData.destination_name || 'Sapang Palay';
-                document.getElementById('trip-route-desc').textContent = `${origName} → ${destName}`;
-                document.getElementById('sum-origin').textContent = origName;
-                document.getElementById('sum-dest').textContent = destName;
             }
 
             function renderSeatGrid() {
