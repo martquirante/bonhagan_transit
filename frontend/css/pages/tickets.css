@@ -1,0 +1,149 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Tickets Page & Ticket Listing Styles
+   ========================================================= */
+
+.tickets-filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    flex-wrap: wrap;
+    gap: var(--space-4);
+}
+
+.tickets-tabs {
+    display: flex;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    padding: 3px;
+}
+
+.tickets-tab-btn {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-full);
+    border: none;
+    background: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.tickets-tab-btn.active {
+    background-color: var(--color-primary-navy);
+    color: #FFFFFF;
+}
+
+html[data-theme="dark"] .tickets-tab-btn.active {
+    background-color: var(--color-accent-amber);
+    color: var(--color-primary-navy);
+}
+
+.tickets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-5);
+}
+
+.ticket-summary-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    display: flex;
+    flex-direction: column;
+}
+
+.ticket-summary-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-accent-amber);
+}
+
+.ticket-summary-top {
+    background-color: var(--bg-surface-muted);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.ticket-summary-body {
+    padding: var(--space-4);
+    flex: 1;
+}
+
+.ticket-route-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+
+.ticket-route-display .stop-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.ticket-route-arrow {
+    color: var(--color-accent-amber);
+    font-size: 1.1rem;
+}
+
+.ticket-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    font-size: 0.8rem;
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px dashed var(--border-subtle);
+}
+
+.ticket-meta-item span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.ticket-meta-item strong {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+}
+
+.ticket-summary-actions {
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+    background-color: var(--bg-surface);
+    display: flex;
+    gap: var(--space-2);
+}
+
+@media (max-width: 640px) {
+    .tickets-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .tickets-tabs {
+        width: 100%;
+        display: flex;
+    }
+    .tickets-tab-btn {
+        flex: 1;
+        text-align: center;
+        padding: var(--space-2) var(--space-2);
+        font-size: 0.78rem;
+    }
+    .tickets-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+

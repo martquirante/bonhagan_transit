@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account — BONHAGAN TRANSIT</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-8) var(--space-4);
+            background-color: var(--bg-main);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 70% opacity dot-matrix grid pattern */
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(254, 204, 2, 0.45) 1.5px, transparent 1.5px),
+                              radial-gradient(rgba(255, 255, 255, 0.22) 1.2px, transparent 1.2px);
+            background-size: 24px 24px, 12px 12px;
+            background-position: 0 0, 6px 6px;
+            opacity: 0.70;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        html[data-theme="light"] .auth-container::before {
+            background-image: radial-gradient(rgba(254, 204, 2, 0.45) 1.5px, transparent 1.5px),
+                              radial-gradient(rgba(15, 23, 42, 0.18) 1.2px, transparent 1.2px);
+            opacity: 0.70;
+        }
+
+        /* Ambient soft backlight glow */
+        .auth-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(254, 204, 2, 0.14) 0%, rgba(37, 99, 235, 0.04) 50%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .auth-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--border-subtle);
+            width: 100%;
+            max-width: 560px;
+            padding: var(--space-8) var(--space-7);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        html[data-theme="light"] .auth-card {
+            background-color: #FFFFFF;
+            border-color: #E2E8F0;
+            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.05);
+        }
+
+        .auth-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: var(--space-6);
+        }
+
+        .auth-logo-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-3);
+            text-decoration: none;
+            transition: transform var(--transition-fast);
+        }
+
+        .auth-logo-link:hover {
+            transform: scale(1.03);
+        }
+
+        .auth-logo {
+            height: 52px;
+            width: auto;
+            max-height: 52px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .auth-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: var(--space-1);
+            line-height: 1.4;
+        }
+
+        .auth-card .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .auth-card .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+            display: block;
+        }
+
+        .auth-card .form-control, .auth-card .form-select {
+            width: 100%;
+            height: 48px;
+            font-size: 0.95rem;
+            border-radius: var(--radius-md);
+            padding: 0 var(--space-3);
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-strong);
+            color: var(--text-primary);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        html[data-theme="light"] .auth-card .form-control,
+        html[data-theme="light"] .auth-card .form-select {
+            background-color: #F8FAFC;
+            border-color: #CBD5E1;
+        }
+
+        .auth-card .form-control:focus, .auth-card .form-select:focus {
+            border-color: var(--color-accent-amber);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(254, 204, 2, 0.25);
+            background-color: var(--bg-surface);
+        }
+
+        .auth-submit-btn {
+            width: 100% !important;
+            height: 48px;
+            font-size: 0.975rem;
+            font-weight: 700;
+            border-radius: var(--radius-md);
+            background-color: var(--color-accent-amber) !important;
+            color: #0F172A !important;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(254, 204, 2, 0.45);
+            transition: all var(--transition-fast);
+            margin-top: var(--space-3);
+        }
+
+        .auth-submit-btn:hover {
+            background-color: var(--color-accent-amber-hover) !important;
+            color: #0F172A !important;
+            box-shadow: 0 6px 18px rgba(254, 204, 2, 0.55);
+            transform: translateY(-1px);
+        }
+
+        .auth-submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .auth-footer-prompt {
+            text-align: center;
+            margin-top: var(--space-5);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer-prompt a {
+            color: var(--color-accent-amber);
+            font-weight: 700;
+            text-decoration: none;
+            margin-left: 2px;
+        }
+
+        .auth-footer-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            margin-top: var(--space-5);
+        }
+
+        .auth-back-link:hover {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Header with Centered Logo -->
+            <div class="auth-header">
+                <a href="../../index.html" class="auth-logo-link" title="Return to Bonhagan Transit Homepage">
+                    <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Official Logo" class="auth-logo">
+                </a>
+                <h1 class="auth-title">Create Passenger Account</h1>
+                <p class="auth-subtitle">Fast booking, saved passenger details, and digital e-tickets</p>
+            </div>
+
+            <!-- Registration Form -->
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label" for="reg-fullname">Full Name (as shown on official ID)</label>
+                    <input type="text" id="reg-fullname" class="form-control" placeholder="e.g. Maria Santos" required autocomplete="name">
+                </div>
+
+                <div class="d-flex gap-3" style="flex-wrap: wrap;">
+                    <div class="form-group flex-1" style="min-width: 200px;">
+                        <label class="form-label" for="reg-email">Email Address</label>
+                        <input type="email" id="reg-email" class="form-control" placeholder="name@domain.com" required autocomplete="email">
+                    </div>
+                    <div class="form-group flex-1" style="min-width: 200px;">
+                        <label class="form-label" for="reg-phone">Mobile Number</label>
+                        <input type="tel" id="reg-phone" class="form-control" placeholder="09171234567" required autocomplete="tel">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="reg-username">Username</label>
+                    <input type="text" id="reg-username" class="form-control" placeholder="Choose a unique username" required autocomplete="username">
+                </div>
+
+                <div class="d-flex gap-3" style="flex-wrap: wrap;">
+                    <div class="form-group flex-1" style="min-width: 200px;">
+                        <label class="form-label" for="reg-password">Password (min. 8 characters)</label>
+                        <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required autocomplete="new-password">
+                    </div>
+                    <div class="form-group flex-1" style="min-width: 200px;">
+                        <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+                        <input type="password" id="reg-confirm-password" class="form-control" placeholder="••••••••" required autocomplete="new-password">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="reg-discount-type">Passenger Category / Discount Eligibility</label>
+                    <select id="reg-discount-type" class="form-control form-select">
+                        <option value="regular" selected>Regular Passenger (Standard Fare)</option>
+                        <option value="student">Student (20% statutory discount - ID verification needed)</option>
+                        <option value="senior">Senior Citizen (20% statutory discount)</option>
+                        <option value="pwd">Person with Disability / PWD (20% statutory discount)</option>
+                    </select>
+                    <small style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Discounts will be verified by conductor or online ID upload prior to departure.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="d-flex items-center gap-2" style="font-size: 0.8rem; color: var(--text-secondary); cursor: pointer;">
+                        <input type="checkbox" id="terms-agree" required style="accent-color: var(--color-accent-amber); width: 16px; height: 16px;">
+                        <span>I agree to the Bonhagan Transit <a href="services.html" style="color: var(--color-accent-amber); font-weight: 600;">Terms of Carriage</a> and passenger safety guidelines.</span>
+                    </label>
+                </div>
+
+                <button type="submit" id="btn-register" class="auth-submit-btn">
+                    Complete Registration
+                </button>
+            </form>
+
+            <!-- Login Link -->
+            <div class="auth-footer-prompt">
+                Already have an account? 
+                <a href="login.html">Sign In here</a>
+            </div>
+
+            <!-- Back to Homepage -->
+            <div style="text-align: center;">
+                <a href="../../index.html" class="auth-back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Homepage
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/utils/validation.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/loading.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+    <script src="../../js/core/router.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('register-form');
+            const submitBtn = document.getElementById('btn-register');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const fullName = document.getElementById('reg-fullname').value.trim();
+                const email = document.getElementById('reg-email').value.trim();
+                const phone = document.getElementById('reg-phone').value.trim();
+                const username = document.getElementById('reg-username').value.trim();
+                const password = document.getElementById('reg-password').value;
+                const confirmPassword = document.getElementById('reg-confirm-password').value;
+                const discountCategory = document.getElementById('reg-discount-type').value;
+
+                if (password !== confirmPassword) {
+                    Toast.error('Passwords do not match. Please verify both fields.');
+                    return;
+                }
+
+                if (password.length < 8) {
+                    Toast.error('Password must be at least 8 characters long.');
+                    return;
+                }
+
+                DOM.setLoading(submitBtn, true);
+
+                try {
+                    const payload = {
+                        full_name: fullName,
+                        email: email,
+                        mobile_number: phone,
+                        username: username,
+                        password: password,
+                        discount_category: discountCategory
+                    };
+
+                    const result = await Auth.register(payload);
+                    if (result.success) {
+                        Toast.success('Account successfully registered! Redirecting to sign in...');
+                        setTimeout(() => {
+                            window.location.href = `${Router.toUrl('login.html')}?registered=1`;
+                        }, 1200);
+                    } else {
+                        Toast.error(result.message || 'Registration failed. Please check your inputs.');
+                    }
+                } catch (err) {
+                    Toast.error('An unexpected server error occurred during registration.');
+                } finally {
+                    DOM.setLoading(submitBtn, false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

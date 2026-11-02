@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout & Payment — BONHAGAN TRANSIT</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="portal-wrapper">
+
+    <!-- Header Navbar -->
+    <header class="portal-header">
+        <div class="portal-nav-inner">
+            <a href="../../index.html" class="portal-brand">
+                <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+                <span>BONHAGAN <small style="font-size:0.75rem; color:var(--color-accent-amber);">PASSENGER</small></span>
+            </a>
+
+            <ul class="portal-links">
+                <li><a href="dashboard.html" class="portal-link">Dashboard</a></li>
+                <li><a href="book-trip.html" class="portal-link active">Book Trip</a></li>
+                <li><a href="my-tickets.html" class="portal-link">My Tickets</a></li>
+                <li><a href="booking-history.html" class="portal-link">Booking History</a></li>
+                <li><a href="notifications.html" class="portal-link">Notifications</a></li>
+                <li><a href="profile.html" class="portal-link">Profile</a></li>
+            </ul>
+
+            <div class="portal-actions">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+                <div class="user-menu-trigger">
+                    <span class="user-avatar-chip" id="user-avatar-initial">P</span>
+                    <span id="user-display-name" style="font-weight: 600;">Passenger</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="portal-main">
+        <!-- Steps Indicator Bar -->
+        <div class="booking-steps-bar">
+            <a href="book-trip.html" class="step-item completed">
+                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                <div class="step-label">Find Trips</div>
+            </a>
+            <a href="seat-selection.html" class="step-item completed">
+                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                <div class="step-label">Select Seats</div>
+            </a>
+            <a href="passenger-details.html" class="step-item completed">
+                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                <div class="step-label">Passenger Info</div>
+            </a>
+            <div class="step-item active">
+                <div class="step-circle">4</div>
+                <div class="step-label">Checkout</div>
+            </div>
+        </div>
+
+        <div class="checkout-grid">
+            <!-- Left: Payment Method Selection -->
+            <div>
+                <div class="portal-card">
+                    <h2 class="portal-card-title mb-1">Select Payment Method</h2>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: var(--space-6);">
+                        Choose how you would like to complete your Route 6 fare payment.
+                    </p>
+
+                    <div style="display: flex; flex-direction: column; gap: var(--space-3);" id="payment-options-container">
+                        <!-- GCash Option -->
+                        <label class="payment-option-card selected">
+                            <input type="radio" name="payment_method" value="gcash" checked style="accent-color: var(--color-accent-amber);">
+                            <div class="payment-icon" style="color: var(--color-info);"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                            <div style="flex: 1;">
+                                <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">GCash Express</strong>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Instant e-wallet clearance & immediate confirmed e-ticket QR</span>
+                            </div>
+                            <span class="badge badge-success">Recommended</span>
+                        </label>
+
+                        <!-- Maya Option -->
+                        <label class="payment-option-card">
+                            <input type="radio" name="payment_method" value="maya" style="accent-color: var(--color-accent-amber);">
+                            <div class="payment-icon" style="color: var(--color-success);"><i class="fa-solid fa-wallet"></i></div>
+                            <div style="flex: 1;">
+                                <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">Maya / Digital Wallet</strong>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Scan QR Ph or pay via linked Maya account</span>
+                            </div>
+                        </label>
+
+                        <!-- Card Option -->
+                        <label class="payment-option-card">
+                            <input type="radio" name="payment_method" value="card" style="accent-color: var(--color-accent-amber);">
+                            <div class="payment-icon" style="color: var(--color-info);"><i class="fa-solid fa-credit-card"></i></div>
+                            <div style="flex: 1;">
+                                <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">Visa / Mastercard Debit & Credit</strong>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Secure 3D-secure card authentication</span>
+                            </div>
+                        </label>
+
+                        <!-- Cash at Terminal Counter / Onboard -->
+                        <label class="payment-option-card">
+                            <input type="radio" name="payment_method" value="cash" style="accent-color: var(--color-accent-amber);">
+                            <div class="payment-icon" style="color: var(--color-success);"><i class="fa-solid fa-money-bill-wave"></i></div>
+                            <div style="flex: 1;">
+                                <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">Cash at Dispatch Counter or Onboard</strong>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Pay directly to station teller or conductor prior to departure</span>
+                            </div>
+                            <span class="badge badge-warning">Counter / Conductor</span>
+                        </label>
+                    </div>
+
+                    <!-- Online Payment Simulation Fields -->
+                    <div id="online-fields-box" style="margin-top: var(--space-6); padding: var(--space-4); border: 1px dashed var(--border-strong); border-radius: var(--radius-lg); background-color: var(--bg-surface-muted);">
+                        <strong style="font-size: 0.85rem; color: var(--text-primary); display: block; margin-bottom: var(--space-2);">E-Wallet Verification Details</strong>
+                        <div class="form-group mb-0">
+                            <label class="form-label" for="wallet-number">GCash / Maya Registered Mobile Number</label>
+                            <input type="tel" id="wallet-number" class="form-control" placeholder="09XXXXXXXXX" value="09171234567">
+                            <small class="form-hint">A verification reference code will be generated upon confirmation.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-flow-actions">
+                    <a href="passenger-details.html" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Back to Passenger Details</a>
+                    <button type="button" id="btn-confirm-checkout" class="btn btn-primary" style="height: 48px; font-weight: 800; font-size: 1rem; padding: 0 var(--space-8);">
+                        Confirm & Complete Reservation
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Order Final Review -->
+            <div>
+                <div class="booking-summary-sidebar">
+                    <h3 class="summary-heading">Booking Order Review</h3>
+
+                    <div class="summary-row">
+                        <span>Corridor:</span>
+                        <strong id="chk-corridor" style="color: var(--text-primary);">Monumento ↔ Sapang Palay</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Bus Class:</span>
+                        <span id="chk-bus-type" class="badge badge-info">Aircon Express</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Trip Date:</span>
+                        <span id="chk-trip-date" style="font-weight: 600; color: var(--text-primary);">—</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Departure Time:</span>
+                        <span id="chk-depart-time" style="font-weight: 600; color: var(--text-primary);">—</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Reserved Seats:</span>
+                        <strong id="chk-seats" style="color: var(--color-accent-amber); font-family: var(--font-mono);">—</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Passengers:</span>
+                        <span id="chk-passengers-count">0 Passenger(s)</span>
+                    </div>
+
+                    <!-- Passengers list breakdown -->
+                    <div id="chk-passenger-list-strip" style="margin: var(--space-3) 0; padding: var(--space-3); background-color: var(--bg-main); border-radius: var(--radius-md); font-size: 0.8rem;">
+                        <!-- List of passengers -->
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="chk-subtotal">₱0.00</span>
+                    </div>
+
+                    <div class="summary-row" style="color: var(--color-success);">
+                        <span>Discounts Applied:</span>
+                        <span id="chk-discount">-₱0.00</span>
+                    </div>
+
+                    <div class="summary-row total">
+                        <span>Grand Total:</span>
+                        <span id="chk-grand-total" style="color: var(--text-primary);">₱0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/loading.js"></script>
+    <script src="../../js/components/navbar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+    <script src="../../js/core/router.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Require user
+            const user = await Auth.protectPage(['passenger', 'admin']);
+            if (!user) return;
+
+            document.getElementById('user-display-name').textContent = user.full_name || user.username;
+            document.getElementById('user-avatar-initial').textContent = (user.full_name || user.username).charAt(0).toUpperCase();
+
+            const rawDraft = sessionStorage.getItem('bonhagan_booking_draft');
+            if (!rawDraft) {
+                Toast.warning('No ongoing reservation found.');
+                setTimeout(() => window.location.href = Router.toUrl('book-trip.html'), 1500);
+                return;
+            }
+
+            const draft = JSON.parse(rawDraft);
+            const trip = draft.trip || {};
+            const passengers = draft.passengers || [];
+            const seats = draft.seats || [];
+
+            // Populate checkout review
+            document.getElementById('chk-corridor').textContent = `${trip.origin_name || 'Monumento'} → ${trip.destination_name || 'Sapang Palay'}`;
+            const isAirconTrip = ((trip.bus_type_code || trip.bus_type || '').toLowerCase()).includes('air');
+            document.getElementById('chk-bus-type').innerHTML = isAirconTrip ? '<i class="fa-solid fa-snowflake"></i> Aircon Express' : '<i class="fa-solid fa-wind"></i> Ordinary Commuter';
+            document.getElementById('chk-trip-date').textContent = FormatUtil.date(trip.departure_time || new Date().toISOString());
+            document.getElementById('chk-depart-time').textContent = FormatUtil.time(trip.departure_time || '08:00:00');
+            document.getElementById('chk-seats').textContent = seats.map(s => s.seat_number).join(', ');
+            document.getElementById('chk-passengers-count').textContent = `${passengers.length} Passenger${passengers.length > 1 ? 's' : ''}`;
+
+            document.getElementById('chk-subtotal').textContent = FormatUtil.currency(draft.subtotal || 0);
+            document.getElementById('chk-discount').textContent = `-${FormatUtil.currency(draft.discount_amount || 0)}`;
+            document.getElementById('chk-grand-total').textContent = FormatUtil.currency(draft.total_amount || 0);
+
+            // Render passenger items
+            const passStrip = document.getElementById('chk-passenger-list-strip');
+            passStrip.innerHTML = passengers.map(p => `
+                <div class="d-flex justify-between items-center py-1">
+                    <span><strong>Seat ${p.seat_number}</strong>: ${DOM.escapeHtml(p.full_name)}</span>
+                    <span style="color: var(--text-muted);">${FormatUtil.currency(p.fare)}</span>
+                </div>
+            `).join('');
+
+            // Payment radio styling
+            const radioOptions = document.querySelectorAll('.payment-option-card');
+            radioOptions.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    radioOptions.forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                    const radio = opt.querySelector('input[type="radio"]');
+                    radio.checked = true;
+
+                    const isOnline = radio.value === 'gcash' || radio.value === 'maya';
+                    document.getElementById('online-fields-box').style.display = isOnline ? 'block' : 'none';
+                });
+            });
+
+            // Confirm & submit booking
+            const confirmBtn = document.getElementById('btn-confirm-checkout');
+            confirmBtn.addEventListener('click', async () => {
+                const selectedMethod = document.querySelector('input[name="payment_method"]:checked').value;
+                DOM.setLoading(confirmBtn, true, 'Confirming Reservation...');
+                Loading.show('Creating reservation and locking assigned seats...');
+
+                try {
+                    const payload = {
+                        trip_id: draft.trip_id,
+                        origin_stop_id: draft.origin_stop_id,
+                        destination_stop_id: draft.destination_stop_id,
+                        seats: draft.seats.map(s => s.seat_id || s.seat_number),
+                        passengers: draft.passengers,
+                        payment_method: selectedMethod,
+                        total_amount: draft.total_amount
+                    };
+
+                    const res = await Api.post(API_CONFIG.ENDPOINTS.BOOKINGS.CREATE, payload);
+                    Loading.hide();
+
+                    if (res.success && res.data) {
+                        Toast.success('Reservation confirmed successfully!');
+                        // Clear draft
+                        sessionStorage.removeItem('bonhagan_booking_draft');
+                        
+                        const bookingId = res.data.booking_id || res.data.id;
+                        setTimeout(() => {
+                            window.location.href = `${Router.toUrl('booking-confirmation.html')}?booking_id=${bookingId}`;
+                        }, 800);
+                    } else {
+                        Toast.error(res.message || 'Booking failed. One or more seats may have been reserved.');
+                        DOM.setLoading(confirmBtn, false, 'Confirm & Complete Reservation');
+                    }
+                } catch (e) {
+                    Loading.hide();
+                    DOM.setLoading(confirmBtn, false, 'Confirm & Complete Reservation');
+                    Toast.error('An error occurred during booking checkout.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

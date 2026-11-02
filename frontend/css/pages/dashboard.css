@@ -1,0 +1,141 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Dashboard (Passenger & Admin) Styling
+   ========================================================= */
+
+.dashboard-welcome-banner {
+    background: linear-gradient(135deg, var(--color-primary-navy) 0%, #1E3A8A 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    color: #FFFFFF;
+    margin-bottom: var(--space-8);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.welcome-text-col h1 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    margin: 0 0 var(--space-2) 0;
+}
+
+.welcome-text-col p {
+    color: #CBD5E1;
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+.welcome-bus-graphic {
+    max-height: 120px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
+}
+
+.quick-actions-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+}
+
+.quick-action-btn {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-fast);
+}
+
+.quick-action-btn:hover {
+    border-color: var(--color-accent-amber);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.quick-action-icon {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: transparent !important;
+    color: var(--color-accent-amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+}
+
+html[data-theme="dark"] .quick-action-icon {
+    background: transparent !important;
+    color: var(--color-accent-gold);
+}
+
+.quick-action-content h3 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.quick-action-content p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin: 2px 0 0 0;
+}
+
+/* Status Badges */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-pill.confirmed, .status-pill.active, .status-pill.completed, .status-pill.verified {
+    background-color: var(--color-success-bg);
+    color: var(--color-success);
+}
+
+.status-pill.pending, .status-pill.scheduled {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning);
+}
+
+.status-pill.cancelled, .status-pill.rejected, .status-pill.expired {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger);
+}
+
+.status-pill.boarded {
+    background-color: var(--color-info-bg);
+    color: var(--color-info);
+}
+
+@media (max-width: 640px) {
+    .dashboard-welcome-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-4);
+        padding: var(--space-5);
+    }
+    .welcome-bus-graphic {
+        display: none;
+    }
+    .quick-actions-bar {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+}
+

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BONHAGAN TRANSIT — Monumento ↔ SJDM ↔ Sapang Palay Bus Ticketing</title>
+    <meta name="description" content="Official bus reservation and online ticketing for Bonhagan Transit. Daily express trips between Monumento (Caloocan), Novaliches, San Jose del Monte, and Sapang Palay, Bulacan.">
+    <link rel="icon" type="image/png" href="assets/images/logo/bonhagan-logo.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Architecture -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+    <!-- Top Notice Banner -->
+    <div style="background-color: #0F172A; color: #F8FAFC; font-size: 0.78rem; padding: 0.4rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: center;">
+        <div class="container d-flex justify-between items-center" style="max-width: var(--container-xl); margin: 0 auto;">
+            <span><strong style="color: var(--color-accent-gold);">LTFRB Express Advisory:</strong> Daily express trips operating between Sta. Cruz, Manila and Sapang Palay, Bulacan via NLEX Marilao Exit & Muzon. 20% Student/Senior/PWD discount honored.</span>
+            <span class="d-none d-md-block" style="color: #94A3B8;">Terminal Dispatch: (02) 8361-4492 | Sta. Cruz & Sapang Palay</span>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="navbar-wrapper">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <img src="assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" class="nav-logo" style="height: 42px; width: auto; max-height: 42px; object-fit: contain; flex-shrink: 0;">
+                <span class="nav-brand-text">
+                    BONHAGAN <span>TRANSIT</span>
+                </span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="pages/public/routes.html" class="nav-link">Routes & Stops</a>
+                <a href="pages/public/schedules.html" class="nav-link">Daily Schedules</a>
+                <a href="pages/public/services.html" class="nav-link">Fleet & Amenities</a>
+                <a href="pages/public/about.html" class="nav-link">About Us</a>
+                <a href="pages/public/contact.html" class="nav-link">Contact & Terminals</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle dark/light theme" title="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+                <div id="nav-auth-slot" class="d-flex items-center gap-2">
+                    <a href="pages/public/login.html" class="btn btn-outline btn-sm">Sign In</a>
+                    <a href="pages/passenger/book-trip.html" class="btn btn-primary btn-sm">Book Ticket</a>
+                </div>
+                <!-- Mobile Hamburger Toggle -->
+                <button class="nav-toggle-btn" aria-label="Toggle navigation" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div class="nav-mobile-menu">
+            <a href="index.html" class="nav-mobile-link active"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="pages/public/routes.html" class="nav-mobile-link"><i class="fa-solid fa-route"></i> Routes & Stops</a>
+            <a href="pages/public/schedules.html" class="nav-mobile-link"><i class="fa-solid fa-clock"></i> Daily Schedules</a>
+            <a href="pages/public/services.html" class="nav-mobile-link"><i class="fa-solid fa-bus"></i> Fleet & Amenities</a>
+            <a href="pages/public/about.html" class="nav-mobile-link"><i class="fa-solid fa-circle-info"></i> About Us</a>
+            <a href="pages/public/contact.html" class="nav-mobile-link"><i class="fa-solid fa-location-dot"></i> Contact & Terminals</a>
+            <div class="nav-mobile-actions">
+                <a href="pages/public/login.html" class="btn btn-outline w-100">Sign In</a>
+                <a href="pages/passenger/book-trip.html" class="btn btn-primary w-100">Book Ticket Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg-accent"></div>
+        <div class="container" style="max-width: var(--container-xl); margin: 0 auto; padding: 0 var(--space-4);">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fa-solid fa-circle" style="font-size: 0.45rem; color: var(--color-accent-gold); vertical-align: middle;"></i> Sta. Cruz ↔ Bulacan Express Corridor
+                    </div>
+                    <h1 class="hero-title">
+                        Your Trusted Journey Between <span class="text-highlight">Sta. Cruz & Sapang Palay</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Fast, reliable, and comfortable passenger transit connecting Avenida, Sta. Cruz, Manila with Sapang Palay, Bulacan via Monumento, NLEX Marilao Exit, and Muzon Commercial Junction. Reserve specific seats online, track departures in real-time, and board seamlessly with instant digital QR tickets.
+                    </p>
+                    <div class="d-flex items-center gap-3" style="flex-wrap: wrap;">
+                        <a href="#trip-search" class="btn btn-primary btn-lg">Reserve Seats Now</a>
+                        <a href="pages/public/schedules.html" class="btn btn-outline btn-lg" style="color: #FFFFFF; border-color: rgba(255,255,255,0.3);">View Schedule Grid</a>
+                    </div>
+                </div>
+
+                <div class="hero-bus-showcase">
+                    <div class="hero-bus-image-wrapper">
+                        <!-- Cutout Bus Graphic (Modern Aircon Coach) -->
+                        <img src="assets/images/buses/aircon-bus-cutout.png" alt="Bonhagan Transit Air-Conditioned Express Coach" class="hero-cutout-bus" id="hero-bus-img">
+                        
+                        <div class="hero-floating-card">
+                            <div class="icon-chip">
+                                <i class="fa-solid fa-bus-simple"></i>
+                            </div>
+                            <div>
+                                <strong style="font-size: 0.9rem; display: block;">Via NLEX Marilao Exit</strong>
+                                <span style="font-size: 0.75rem; color: #CBD5E1;">Sta. Cruz – Muzon – Sapang Palay</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Trip Search Engine -->
+    <section id="trip-search" class="search-widget-container">
+        <div class="container" style="max-width: var(--container-xl); margin: 0 auto; padding: 0 var(--space-4);">
+            <div class="search-widget-card">
+                <div class="search-widget-tabs">
+                    <button type="button" class="search-tab-btn active" data-bus-type="all">All Trips</button>
+                    <button type="button" class="search-tab-btn" data-bus-type="aircon">Air-Conditioned Express</button>
+                    <button type="button" class="search-tab-btn" data-bus-type="ordinary">Ordinary Commuter</button>
+                </div>
+
+                <form id="hero-search-form" class="search-form-grid">
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="search-origin">Origin Terminal / Stop</label>
+                        <select id="search-origin" class="form-control form-select" required>
+                            <option value="">Select Origin...</option>
+                            <option value="1" selected>01 — Sta. Cruz Terminal (Avenida, Manila)</option>
+                            <option value="2">02 — Monumento / 5th Ave (Caloocan)</option>
+                            <option value="3">03 — Balintawak Transit Hub (NLEX Entry)</option>
+                            <option value="4">04 — Marilao Exit (NLEX Toll Plaza)</option>
+                            <option value="5">05 — Muzon Commercial Junction</option>
+                            <option value="6">06 — Tungko / SM San Jose del Monte</option>
+                            <option value="7">07 — San Jose del Monte City Hall</option>
+                            <option value="8">08 — Sapang Palay Central Terminal</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="search-destination">Destination Terminal / Stop</label>
+                        <select id="search-destination" class="form-control form-select" required>
+                            <option value="">Select Destination...</option>
+                            <option value="8" selected>08 — Sapang Palay Central Terminal</option>
+                            <option value="7">07 — San Jose del Monte City Hall</option>
+                            <option value="6">06 — Tungko / SM San Jose del Monte</option>
+                            <option value="5">05 — Muzon Commercial Junction</option>
+                            <option value="4">04 — Marilao Exit (NLEX Toll Plaza)</option>
+                            <option value="3">03 — Balintawak Transit Hub (NLEX Entry)</option>
+                            <option value="2">02 — Monumento / 5th Ave (Caloocan)</option>
+                            <option value="1">01 — Sta. Cruz Terminal (Avenida, Manila)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="search-date">Travel Date</label>
+                        <input type="date" id="search-date" class="form-control" required>
+                    </div>
+
+                    <div class="form-group mb-0">
+                        <label class="form-label" for="search-passengers">Passengers</label>
+                        <select id="search-passengers" class="form-control form-select">
+                            <option value="1" selected>1 Passenger</option>
+                            <option value="2">2 Passengers</option>
+                            <option value="3">3 Passengers</option>
+                            <option value="4">4 Passengers</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-0 btn-submit-col">
+                        <button type="submit" class="btn btn-primary w-100" style="height: 44px; font-weight: 700;">
+                            Find Trips
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Route 19 Pipeline Visualizer -->
+    <section class="routes-preview-section">
+        <div class="container" style="max-width: var(--container-xl); margin: 0 auto; padding: 0 var(--space-4);">
+            <div class="text-center" style="max-width: 680px; margin: 0 auto var(--space-6);">
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--color-accent-amber); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-2);">Express Route Corridor</div>
+                <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-primary);">Sta. Cruz (Manila) to Sapang Palay Corridor</h2>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    Connecting Manila directly to Bulacan via Monumento, NLEX Marilao Exit, and Muzon through 8 verified transit stations.
+                </p>
+            </div>
+
+            <div class="stop-pipeline">
+                <div class="stop-node major">
+                    <div class="stop-dot">01</div>
+                    <div class="stop-name">Sta. Cruz</div>
+                    <div class="stop-subtext">Avenida, Manila</div>
+                </div>
+                <div class="stop-node">
+                    <div class="stop-dot">02</div>
+                    <div class="stop-name">Monumento</div>
+                    <div class="stop-subtext">Caloocan Hub</div>
+                </div>
+                <div class="stop-node">
+                    <div class="stop-dot">03</div>
+                    <div class="stop-name">Balintawak</div>
+                    <div class="stop-subtext">NLEX Entry</div>
+                </div>
+                <div class="stop-node major">
+                    <div class="stop-dot">04</div>
+                    <div class="stop-name">Marilao Exit</div>
+                    <div class="stop-subtext">NLEX Tollgate</div>
+                </div>
+                <div class="stop-node major">
+                    <div class="stop-dot">05</div>
+                    <div class="stop-name">Muzon</div>
+                    <div class="stop-subtext">Market Junction</div>
+                </div>
+                <div class="stop-node">
+                    <div class="stop-dot">06</div>
+                    <div class="stop-name">Tungko</div>
+                    <div class="stop-subtext">SM SJDM</div>
+                </div>
+                <div class="stop-node">
+                    <div class="stop-dot">07</div>
+                    <div class="stop-name">SJDM City Hall</div>
+                    <div class="stop-subtext">Civic Center</div>
+                </div>
+                <div class="stop-node major">
+                    <div class="stop-dot">08</div>
+                    <div class="stop-name">Sapang Palay</div>
+                    <div class="stop-subtext">FVR Central Depot</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet Showcase Section (Featuring transparent bus cutouts) -->
+    <section class="fleet-section">
+        <div class="container" style="max-width: var(--container-xl); margin: 0 auto; padding: 0 var(--space-4);">
+            <div class="text-center" style="max-width: 600px; margin: 0 auto var(--space-6);">
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--color-info); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-2);">Our Modern Fleet</div>
+                <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-primary);">Two Classes Built for Filipino Commuters</h2>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    Whether you prefer express climate-controlled comfort or fast, frequent commuter service, Bonhagan Transit offers fully inspected and maintained coaches.
+                </p>
+            </div>
+
+            <div class="fleet-grid">
+                <!-- Air-Conditioned Coach Card -->
+                <div class="fleet-card">
+                    <div class="fleet-card-img-box">
+                        <img src="assets/images/buses/aircon-bus-cutout.png" alt="Bonhagan Transit Air-Conditioned Luxury Coach" class="fleet-card-img">
+                    </div>
+                    <span class="fleet-tag aircon">Air-Conditioned Express</span>
+                    <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin: var(--space-2) 0;">
+                        Aircon Executive Coach
+                    </h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: var(--space-4);">
+                        Sealed cabin with high-capacity climate control, ergonomic reclining cushioned seats, USB charging ports at every row, and dedicated overhead luggage compartments.
+                    </p>
+                    <ul class="fleet-amenities">
+                        <li class="amenity-chip"><i class="fa-solid fa-snowflake" style="color: #2563EB;"></i> Full Climate Control</li>
+                        <li class="amenity-chip"><i class="fa-solid fa-chair" style="color: #F59E0B;"></i> 40 Reclining Seats</li>
+                        <li class="amenity-chip"><i class="fa-solid fa-bolt" style="color: #EAB308;"></i> USB Charging</li>
+                        <li class="amenity-chip"><i class="fa-solid fa-wifi" style="color: #10B981;"></i> Free Onboard Wi-Fi</li>
+                        <li class="amenity-chip"><i class="fa-solid fa-video" style="color: #64748B;"></i> CCTV Monitoring</li>
+                    </ul>
+                    <div class="mt-auto pt-4 d-flex justify-between items-center" style="border-top: 1px solid var(--border-subtle);">
+                        <div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Starting Regular Fare</span>
+                            <strong style="font-size: 1.25rem; color: var(--text-primary);">₱65.00</strong>
+                        </div>
+                        <a href="pages/passenger/book-trip.html?bus_type=aircon" class="btn btn-primary btn-sm">Select Aircon</a>
+                    </div>
+                </div>
+
+                <!-- Ordinary Commuter Bus Card -->
+                <div class="fleet-card">
+                    <div class="fleet-card-img-box">
+                        <img src="assets/images/buses/ordinary-bus-cutout.png" alt="Bonhagan Transit Ordinary Commuter Bus" class="fleet-card-img">
+                    </div>
+                    <span class="fleet-tag ordinary">Ordinary Commuter</span>
+                    <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin: var(--space-2) 0;">
+                        Ordinary Commuter Bus
+                    </h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: var(--space-4);">
+                        High-frequency commuter coaches featuring large openable sliding windows for natural airflow, rapid dual-door boarding, and durable seating for daily work and school trips.
+                    </p>
+                    <ul class="fleet-amenities">
+                        <li class="amenity-chip"><i class="fa-solid fa-wind" style="color: #10B981;"></i> Open Air Fresh Ventilation</li>
+                        <li class="amenity-chip"><i class="fa-solid fa-users" style="color: #F59E0B;"></i> 55 Passenger Capacity</li>
+                        <li class="amenity-chip"><i class="fa-solid fa-door-open" style="color: #2563EB;"></i> Rapid Dual-Door Boarding</li>
+                        <li class="amenity-chip"><i class="fa-solid fa-id-card" style="color: #D97706;"></i> Student / Senior Discount</li>
+                        <li class="amenity-chip"><i class="fa-solid fa-clock" style="color: #64748B;"></i> Frequent 15-min Intervals</li>
+                    </ul>
+                    <div class="mt-auto pt-4 d-flex justify-between items-center" style="border-top: 1px solid var(--border-subtle);">
+                        <div>
+                            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Starting Regular Fare</span>
+                            <strong style="font-size: 1.25rem; color: var(--text-primary);">₱50.00</strong>
+                        </div>
+                        <a href="pages/passenger/book-trip.html?bus_type=ordinary" class="btn btn-secondary btn-sm">Select Ordinary</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Passenger Experience Advantages -->
+    <section style="padding: var(--space-12) 0; background-color: var(--bg-surface);">
+        <div class="container" style="max-width: var(--container-xl); margin: 0 auto; padding: 0 var(--space-4);">
+            <div class="text-center" style="max-width: 650px; margin: 0 auto var(--space-8);">
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--color-success); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-2);">Why Ride Bonhagan</div>
+                <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-primary);">A Better Commute for San Joseños & Caloocan</h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-6);">
+                <div style="background-color: var(--bg-main); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
+                    <div style="font-size: 1.75rem; color: var(--color-success); margin-bottom: var(--space-3);">
+                        <i class="fa-solid fa-chair"></i>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-2);">Guaranteed Seats</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                        No standing or rushing. Choose your exact window or aisle seat on our interactive blueprint before leaving your home.
+                    </p>
+                </div>
+
+                <div style="background-color: var(--bg-main); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
+                    <div style="font-size: 1.75rem; color: var(--color-accent-amber); margin-bottom: var(--space-3);">
+                        <i class="fa-solid fa-qrcode"></i>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-2);">Instant Digital QR Passes</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                        Receive official e-tickets instantly on your smartphone. Conductor scans your QR code in 2 seconds upon boarding.
+                    </p>
+                </div>
+
+                <div style="background-color: var(--bg-main); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
+                    <div style="font-size: 1.75rem; color: var(--color-info); margin-bottom: var(--space-3);">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-2);">Cash or Online Payments</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                        Pay online via GCash, Maya, or Debit Card — or simply pay cash at the terminal dispatcher counter or directly to the conductor.
+                    </p>
+                </div>
+
+                <div style="background-color: var(--bg-main); padding: var(--space-6); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle);">
+                    <div style="font-size: 1.75rem; color: #DC2626; margin-bottom: var(--space-3);">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: var(--space-2);">Government Discount Support</h3>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                        20% statutory discount for verified Students, Senior Citizens, and Persons with Disabilities (PWD) honored seamlessly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Footer -->
+    <footer class="footer-wrapper">
+        <div class="footer-container">
+            <div class="footer-brand-col">
+                <div class="footer-brand">
+                    <img src="assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 40px; width: auto; max-height: 40px; object-fit: contain;">
+                    <span class="footer-brand-name">BONHAGAN TRANSIT</span>
+                </div>
+                <p class="footer-tagline">
+                    Serving Metro Manila and Bulacan commuters with modern scheduled bus transit, secure reservations, and passenger-first reliability along the Monumento – SJDM Route 6 corridor.
+                </p>
+            </div>
+
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Corridor Terminals</h4>
+                <ul class="footer-list">
+                    <li><a href="pages/public/contact.html">Monumento Terminal (EDSA/Caloocan)</a></li>
+                    <li><a href="pages/public/contact.html">Balintawak Interchange</a></li>
+                    <li><a href="pages/public/contact.html">Novaliches Crossing Hub</a></li>
+                    <li><a href="pages/public/contact.html">Tungkong Mangga Hub (SJDM)</a></li>
+                    <li><a href="pages/public/contact.html">Sapang Palay FVR Terminal</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Services & Information</h4>
+                <ul class="footer-list">
+                    <li><a href="pages/public/schedules.html">Daily Trip Schedules</a></li>
+                    <li><a href="pages/public/routes.html">Fare Matrix & Stops</a></li>
+                    <li><a href="pages/public/services.html">Aircon & Ordinary Fleet</a></li>
+                    <li><a href="pages/public/about.html">Company Background</a></li>
+                    <li><a href="pages/public/contact.html">Terminal Customer Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Passenger Access</h4>
+                <ul class="footer-list">
+                    <li><a href="pages/passenger/book-trip.html">Book Online Ticket</a></li>
+                    <li><a href="pages/passenger/dashboard.html">Passenger Portal</a></li>
+                    <li><a href="pages/passenger/my-tickets.html">My e-Tickets</a></li>
+                    <li><a href="pages/public/login.html">Passenger Sign In</a></li>
+                    <li><a href="pages/public/register.html">Create Account</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>
+                © 2026 Bonhagan Transit. IT305W Advanced Web Applications. All rights reserved.
+            </div>
+            <div>
+                Built for Filipino Commuters with PHP 8, Neon PostgreSQL, and Modern Web Standards.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core Scripts -->
+    <script src="js/config/api-config.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/utils/dom.js"></script>
+    <script src="js/utils/formatting.js"></script>
+    <script src="js/utils/validation.js"></script>
+    <script src="js/components/toast.js"></script>
+    <script src="js/components/modal.js"></script>
+    <script src="js/components/loading.js"></script>
+    <script src="js/components/navbar.js"></script>
+    <script src="js/core/theme.js"></script>
+    <script src="js/core/session.js"></script>
+    <script src="js/core/api.js"></script>
+    <script src="js/core/auth.js"></script>
+    <script src="js/core/router.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('search-date');
+            if (dateInput) {
+                dateInput.value = today;
+                dateInput.min = today;
+            }
+
+            // Check if user is logged in to adjust navbar buttons
+            const user = Session.getUser();
+            const slot = document.getElementById('nav-auth-slot');
+            if (user && slot) {
+                slot.innerHTML = `
+                    <a href="${user.role === 'admin' ? 'pages/admin/dashboard.html' : (user.role === 'staff' ? 'pages/staff/dashboard.html' : 'pages/passenger/dashboard.html')}" class="btn btn-outline btn-sm">
+                        <span class="user-avatar-chip" style="display:inline-flex; width:22px; height:22px; font-size:0.7rem; margin-right:4px;">${user.full_name ? user.full_name.charAt(0) : 'U'}</span>
+                        My Portal
+                    </a>
+                    <button id="nav-logout-btn" class="btn btn-text btn-sm" style="color:var(--text-muted);">Sign Out</button>
+                `;
+
+                document.getElementById('nav-logout-btn')?.addEventListener('click', () => {
+                    Auth.logout();
+                });
+            }
+
+            // Search bus type tabs
+            let selectedBusType = 'all';
+            document.querySelectorAll('.search-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.search-tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    selectedBusType = btn.dataset.busType;
+                    
+                    // Switch hero bus image based on tab
+                    const heroBus = document.getElementById('hero-bus-img');
+                    if (heroBus) {
+                        if (selectedBusType === 'ordinary') {
+                            heroBus.src = 'assets/images/buses/ordinary-bus-cutout.png';
+                            heroBus.alt = 'Bonhagan Transit Ordinary Commuter Bus';
+                        } else {
+                            heroBus.src = 'assets/images/buses/aircon-bus-cutout.png';
+                            heroBus.alt = 'Bonhagan Transit Air-Conditioned Coach';
+                        }
+                    }
+                });
+            });
+
+            // Form Submit -> Redirect to book-trip.html with query parameters
+            const form = document.getElementById('hero-search-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const origin = document.getElementById('search-origin').value;
+                    const destination = document.getElementById('search-destination').value;
+                    const date = document.getElementById('search-date').value;
+                    const passengers = document.getElementById('search-passengers').value;
+
+                    if (origin === destination) {
+                        Toast.error('Origin and Destination cannot be the same stop.');
+                        return;
+                    }
+
+                    const params = {
+                        origin_stop_id: origin,
+                        destination_stop_id: destination,
+                        travel_date: date,
+                        passengers: passengers
+                    };
+                    if (selectedBusType !== 'all') {
+                        params.bus_type = selectedBusType;
+                    }
+
+                    Router.navigate('pages/passenger/book-trip.html', params);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+

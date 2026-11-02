@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Station Stops — BONHAGAN TRANSIT ADMIN</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="admin-layout">
+
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+            <div>
+                <h2>BONHAGAN</h2>
+                <span>ADMIN DISPATCH</span>
+            </div>
+        </div>
+
+        <nav class="admin-sidebar-nav">
+            <div class="sidebar-group-title">Overview</div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="reports.html" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Revenue & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Operations</div>
+            <ul class="sidebar-menu">
+                <li><a href="buses.html" class="sidebar-link"><i class="fa-solid fa-bus"></i> Fleet Management</a></li>
+                <li><a href="schedules.html" class="sidebar-link"><i class="fa-solid fa-calendar-days"></i> Daily Schedules</a></li>
+                <li><a href="routes.html" class="sidebar-link"><i class="fa-solid fa-route"></i> Routes & Segments</a></li>
+                <li><a href="stops.html" class="sidebar-link active"><i class="fa-solid fa-location-dot"></i> Station Stops</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Ticketing & Finance</div>
+            <ul class="sidebar-menu">
+                <li><a href="bookings.html" class="sidebar-link"><i class="fa-solid fa-ticket"></i> Bookings & Seats</a></li>
+                <li><a href="payments.html" class="sidebar-link"><i class="fa-solid fa-credit-card"></i> Payments & Cash</a></li>
+                <li><a href="discounts.html" class="sidebar-link"><i class="fa-solid fa-scale-balanced"></i> Discount Approvals</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Users & Admin</div>
+            <ul class="sidebar-menu">
+                <li><a href="passengers.html" class="sidebar-link"><i class="fa-solid fa-users"></i> Passengers</a></li>
+                <li><a href="staff.html" class="sidebar-link"><i class="fa-solid fa-user-tie"></i> Staff & Conductors</a></li>
+                <li><a href="settings.html" class="sidebar-link"><i class="fa-solid fa-gear"></i> System Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <span style="font-size: 0.8rem; font-weight: 600;">Admin</span>
+            <button id="btn-admin-logout" class="btn btn-outline btn-sm" style="color: #FFF; border-color: rgba(255,255,255,0.2); font-size: 0.72rem; padding: 2px 8px;">Logout</button>
+        </div>
+    </aside>
+
+    <div class="admin-viewport">
+        <header class="admin-topbar">
+            <div class="admin-topbar-left">
+                <button type="button" class="admin-toggle-btn" aria-label="Toggle sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="admin-page-title">Route 6 Designated Station Stops</h1>
+            </div>
+
+            <div class="admin-topbar-right">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="data-table-wrapper">
+                <div class="data-table-toolbar">
+                    <h2 style="font-size: 1.05rem; font-weight: 700; margin: 0;">Verified Boarding & Drop-off Points</h2>
+                </div>
+
+                <div id="stops-loading" class="text-center py-8">
+                    <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Loading stops...</p>
+                </div>
+
+                <div id="stops-table-wrapper" class="data-table-scroll" style="display: none;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Seq</th>
+                                <th>Stop Name</th>
+                                <th>Location & Landmarks</th>
+                                <th>Distance from Monumento</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stops-table-body">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.protectPage('admin');
+            if (!user) return;
+
+            document.getElementById('btn-admin-logout').addEventListener('click', () => Auth.logout());
+
+            loadStops();
+        });
+
+        async function loadStops() {
+            const loading = document.getElementById('stops-loading');
+            const wrapper = document.getElementById('stops-table-wrapper');
+            const tbody = document.getElementById('stops-table-body');
+
+            try {
+                const res = await Api.get(API_CONFIG.ENDPOINTS.ADMIN.STOPS);
+                loading.style.display = 'none';
+
+                if (res.success && res.data && res.data.length > 0) {
+                    wrapper.style.display = 'block';
+                    tbody.innerHTML = res.data.map((s, idx) => `
+                        <tr>
+                            <td><strong style="font-family: var(--font-mono);">${idx + 1}</strong></td>
+                            <td><strong>${DOM.escapeHtml(s.stop_name || 'Station')}</strong></td>
+                            <td>${DOM.escapeHtml(s.landmark || s.location_name || 'Quirino Highway Corridor')}</td>
+                            <td><strong>${s.distance_km || (idx * 5.2).toFixed(1)} km</strong></td>
+                            <td>
+                                <span class="badge ${idx === 0 || idx === res.data.length - 1 ? 'badge-warning' : 'badge-info'}">
+                                    ${idx === 0 ? 'ORIGIN TERMINAL' : (idx === res.data.length - 1 ? 'FINAL TERMINAL' : 'INTERMEDIATE STOP')}
+                                </span>
+                            </td>
+                            <td><span class="status-pill active">ACTIVE</span></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    wrapper.style.display = 'block';
+                    tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4" style="color:var(--text-muted);">No stops registered.</td></tr>`;
+                }
+            } catch (e) {
+                loading.style.display = 'none';
+                Toast.error('Could not load stops.');
+            }
+        }
+    </script>
+</body>
+</html>
+
+

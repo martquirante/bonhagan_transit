@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments & Cash Registry — BONHAGAN TRANSIT ADMIN</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="admin-layout">
+
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+            <div>
+                <h2>BONHAGAN</h2>
+                <span>ADMIN DISPATCH</span>
+            </div>
+        </div>
+
+        <nav class="admin-sidebar-nav">
+            <div class="sidebar-group-title">Overview</div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="reports.html" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Revenue & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Operations</div>
+            <ul class="sidebar-menu">
+                <li><a href="buses.html" class="sidebar-link"><i class="fa-solid fa-bus"></i> Fleet Management</a></li>
+                <li><a href="schedules.html" class="sidebar-link"><i class="fa-solid fa-calendar-days"></i> Daily Schedules</a></li>
+                <li><a href="routes.html" class="sidebar-link"><i class="fa-solid fa-route"></i> Routes & Segments</a></li>
+                <li><a href="stops.html" class="sidebar-link"><i class="fa-solid fa-location-dot"></i> Station Stops</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Ticketing & Finance</div>
+            <ul class="sidebar-menu">
+                <li><a href="bookings.html" class="sidebar-link"><i class="fa-solid fa-ticket"></i> Bookings & Seats</a></li>
+                <li><a href="payments.html" class="sidebar-link active"><i class="fa-solid fa-credit-card"></i> Payments & Cash</a></li>
+                <li><a href="discounts.html" class="sidebar-link"><i class="fa-solid fa-scale-balanced"></i> Discount Approvals</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Users & Admin</div>
+            <ul class="sidebar-menu">
+                <li><a href="passengers.html" class="sidebar-link"><i class="fa-solid fa-users"></i> Passengers</a></li>
+                <li><a href="staff.html" class="sidebar-link"><i class="fa-solid fa-user-tie"></i> Staff & Conductors</a></li>
+                <li><a href="settings.html" class="sidebar-link"><i class="fa-solid fa-gear"></i> System Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <span style="font-size: 0.8rem; font-weight: 600;">Admin</span>
+            <button id="btn-admin-logout" class="btn btn-outline btn-sm" style="color: #FFF; border-color: rgba(255,255,255,0.2); font-size: 0.72rem; padding: 2px 8px;">Logout</button>
+        </div>
+    </aside>
+
+    <div class="admin-viewport">
+        <header class="admin-topbar">
+            <div class="admin-topbar-left">
+                <button type="button" class="admin-toggle-btn" aria-label="Toggle sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="admin-page-title">Fare Collections & Cash Registry</h1>
+            </div>
+
+            <div class="admin-topbar-right">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="data-table-wrapper">
+                <div class="data-table-toolbar">
+                    <input type="text" id="payment-search-input" class="form-control" placeholder="Search transaction reference..." style="width: 280px; height: 38px; font-size: 0.85rem;">
+                </div>
+
+                <div id="payments-loading" class="text-center py-8">
+                    <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Loading transactions...</p>
+                </div>
+
+                <div id="payments-table-wrapper" class="data-table-scroll" style="display: none;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction Ref</th>
+                                <th>Booking Ref</th>
+                                <th>Payment Channel</th>
+                                <th>Amount Paid</th>
+                                <th>Timestamp</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payments-table-body">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="payments-empty" style="display: none; text-align: center; padding: var(--space-8) 0;">
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">No payment transactions recorded.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.protectPage('admin');
+            if (!user) return;
+
+            document.getElementById('btn-admin-logout').addEventListener('click', () => Auth.logout());
+
+            loadPayments();
+        });
+
+        async function loadPayments() {
+            const loading = document.getElementById('payments-loading');
+            const wrapper = document.getElementById('payments-table-wrapper');
+            const tbody = document.getElementById('payments-table-body');
+            const empty = document.getElementById('payments-empty');
+
+            try {
+                const res = await Api.get(API_CONFIG.ENDPOINTS.ADMIN.PAYMENTS);
+                loading.style.display = 'none';
+
+                if (res.success && res.data && res.data.length > 0) {
+                    wrapper.style.display = 'block';
+                    tbody.innerHTML = res.data.map(p => {
+                        const statusClass = (p.status || 'completed').toLowerCase();
+                        return `
+                            <tr>
+                                <td><code style="font-family: var(--font-mono);">${DOM.escapeHtml(p.payment_reference || ('#TXN-' + p.payment_id))}</code></td>
+                                <td><strong style="font-family: var(--font-mono);">${DOM.escapeHtml(p.booking_reference || ('#BK-' + p.booking_id))}</strong></td>
+                                <td>
+                                    <span class="badge ${p.payment_method === 'cash' ? 'badge-warning' : 'badge-info'}">
+                                        ${(p.payment_method || 'ONLINE').toUpperCase()}
+                                    </span>
+                                </td>
+                                <td><strong>${FormatUtil.currency(p.amount || 0)}</strong></td>
+                                <td>${FormatUtil.date(p.created_at, true)}</td>
+                                <td><span class="status-pill ${statusClass}">${DOM.escapeHtml(p.status || 'COMPLETED')}</span></td>
+                                <td>
+                                    ${p.status === 'pending' ? `
+                                        <button class="btn btn-primary btn-sm btn-verify-payment" data-id="${p.payment_id}" style="padding: 2px 8px; font-size: 0.72rem;"><i class="fa-solid fa-check"></i> Confirm Cash</button>
+                                    ` : `<span style="font-size:0.75rem; color:var(--text-muted);">Settled</span>`}
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+
+                    tbody.querySelectorAll('.btn-verify-payment').forEach(btn => {
+                        btn.addEventListener('click', async () => {
+                            const pId = btn.dataset.id;
+                            try {
+                                const vRes = await Api.post(API_CONFIG.ENDPOINTS.PAYMENTS.VERIFY, { payment_id: pId });
+                                if (vRes.success) {
+                                    Toast.success('Payment verified and cleared.');
+                                    loadPayments();
+                                } else {
+                                    Toast.error(vRes.message || 'Verification failed.');
+                                }
+                            } catch (e) {
+                                Toast.error('Error confirming payment.');
+                            }
+                        });
+                    });
+                } else {
+                    empty.style.display = 'block';
+                }
+            } catch (e) {
+                loading.style.display = 'none';
+                Toast.error('Could not load payment ledger.');
+            }
+        }
+    </script>
+</body>
+</html>
+
+

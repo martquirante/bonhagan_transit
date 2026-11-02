@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — BONHAGAN TRANSIT</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-8) var(--space-4);
+            background-color: var(--bg-main);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 70% opacity dot-matrix grid pattern */
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(254, 204, 2, 0.45) 1.5px, transparent 1.5px),
+                              radial-gradient(rgba(255, 255, 255, 0.22) 1.2px, transparent 1.2px);
+            background-size: 24px 24px, 12px 12px;
+            background-position: 0 0, 6px 6px;
+            opacity: 0.70;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        html[data-theme="light"] .auth-container::before {
+            background-image: radial-gradient(rgba(254, 204, 2, 0.45) 1.5px, transparent 1.5px),
+                              radial-gradient(rgba(15, 23, 42, 0.18) 1.2px, transparent 1.2px);
+            opacity: 0.70;
+        }
+
+        /* Ambient soft backlight glow */
+        .auth-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(254, 204, 2, 0.14) 0%, rgba(37, 99, 235, 0.04) 50%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .auth-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px var(--border-subtle);
+            width: 100%;
+            max-width: 440px;
+            padding: var(--space-8) var(--space-7);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        html[data-theme="light"] .auth-card {
+            background-color: #FFFFFF;
+            border-color: #E2E8F0;
+            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.05);
+        }
+
+        .auth-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: var(--space-6);
+        }
+
+        .auth-logo-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-3);
+            text-decoration: none;
+            transition: transform var(--transition-fast);
+        }
+
+        .auth-logo-link:hover {
+            transform: scale(1.03);
+        }
+
+        .auth-logo {
+            height: 52px;
+            width: auto;
+            max-height: 52px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .auth-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: var(--space-1);
+            line-height: 1.4;
+        }
+
+        .auth-card .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .auth-card .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+            display: block;
+        }
+
+        .auth-card .form-control {
+            width: 100%;
+            height: 48px;
+            font-size: 0.95rem;
+            border-radius: var(--radius-md);
+            padding: 0 var(--space-3);
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-strong);
+            color: var(--text-primary);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        html[data-theme="light"] .auth-card .form-control {
+            background-color: #F8FAFC;
+            border-color: #CBD5E1;
+        }
+
+        .auth-card .form-control:focus {
+            border-color: var(--color-accent-amber);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(254, 204, 2, 0.25);
+            background-color: var(--bg-surface);
+        }
+
+        .auth-submit-btn {
+            width: 100% !important;
+            height: 48px;
+            font-size: 0.975rem;
+            font-weight: 700;
+            border-radius: var(--radius-md);
+            background-color: var(--color-accent-amber) !important;
+            color: #0F172A !important;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(254, 204, 2, 0.45);
+            transition: all var(--transition-fast);
+            margin-top: var(--space-2);
+        }
+
+        .auth-submit-btn:hover {
+            background-color: var(--color-accent-amber-hover) !important;
+            color: #0F172A !important;
+            box-shadow: 0 6px 18px rgba(254, 204, 2, 0.55);
+            transform: translateY(-1px);
+        }
+
+        .auth-submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .forgot-link {
+            font-size: 0.775rem;
+            color: var(--color-accent-amber);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity var(--transition-fast);
+        }
+
+        .forgot-link:hover {
+            opacity: 0.85;
+            text-decoration: underline;
+        }
+
+        .auth-footer-prompt {
+            text-align: center;
+            margin-top: var(--space-5);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer-prompt a {
+            color: var(--color-accent-amber);
+            font-weight: 700;
+            text-decoration: none;
+            margin-left: 2px;
+        }
+
+        .auth-footer-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .auth-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+            margin-top: var(--space-5);
+        }
+
+        .auth-back-link:hover {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Header with Centered Logo -->
+            <div class="auth-header">
+                <a href="../../index.html" class="auth-logo-link" title="Return to Bonhagan Transit Homepage">
+                    <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Official Logo" class="auth-logo">
+                </a>
+                <h1 class="auth-title">Sign In to Bonhagan</h1>
+                <p class="auth-subtitle">Access your bookings, e-tickets, or operations hub</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="login-identifier">Email Address or Username</label>
+                    <input type="text" id="login-identifier" class="form-control" placeholder="e.g. juan@example.com or admin" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+                        <a href="contact.html" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" id="btn-login" class="auth-submit-btn">
+                    Sign In
+                </button>
+            </form>
+
+            <!-- Registration Link -->
+            <div class="auth-footer-prompt">
+                Don't have an account yet? 
+                <a href="register.html">Register as Passenger</a>
+            </div>
+
+            <!-- Back to Homepage -->
+            <div style="text-align: center;">
+                <a href="../../index.html" class="auth-back-link">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Homepage
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/utils/validation.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/loading.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+    <script src="../../js/core/router.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Login submission
+            const form = document.getElementById('login-form');
+            const submitBtn = document.getElementById('btn-login');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const identifier = document.getElementById('login-identifier').value.trim();
+                const password = document.getElementById('login-password').value;
+
+                if (!identifier || !password) {
+                    Toast.warning('Please enter your login identifier and password.');
+                    return;
+                }
+
+                DOM.setLoading(submitBtn, true);
+
+                try {
+                    const result = await Auth.login(identifier, password);
+                    if (result.success && result.data && result.data.user) {
+                        Toast.success(`Welcome back, ${result.data.user.full_name}!`);
+                        
+                        // Check if redirect query param exists
+                        const rawRedirect = Router.getParam('redirect');
+                        const redirect = Router.sanitizeRedirect ? Router.sanitizeRedirect(rawRedirect) : rawRedirect;
+                        setTimeout(() => {
+                            if (redirect && !redirect.includes('login') && !redirect.includes('register')) {
+                                window.location.href = redirect;
+                            } else {
+                                Router.redirectRoleHome(result.data.user.role);
+                            }
+                        }, 500);
+                    } else {
+                        Toast.error(result.message || 'Invalid username or password.');
+                    }
+                } catch (err) {
+                    Toast.error('An unexpected error occurred during login.');
+                } finally {
+                    DOM.setLoading(submitBtn, false);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

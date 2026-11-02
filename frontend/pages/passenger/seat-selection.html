@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Bus Seats — BONHAGAN TRANSIT</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="portal-wrapper">
+
+    <!-- Header Navbar -->
+    <header class="portal-header">
+        <div class="portal-nav-inner">
+            <a href="../../index.html" class="portal-brand">
+                <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+                <span>BONHAGAN <small style="font-size:0.75rem; color:var(--color-accent-amber);">PASSENGER</small></span>
+            </a>
+
+            <ul class="portal-links">
+                <li><a href="dashboard.html" class="portal-link">Dashboard</a></li>
+                <li><a href="book-trip.html" class="portal-link active">Book Trip</a></li>
+                <li><a href="my-tickets.html" class="portal-link">My Tickets</a></li>
+                <li><a href="booking-history.html" class="portal-link">Booking History</a></li>
+                <li><a href="notifications.html" class="portal-link">Notifications</a></li>
+                <li><a href="profile.html" class="portal-link">Profile</a></li>
+            </ul>
+
+            <div class="portal-actions">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+                <div class="user-menu-trigger">
+                    <span class="user-avatar-chip" id="user-avatar-initial">P</span>
+                    <span id="user-display-name" style="font-weight: 600;">Passenger</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="portal-main">
+        <!-- Steps Indicator Bar -->
+        <div class="booking-steps-bar">
+            <a href="book-trip.html" class="step-item completed">
+                <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+                <div class="step-label">Find Trips</div>
+            </a>
+            <div class="step-item active">
+                <div class="step-circle">2</div>
+                <div class="step-label">Select Seats</div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">3</div>
+                <div class="step-label">Passenger Info</div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle">4</div>
+                <div class="step-label">Checkout</div>
+            </div>
+        </div>
+
+        <!-- Trip Overview Strip -->
+        <div class="portal-card" style="padding: var(--space-4) var(--space-5); margin-bottom: var(--space-6);">
+            <div class="d-flex justify-between items-center" style="flex-wrap: wrap; gap: var(--space-4);">
+                <div class="d-flex items-center gap-3">
+                    <div style="font-size: 1.5rem; color: var(--color-accent-amber);"><i class="fa-solid fa-bus"></i></div>
+                    <div>
+                        <div class="d-flex items-center gap-2">
+                            <h2 id="trip-bus-title" style="font-size: 1.15rem; font-weight: 800; margin: 0; color: var(--text-primary);">Loading Trip...</h2>
+                            <span id="trip-bus-badge" class="bus-type-pill aircon">Aircon</span>
+                        </div>
+                        <span id="trip-route-desc" style="font-size: 0.85rem; color: var(--text-muted);">Monumento → Sapang Palay</span>
+                    </div>
+                </div>
+
+                <div class="d-flex items-center gap-4">
+                    <div>
+                        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block;">Departure</span>
+                        <strong id="trip-depart-time" style="font-size: 1rem; color: var(--text-primary);">—</strong>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block;">Est. Duration</span>
+                        <strong id="trip-duration-text" style="font-size: 1rem; color: var(--text-primary);">~85 mins</strong>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; display: block;">Base Fare</span>
+                        <strong id="trip-base-fare" style="font-size: 1.15rem; color: var(--text-primary);">₱65.00</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seat Selection Blueprint & Order Summary Grid -->
+        <div class="seat-selection-container">
+            <!-- Left: Interactive Bus Cabin -->
+            <div>
+                <div class="bus-cabin-blueprint">
+                    <div class="bus-front-header">
+                        <div class="driver-compartment">
+                            <i class="fa-solid fa-compass" style="color: var(--color-accent-amber);"></i> Driver Cabin
+                        </div>
+                        <div class="passenger-entry-door">
+                            <i class="fa-solid fa-door-open"></i> Entry Door
+                        </div>
+                    </div>
+
+                    <!-- Seat Rows Container -->
+                    <div id="seat-rows-container" class="seat-grid-rows">
+                        <div class="text-center py-6">
+                            <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+                            <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Loading cabin seats...</p>
+                        </div>
+                    </div>
+
+                    <!-- Bus Rear -->
+                    <div style="margin-top: var(--space-6); padding-top: var(--space-3); border-top: 2px dashed var(--border-subtle); text-align: center; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">
+                        Rear Baggage & Emergency Exit
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="seat-legend">
+                        <div class="legend-item">
+                            <span class="legend-sample avail"></span>
+                            <span>Available</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-sample sel"></span>
+                            <span>Selected</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-sample occ"></span>
+                            <span>Occupied</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Sticky Order Summary -->
+            <div>
+                <div class="booking-summary-sidebar">
+                    <h3 class="summary-heading">Reservation Summary</h3>
+
+                    <div class="summary-row">
+                        <span>Corridor Route:</span>
+                        <strong id="sum-route" style="color: var(--text-primary); text-align: right;">Route 6</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Boarding Stop:</span>
+                        <span id="sum-origin" style="color: var(--text-primary); font-weight: 600;">Monumento</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Drop-off Stop:</span>
+                        <span id="sum-dest" style="color: var(--text-primary); font-weight: 600;">Sapang Palay</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Selected Seats:</span>
+                        <strong id="sum-seats" style="color: var(--color-accent-amber); font-family: var(--font-mono);">None</strong>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Seat Count:</span>
+                        <span id="sum-seat-count">0</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Fare per Seat:</span>
+                        <span id="sum-fare-each">₱65.00</span>
+                    </div>
+
+                    <div class="summary-row total">
+                        <span>Estimated Total:</span>
+                        <span id="sum-total-amount" style="color: var(--text-primary);">₱0.00</span>
+                    </div>
+
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin: var(--space-4) 0 var(--space-5);">
+                        *Final fare will apply statutory 20% discounts for verified Students, Seniors, and PWDs on the next step.
+                    </p>
+
+                    <button type="button" id="btn-proceed-passengers" class="btn btn-primary w-100" style="height: 44px; font-weight: 700;" disabled>
+                        Continue to Passenger Info →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/navbar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+    <script src="../../js/core/router.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = Session.getUser();
+            if (user) {
+                document.getElementById('user-display-name').textContent = user.full_name || user.username;
+                document.getElementById('user-avatar-initial').textContent = (user.full_name || user.username).charAt(0).toUpperCase();
+            }
+
+            const params = Router.getParams();
+            const tripId = params.trip_id;
+            const originStopId = params.origin_stop_id || 1;
+            const destStopId = params.destination_stop_id || 7;
+            const maxPassengers = parseInt(params.passengers || '1', 10);
+
+            if (!tripId) {
+                Toast.error('No trip selected. Redirecting to search.');
+                setTimeout(() => window.location.href = Router.toUrl('book-trip.html'), 1500);
+                return;
+            }
+
+            let tripData = null;
+            let seatsData = [];
+            let selectedSeats = [];
+            let farePerSeat = 65.00;
+
+            async function loadSeats() {
+                try {
+                    const res = await Api.get(API_CONFIG.ENDPOINTS.SEATS.GET_SEATS, {
+                        trip_id: tripId,
+                        origin_stop_id: originStopId,
+                        destination_stop_id: destStopId
+                    });
+
+                    if (res.success && res.data) {
+                        tripData = res.data.trip || {};
+                        seatsData = res.data.seats || [];
+                        updateTripHeader();
+                        renderSeatGrid();
+                    } else {
+                        Toast.error(res.message || 'Unable to load cabin layout.');
+                    }
+                } catch (e) {
+                    Toast.error('Failed to connect to seat reservation service.');
+                }
+            }
+
+            function updateTripHeader() {
+                if (!tripData) return;
+
+                document.getElementById('trip-bus-title').textContent = `${tripData.bus_number || 'BTH-101'} (${tripData.plate_number || 'Plate Pending'})`;
+                
+                const isAircon = ((tripData.bus_type_code || tripData.bus_type || '').toLowerCase()).includes('air');
+                const badge = document.getElementById('trip-bus-badge');
+                badge.className = `bus-type-pill ${isAircon ? 'aircon' : 'ordinary'}`;
+                badge.innerHTML = isAircon ? '<i class="fa-solid fa-snowflake"></i> Aircon Express' : '<i class="fa-solid fa-wind"></i> Ordinary Commuter';
+
+                farePerSeat = parseFloat(tripData.base_fare || (isAircon ? 65.00 : 50.00));
+                document.getElementById('trip-base-fare').textContent = FormatUtil.currency(farePerSeat);
+                document.getElementById('sum-fare-each').textContent = FormatUtil.currency(farePerSeat);
+
+                document.getElementById('trip-depart-time').textContent = FormatUtil.time(tripData.departure_time);
+                
+                const origName = tripData.origin_name || 'Monumento';
+                const destName = tripData.destination_name || 'Sapang Palay';
+                document.getElementById('trip-route-desc').textContent = `${origName} → ${destName}`;
+                document.getElementById('sum-origin').textContent = origName;
+                document.getElementById('sum-dest').textContent = destName;
+            }
+
+            function renderSeatGrid() {
+                const container = document.getElementById('seat-rows-container');
+                if (!seatsData || seatsData.length === 0) {
+                    // Fallback to generating standard 40 seats if DB returned empty
+                    seatsData = generateStandard40Seats();
+                }
+
+                // Group seats by row_number
+                const rows = {};
+                seatsData.forEach(s => {
+                    const r = s.row_number || Math.ceil(parseInt(s.seat_number.replace(/\D/g, '') || 1, 10));
+                    if (!rows[r]) rows[r] = [];
+                    rows[r].push(s);
+                });
+
+                let html = '';
+                const sortedRowNums = Object.keys(rows).sort((a,b) => a - b);
+
+                sortedRowNums.forEach(rNum => {
+                    const rowSeats = rows[rNum];
+                    // Find seats by letter A, B, C, D
+                    const seatA = rowSeats.find(s => (s.column_letter === 'A' || s.seat_number.endsWith('A')));
+                    const seatB = rowSeats.find(s => (s.column_letter === 'B' || s.seat_number.endsWith('B')));
+                    const seatC = rowSeats.find(s => (s.column_letter === 'C' || s.seat_number.endsWith('C')));
+                    const seatD = rowSeats.find(s => (s.column_letter === 'D' || s.seat_number.endsWith('D')));
+
+                    html += `
+                        <div class="seat-row">
+                            ${renderSeatButton(seatA, rNum + 'A')}
+                            ${renderSeatButton(seatB, rNum + 'B')}
+                            <div class="aisle-spacer">${rNum}</div>
+                            ${renderSeatButton(seatC, rNum + 'C')}
+                            ${renderSeatButton(seatD, rNum + 'D')}
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+
+                // Bind click events
+                container.querySelectorAll('.seat-btn:not(:disabled)').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const seatNum = btn.dataset.seatNumber;
+                        const seatId = btn.dataset.seatId;
+
+                        const idx = selectedSeats.findIndex(s => s.seat_number === seatNum);
+                        if (idx >= 0) {
+                            // Deselect
+                            selectedSeats.splice(idx, 1);
+                            btn.classList.remove('selected');
+                        } else {
+                            // Enforce max passengers limit if desired or update count
+                            if (selectedSeats.length >= maxPassengers) {
+                                // Remove first selected or warn
+                                Toast.info(`Selecting up to ${maxPassengers} passenger seat(s).`);
+                                const removed = selectedSeats.shift();
+                                const prevBtn = container.querySelector(`.seat-btn[data-seat-number="${removed.seat_number}"]`);
+                                if (prevBtn) prevBtn.classList.remove('selected');
+                            }
+                            selectedSeats.push({ seat_id: seatId, seat_number: seatNum });
+                            btn.classList.add('selected');
+                        }
+
+                        updateOrderSummary();
+                    });
+                });
+            }
+
+            function renderSeatButton(seat, defaultLabel) {
+                if (!seat) {
+                    return `<button class="seat-btn" disabled>—</button>`;
+                }
+
+                const seatNum = seat.seat_number || defaultLabel;
+                const isAvail = seat.is_available !== false && seat.status !== 'occupied' && seat.status !== 'reserved';
+                const seatId = seat.seat_id || seatNum;
+                const isSelected = selectedSeats.some(s => s.seat_number === seatNum);
+
+                if (!isAvail) {
+                    return `<button class="seat-btn occupied" disabled title="Seat ${seatNum} is booked">${seatNum}</button>`;
+                }
+
+                return `
+                    <button type="button" class="seat-btn ${isSelected ? 'selected' : ''}" data-seat-id="${seatId}" data-seat-number="${seatNum}" title="Select Seat ${seatNum}">
+                        ${seatNum}
+                    </button>
+                `;
+            }
+
+            function generateStandard40Seats() {
+                const list = [];
+                for (let r = 1; r <= 10; r++) {
+                    ['A', 'B', 'C', 'D'].forEach(c => {
+                        list.push({
+                            seat_id: `${r}${c}`,
+                            seat_number: `${r}${c}`,
+                            row_number: r,
+                            column_letter: c,
+                            is_available: true
+                        });
+                    });
+                }
+                return list;
+            }
+
+            function updateOrderSummary() {
+                const count = selectedSeats.length;
+                document.getElementById('sum-seat-count').textContent = count;
+                document.getElementById('sum-seats').textContent = count > 0 ? selectedSeats.map(s => s.seat_number).join(', ') : 'None';
+                
+                const total = count * farePerSeat;
+                document.getElementById('sum-total-amount').textContent = FormatUtil.currency(total);
+
+                const proceedBtn = document.getElementById('btn-proceed-passengers');
+                proceedBtn.disabled = count === 0;
+            }
+
+            document.getElementById('btn-proceed-passengers').addEventListener('click', () => {
+                if (selectedSeats.length === 0) {
+                    Toast.warning('Please select at least one seat to proceed.');
+                    return;
+                }
+
+                // Save ongoing booking state in sessionStorage
+                const bookingDraft = {
+                    trip_id: tripId,
+                    origin_stop_id: originStopId,
+                    destination_stop_id: destStopId,
+                    trip: tripData,
+                    seats: selectedSeats,
+                    fare_per_seat: farePerSeat,
+                    total_amount: selectedSeats.length * farePerSeat
+                };
+                sessionStorage.setItem('bonhagan_booking_draft', JSON.stringify(bookingDraft));
+
+                // Navigate to passenger details
+                window.location.href = Router.toUrl('passenger-details.html');
+            });
+
+            loadSeats();
+        });
+    </script>
+</body>
+</html>
+

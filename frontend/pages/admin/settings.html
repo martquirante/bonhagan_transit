@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings — BONHAGAN TRANSIT ADMIN</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="admin-layout">
+
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+            <div>
+                <h2>BONHAGAN</h2>
+                <span>ADMIN DISPATCH</span>
+            </div>
+        </div>
+
+        <nav class="admin-sidebar-nav">
+            <div class="sidebar-group-title">Overview</div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="reports.html" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Revenue & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Operations</div>
+            <ul class="sidebar-menu">
+                <li><a href="buses.html" class="sidebar-link"><i class="fa-solid fa-bus"></i> Fleet Management</a></li>
+                <li><a href="schedules.html" class="sidebar-link"><i class="fa-solid fa-calendar-days"></i> Daily Schedules</a></li>
+                <li><a href="routes.html" class="sidebar-link"><i class="fa-solid fa-route"></i> Routes & Segments</a></li>
+                <li><a href="stops.html" class="sidebar-link"><i class="fa-solid fa-location-dot"></i> Station Stops</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Ticketing & Finance</div>
+            <ul class="sidebar-menu">
+                <li><a href="bookings.html" class="sidebar-link"><i class="fa-solid fa-ticket"></i> Bookings & Seats</a></li>
+                <li><a href="payments.html" class="sidebar-link"><i class="fa-solid fa-credit-card"></i> Payments & Cash</a></li>
+                <li><a href="discounts.html" class="sidebar-link"><i class="fa-solid fa-scale-balanced"></i> Discount Approvals</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Users & Admin</div>
+            <ul class="sidebar-menu">
+                <li><a href="passengers.html" class="sidebar-link"><i class="fa-solid fa-users"></i> Passengers</a></li>
+                <li><a href="staff.html" class="sidebar-link"><i class="fa-solid fa-user-tie"></i> Staff & Conductors</a></li>
+                <li><a href="settings.html" class="sidebar-link active"><i class="fa-solid fa-gear"></i> System Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <span style="font-size: 0.8rem; font-weight: 600;">Admin</span>
+            <button id="btn-admin-logout" class="btn btn-outline btn-sm" style="color: #FFF; border-color: rgba(255,255,255,0.2); font-size: 0.72rem; padding: 2px 8px;">Logout</button>
+        </div>
+    </aside>
+
+    <div class="admin-viewport">
+        <header class="admin-topbar">
+            <div class="admin-topbar-left">
+                <button type="button" class="admin-toggle-btn" aria-label="Toggle sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="admin-page-title">Operational Policies & Configuration</h1>
+            </div>
+
+            <div class="admin-topbar-right">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div style="max-width: 800px;">
+                <div class="portal-card">
+                    <h2 class="portal-card-title mb-4">Route 6 Fare & Operating Policies</h2>
+                    
+                    <form id="settings-form">
+                        <div class="d-flex gap-3" style="flex-wrap: wrap;">
+                            <div class="form-group flex-1" style="min-width: 200px;">
+                                <label class="form-label" for="cfg-aircon-base">Aircon Base Fare (₱)</label>
+                                <input type="number" id="cfg-aircon-base" class="form-control" value="65.00" step="0.5">
+                            </div>
+                            <div class="form-group flex-1" style="min-width: 200px;">
+                                <label class="form-label" for="cfg-ordinary-base">Ordinary Base Fare (₱)</label>
+                                <input type="number" id="cfg-ordinary-base" class="form-control" value="50.00" step="0.5">
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3" style="flex-wrap: wrap;">
+                            <div class="form-group flex-1" style="min-width: 200px;">
+                                <label class="form-label" for="cfg-statutory-discount">Statutory Discount Percentage (%)</label>
+                                <input type="number" id="cfg-statutory-discount" class="form-control" value="20" min="5" max="50">
+                                <small class="form-hint">Mandated 20% for Student, Senior, and PWD.</small>
+                            </div>
+                            <div class="form-group flex-1" style="min-width: 200px;">
+                                <label class="form-label" for="cfg-booking-lock-mins">Seat Reservation Hold Time (Minutes)</label>
+                                <input type="number" id="cfg-booking-lock-mins" class="form-control" value="15" min="5" max="60">
+                                <small class="form-hint">Duration to hold selected seat pending checkout.</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="cfg-operating-hours">Operating Service Hours</label>
+                            <input type="text" id="cfg-operating-hours" class="form-control" value="4:30 AM – 10:30 PM (Daily)">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="cfg-franchise-code">LTFRB Franchise Reference</label>
+                            <input type="text" id="cfg-franchise-code" class="form-control" value="Case No. 2021-NCR-04982-TH (Route 6: Monumento - Sapang Palay via Quirino Highway)">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="height: 44px; font-weight: 700; padding: 0 var(--space-6);">
+                            Save Operational Settings
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Database Diagnostics Card -->
+                <div class="portal-card">
+                    <h2 class="portal-card-title mb-3">Backend & Database Infrastructure</h2>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 8px;">
+                        <div class="d-flex justify-between">
+                            <span>Database Engine:</span>
+                            <strong style="color: var(--color-success);">Neon Serverless PostgreSQL 16 (Connected)</strong>
+                        </div>
+                        <div class="d-flex justify-between">
+                            <span>Connection Pooler:</span>
+                            <code>ep-winter-voice-azzn6yi6-pooler (ap-southeast-1)</code>
+                        </div>
+                        <div class="d-flex justify-between">
+                            <span>Backend Runtime:</span>
+                            <strong>PHP 8.2+ PDO PostgreSQL Driver</strong>
+                        </div>
+                        <div class="d-flex justify-between">
+                            <span>Frontend Architecture:</span>
+                            <strong>Vanilla HTML5 / CSS3 / ES6+ Responsive SPA Modules</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.protectPage('admin');
+            if (!user) return;
+            document.getElementById('btn-admin-logout').addEventListener('click', () => Auth.logout());
+
+            document.getElementById('settings-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                Toast.success('Operational parameters updated successfully.');
+            });
+        });
+    </script>
+</body>
+</html>
+
+

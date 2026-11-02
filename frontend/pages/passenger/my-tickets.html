@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Electronic Tickets — BONHAGAN TRANSIT</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="portal-wrapper">
+
+    <!-- Header Navbar -->
+    <header class="portal-header">
+        <div class="portal-nav-inner">
+            <a href="../../index.html" class="portal-brand">
+                <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+                <span>BONHAGAN <small style="font-size:0.75rem; color:var(--color-accent-amber);">PASSENGER</small></span>
+            </a>
+
+            <ul class="portal-links">
+                <li><a href="dashboard.html" class="portal-link">Dashboard</a></li>
+                <li><a href="book-trip.html" class="portal-link">Book Trip</a></li>
+                <li><a href="my-tickets.html" class="portal-link active">My Tickets</a></li>
+                <li><a href="booking-history.html" class="portal-link">Booking History</a></li>
+                <li><a href="notifications.html" class="portal-link">Notifications</a></li>
+                <li><a href="profile.html" class="portal-link">Profile</a></li>
+            </ul>
+
+            <div class="portal-actions">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+                <div class="user-menu-trigger">
+                    <span class="user-avatar-chip" id="user-avatar-initial">P</span>
+                    <span id="user-display-name" style="font-weight: 600;">Passenger</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="portal-main">
+        <div class="page-header-row">
+            <div class="page-header-titles">
+                <h1>My Digital Boarding Tickets</h1>
+                <p>Present active QR passes to the conductor or print official travel receipts.</p>
+            </div>
+            <a href="book-trip.html" class="btn btn-primary btn-sm">+ Book Another Trip</a>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="tickets-filter-bar">
+            <div class="tickets-tabs">
+                <button type="button" class="tickets-tab-btn active" data-filter="active">Active Passes</button>
+                <button type="button" class="tickets-tab-btn" data-filter="all">All Passes</button>
+                <button type="button" class="tickets-tab-btn" data-filter="boarded">Boarded / Completed</button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="tickets-loading" class="text-center py-8">
+            <div class="spinner-border text-primary" role="status" style="width: 2.5rem; height: 2.5rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+            <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">Retrieving your e-tickets...</p>
+        </div>
+
+        <!-- Grid of Tickets -->
+        <div id="tickets-grid" class="tickets-grid" style="display: none;">
+            <!-- Populated via API -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="tickets-empty" style="display: none; background-color: var(--bg-surface); border: 1px dashed var(--border-strong); border-radius: var(--radius-xl); padding: var(--space-12); text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: var(--space-2); color: var(--text-muted);"><i class="fa-solid fa-ticket"></i></div>
+            <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">No active tickets found</h3>
+            <p style="color: var(--text-muted); font-size: 0.875rem; max-width: 440px; margin: var(--space-2) auto var(--space-4);">
+                When you reserve seats on Route 6, your verified boarding passes and QR codes will appear right here.
+            </p>
+            <a href="book-trip.html" class="btn btn-primary btn-sm">Reserve Seat Now</a>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/navbar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+    <script src="../../js/core/router.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.protectPage(['passenger', 'admin']);
+            if (!user) return;
+
+            document.getElementById('user-display-name').textContent = user.full_name || user.username;
+            document.getElementById('user-avatar-initial').textContent = (user.full_name || user.username).charAt(0).toUpperCase();
+
+            let allTickets = [];
+            let currentFilter = 'active';
+
+            async function loadTickets() {
+                const loading = document.getElementById('tickets-loading');
+                const grid = document.getElementById('tickets-grid');
+                const empty = document.getElementById('tickets-empty');
+
+                loading.style.display = 'block';
+                grid.style.display = 'none';
+                empty.style.display = 'none';
+
+                try {
+                    const res = await Api.get(API_CONFIG.ENDPOINTS.TICKETS.GET_ALL);
+                    loading.style.display = 'none';
+
+                    if (res.success && res.data && res.data.length > 0) {
+                        allTickets = res.data;
+                        renderTickets();
+                    } else {
+                        // Fallback: check bookings API to see if bookings exist
+                        const bRes = await Api.get(API_CONFIG.ENDPOINTS.PASSENGERS.GET_BOOKINGS);
+                        if (bRes.success && bRes.data && bRes.data.length > 0) {
+                            allTickets = bRes.data.map(b => ({
+                                ticket_id: b.booking_id,
+                                booking_id: b.booking_id,
+                                ticket_number: 'BTH-' + b.booking_id,
+                                origin_name: b.origin_name,
+                                destination_name: b.destination_name,
+                                departure_time: b.departure_time,
+                                seat_number: b.seat_numbers || '1A',
+                                status: b.status,
+                                fare_amount: b.total_amount,
+                                bus_number: b.bus_number
+                            }));
+                            renderTickets();
+                        } else {
+                            allTickets = [];
+                            empty.style.display = 'block';
+                        }
+                    }
+                } catch (e) {
+                    loading.style.display = 'none';
+                    Toast.error('Could not load tickets.');
+                }
+            }
+
+            function renderTickets() {
+                const grid = document.getElementById('tickets-grid');
+                const empty = document.getElementById('tickets-empty');
+
+                let filtered = allTickets;
+                if (currentFilter === 'active') {
+                    filtered = allTickets.filter(t => (t.status || '').toLowerCase() === 'confirmed' || (t.status || '').toLowerCase() === 'active');
+                } else if (currentFilter === 'boarded') {
+                    filtered = allTickets.filter(t => (t.status || '').toLowerCase() === 'boarded' || (t.status || '').toLowerCase() === 'completed');
+                }
+
+                if (filtered.length === 0) {
+                    grid.style.display = 'none';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                empty.style.display = 'none';
+                grid.style.display = 'grid';
+
+                grid.innerHTML = filtered.map(t => {
+                    const statusClass = (t.status || 'confirmed').toLowerCase();
+                    return `
+                        <div class="ticket-summary-card">
+                            <div class="ticket-summary-top">
+                                <span style="font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: var(--text-primary);">
+                                    #TKT-${DOM.escapeHtml(t.ticket_number || t.ticket_id || '001')}
+                                </span>
+                                <span class="status-pill ${statusClass}">${DOM.escapeHtml(t.status || 'CONFIRMED')}</span>
+                            </div>
+
+                            <div class="ticket-summary-body">
+                                <div class="ticket-route-display">
+                                    <span class="stop-label">${DOM.escapeHtml(t.origin_name || 'Monumento')}</span>
+                                    <span class="ticket-route-arrow"><i class="fa-solid fa-arrow-right" style="margin: 0 4px; font-size: 0.85em;"></i></span>
+                                    <span class="stop-label">${DOM.escapeHtml(t.destination_name || 'Sapang Palay')}</span>
+                                </div>
+
+                                <div class="ticket-meta-grid">
+                                    <div class="ticket-meta-item">
+                                        <span>Departure</span>
+                                        <strong>${FormatUtil.date(t.departure_time, true)}</strong>
+                                    </div>
+                                    <div class="ticket-meta-item">
+                                        <span>Assigned Seat</span>
+                                        <strong style="color: var(--color-accent-amber); font-family: var(--font-mono); font-size: 1rem;">
+                                            Seat ${DOM.escapeHtml(t.seat_number || '1A')}
+                                        </strong>
+                                    </div>
+                                    <div class="ticket-meta-item">
+                                        <span>Bus Number</span>
+                                        <strong>${DOM.escapeHtml(t.bus_number || 'BTH-101')}</strong>
+                                    </div>
+                                    <div class="ticket-meta-item">
+                                        <span>Fare Amount</span>
+                                        <strong>${FormatUtil.currency(t.fare_amount || 65.00)}</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ticket-summary-actions">
+                                <a href="ticket-details.html?${t.ticket_id ? 'ticket_id=' + t.ticket_id : 'booking_id=' + t.booking_id}" class="btn btn-primary w-100 btn-sm" style="font-weight: 700;">
+                                    <i class="fa-solid fa-ticket"></i> View QR Pass & Print
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Tab filtering
+            document.querySelectorAll('.tickets-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tickets-tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    renderTickets();
+                });
+            });
+
+            loadTickets();
+        });
+    </script>
+</body>
+</html>
+

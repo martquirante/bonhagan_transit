@@ -1,0 +1,182 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Staff / Conductor Portal Layout
+   ========================================================= */
+
+.staff-layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    padding-bottom: 72px; /* space for bottom nav on mobile */
+}
+
+.staff-header {
+    background-color: var(--color-primary-navy);
+    color: #FFFFFF;
+    padding: var(--space-4) var(--space-5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.staff-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.staff-brand img {
+    height: 32px;
+}
+
+.staff-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.staff-title small {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--color-accent-gold);
+    font-weight: 500;
+}
+
+.staff-badge-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    background-color: rgba(22, 163, 74, 0.2);
+    color: #4ADE80;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.staff-main {
+    flex: 1;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-4);
+}
+
+/* Trip Active Banner for Staff */
+.staff-active-trip-banner {
+    background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+    border-left: 5px solid var(--color-accent-amber);
+}
+
+.trip-banner-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-3);
+}
+
+.trip-banner-bus {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--color-accent-gold);
+}
+
+.trip-banner-route {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+}
+
+.trip-banner-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.trip-stat-item {
+    text-align: center;
+}
+
+.trip-stat-number {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.trip-stat-label {
+    font-size: 0.7rem;
+    color: #94A3B8;
+    text-transform: uppercase;
+}
+
+/* Bottom Nav for Mobile Operations */
+.staff-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background-color: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 100;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.staff-nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-md);
+    transition: color var(--transition-fast);
+}
+
+.staff-nav-btn svg, .staff-nav-btn i {
+    width: 22px;
+    height: 22px;
+}
+
+.staff-nav-btn.active, .staff-nav-btn:hover {
+    color: var(--color-accent-amber);
+}
+
+/* Quick Action Scan Button in Staff Bottom Nav */
+.staff-scan-highlight {
+    background-color: var(--color-accent-amber);
+    color: var(--color-primary-navy) !important;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    margin-top: -24px;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.staff-scan-highlight svg {
+    width: 26px;
+    height: 26px;
+}
+

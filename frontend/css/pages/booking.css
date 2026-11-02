@@ -1,0 +1,592 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Booking Flow & Seat Selection Styling
+   ========================================================= */
+
+/* Step Progress Bar */
+.booking-steps-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 760px;
+    margin: 0 auto var(--space-8);
+    position: relative;
+}
+
+.booking-steps-bar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    right: 40px;
+    height: 3px;
+    background-color: var(--border-subtle);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.step-item {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    text-decoration: none;
+    background-color: var(--bg-main);
+    padding: 0 var(--space-2);
+}
+
+.step-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--bg-surface);
+    border: 2px solid var(--border-strong);
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.step-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.step-item.active .step-circle {
+    background-color: var(--color-accent-amber);
+    border-color: var(--color-accent-amber);
+    color: var(--color-primary-navy);
+}
+
+.step-item.active .step-label {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.step-item.completed .step-circle {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+    color: #FFFFFF;
+}
+
+/* Trip Result Card */
+.trip-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    margin-bottom: var(--space-4);
+    box-shadow: var(--shadow-sm);
+    display: grid;
+    grid-template-columns: 140px 1.4fr 1fr 140px;
+    gap: var(--space-4);
+    align-items: center;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.trip-card:hover {
+    border-color: var(--color-accent-amber);
+    transform: translateY(-2px);
+}
+
+.trip-bus-badge {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.bus-num {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.bus-type-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0;
+    border-radius: 0;
+    background: transparent !important;
+    background-color: transparent !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.bus-type-pill.aircon {
+    background: transparent !important;
+    color: #2563EB;
+}
+
+.bus-type-pill.ordinary {
+    background: transparent !important;
+    color: #D97706;
+}
+
+html[data-theme="dark"] .bus-type-pill.aircon {
+    color: #60A5FA;
+}
+
+html[data-theme="dark"] .bus-type-pill.ordinary {
+    color: #FECC02;
+}
+
+.trip-schedule-block {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.time-point {
+    display: flex;
+    flex-direction: column;
+}
+
+.time-val {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.stop-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.trip-duration-line {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.trip-duration-line span {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.duration-bar {
+    width: 100%;
+    height: 2px;
+    background-color: var(--border-strong);
+    position: relative;
+}
+
+.duration-bar::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 6px solid var(--text-muted);
+}
+
+.trip-fare-block {
+    text-align: right;
+}
+
+.fare-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary-navy);
+}
+
+html[data-theme="dark"] .fare-price {
+    color: var(--color-accent-gold);
+}
+
+.fare-note {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* =========================================================
+   Interactive Bus Cabin & Seat Map Blueprint
+   ========================================================= */
+
+.seat-selection-container {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-6);
+    align-items: flex-start;
+}
+
+.bus-cabin-blueprint {
+    background: var(--bg-surface);
+    border: 2px solid var(--border-strong);
+    border-radius: 40px 40px 20px 20px;
+    padding: var(--space-8) var(--space-6) var(--space-6);
+    position: relative;
+    box-shadow: var(--shadow-lg);
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.bus-front-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-6);
+    border-bottom: 2px dashed var(--border-subtle);
+    margin-bottom: var(--space-6);
+}
+
+.driver-compartment {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background-color: var(--bg-surface-muted);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.passenger-entry-door {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-info);
+    border: 1px dashed var(--color-info);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+}
+
+.seat-grid-rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.seat-row {
+    display: grid;
+    grid-template-columns: 48px 48px 36px 48px 48px;
+    justify-content: center;
+    align-items: center;
+}
+
+.aisle-spacer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.seat-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--border-strong);
+    background-color: var(--bg-surface-muted);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.seat-btn:hover:not(:disabled) {
+    border-color: var(--color-accent-amber);
+    transform: scale(1.06);
+    z-index: 2;
+}
+
+.seat-btn.selected {
+    background-color: var(--color-accent-amber);
+    border-color: #E5B800;
+    color: var(--color-primary-navy);
+    box-shadow: 0 0 0 3px rgba(254, 204, 2, 0.35);
+}
+
+.seat-btn:disabled, .seat-btn.occupied {
+    background-color: #E2E8F0;
+    border-color: #CBD5E1;
+    color: #94A3B8;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+html[data-theme="dark"] .seat-btn:disabled,
+html[data-theme="dark"] .seat-btn.occupied {
+    background-color: #1E293B;
+    border-color: #334155;
+    color: #475569;
+}
+
+/* Seat Legend */
+.seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.legend-sample {
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-strong);
+}
+
+.legend-sample.avail { background-color: var(--bg-surface-muted); }
+.legend-sample.sel { background-color: var(--color-accent-amber); border-color: #B45309; }
+.legend-sample.occ { background-color: #E2E8F0; }
+
+/* Booking Summary Sidebar */
+.booking-summary-sidebar {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 80px;
+}
+
+.summary-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.summary-row.total {
+    border-top: 2px dashed var(--border-subtle);
+    padding-top: var(--space-3);
+    margin-top: var(--space-3);
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+/* Mobile Responsive Trip Results & Booking Engine */
+.trips-filter-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.bus-filter-group {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.trips-empty-card {
+    background-color: var(--bg-surface);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-xl);
+    padding: var(--space-10) var(--space-6);
+    text-align: center;
+}
+
+@media (max-width: 860px) {
+    .trip-card {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+    .seat-selection-container {
+        grid-template-columns: 1fr;
+    }
+    .trip-fare-block {
+        text-align: left;
+    }
+    .booking-summary-sidebar {
+        position: static;
+        margin-top: var(--space-6);
+    }
+}
+
+@media (max-width: 640px) {
+    .trips-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-3);
+    }
+    .bus-filter-group {
+        width: 100%;
+    }
+    .bus-filter-group .bus-filter-btn {
+        flex: 1;
+        justify-content: center;
+        text-align: center;
+        padding: 0.45rem 0.5rem;
+        font-size: 0.78rem;
+    }
+    .trips-empty-card {
+        padding: var(--space-6) var(--space-4);
+    }
+    .trip-card {
+        padding: var(--space-4);
+        gap: var(--space-3);
+    }
+    .trip-schedule-block {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: var(--space-2);
+        align-items: center;
+    }
+    .time-val {
+        font-size: 1.1rem;
+    }
+    .stop-label {
+        font-size: 0.75rem;
+        max-width: 110px;
+        word-break: break-word;
+    }
+    .duration-bar {
+        min-width: 40px;
+    }
+    .trip-fare-block {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-top: var(--space-2);
+        border-top: 1px dashed var(--border-subtle);
+    }
+    .fare-price {
+        font-size: 1.35rem;
+    }
+    .trip-card .btn-primary {
+        width: 100%;
+        height: 44px;
+        font-weight: 700;
+    }
+    .booking-steps-bar {
+        margin-bottom: var(--space-5);
+    }
+    .booking-steps-bar::before {
+        left: 20px;
+        right: 20px;
+    }
+    .step-label {
+        font-size: 0.68rem;
+        text-align: center;
+        max-width: 65px;
+        line-height: 1.2;
+    }
+    .step-circle {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+    .bus-cabin-blueprint {
+        padding: var(--space-6) var(--space-3) var(--space-4);
+        border-radius: 28px 28px 16px 16px;
+    }
+    .seat-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.75rem;
+    }
+    .seat-row {
+        grid-template-columns: 38px 38px 22px 38px 38px;
+        gap: 4px;
+    }
+    .aisle-gap {
+        width: 18px;
+    }
+}
+
+/* Payment Option Cards */
+.payment-option-card {
+    border: 2px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    background-color: var(--bg-surface);
+}
+
+.payment-option-card:hover {
+    border-color: var(--color-accent-amber);
+}
+
+.payment-option-card.selected {
+    border-color: var(--color-accent-amber);
+    background-color: #FEF3C7;
+}
+
+html[data-theme="dark"] .payment-option-card.selected {
+    background-color: rgba(254, 204, 2, 0.12);
+}
+
+.payment-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+/* Shared Booking Flow Action Bar (Next / Back buttons) */
+.booking-flow-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+}
+
+@media (max-width: 640px) {
+    .booking-flow-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: var(--space-3);
+    }
+    .booking-flow-actions .btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+

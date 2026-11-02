@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passenger Manifest — BONHAGAN TRANSIT</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="staff-layout">
+
+    <header class="staff-header">
+        <div class="staff-brand">
+            <a href="dashboard.html" style="color:#FFF; text-decoration:none; font-size:1.1rem; margin-right:8px;" aria-label="Back to dashboard"><i class="fa-solid fa-arrow-left"></i></a>
+            <div class="staff-title">
+                PASSENGER MANIFEST
+                <small>ROUTE 6 ONBOARD PASSENGER LOG</small>
+            </div>
+        </div>
+        <a href="qr-scanner.html" class="btn btn-primary btn-sm"><i class="fa-solid fa-qrcode"></i> Scanner</a>
+    </header>
+
+    <main class="staff-main">
+        <!-- Trip Selector Dropdown & Manifest Stats -->
+        <div class="portal-card" style="padding: var(--space-4);">
+            <div class="form-group mb-3">
+                <label class="form-label" for="manifest-trip-select">Select Active Trip / Bus</label>
+                <select id="manifest-trip-select" class="form-control form-select">
+                    <!-- Populated via API -->
+                </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); text-align: center;">
+                <div style="background-color: var(--bg-surface-muted); padding: var(--space-3); border-radius: var(--radius-md);">
+                    <span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">Total Booked</span>
+                    <strong id="manifest-total-count" style="display: block; font-size: 1.25rem; color: var(--text-primary);">0</strong>
+                </div>
+                <div style="background-color: var(--color-success-bg); padding: var(--space-3); border-radius: var(--radius-md);">
+                    <span style="font-size: 0.7rem; color: var(--color-success); text-transform: uppercase;">Boarded</span>
+                    <strong id="manifest-boarded-count" style="display: block; font-size: 1.25rem; color: var(--color-success);">0</strong>
+                </div>
+                <div style="background-color: var(--color-warning-bg); padding: var(--space-3); border-radius: var(--radius-md);">
+                    <span style="font-size: 0.7rem; color: var(--color-warning); text-transform: uppercase;">Pending</span>
+                    <strong id="manifest-pending-count" style="display: block; font-size: 1.25rem; color: var(--color-warning);">0</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Manifest Table -->
+        <div class="portal-card">
+            <div class="portal-card-header">
+                <h3 class="portal-card-title">Passenger Boarding Checklist</h3>
+                <div class="d-flex gap-2">
+                    <button type="button" id="filter-all" class="btn btn-primary btn-sm manifest-filter-btn">All</button>
+                    <button type="button" id="filter-pending" class="btn btn-outline btn-sm manifest-filter-btn">Pending</button>
+                    <button type="button" id="filter-boarded" class="btn btn-outline btn-sm manifest-filter-btn">Boarded</button>
+                </div>
+            </div>
+
+            <div id="manifest-loading" class="text-center py-6">
+                <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+                <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Loading passenger manifest...</p>
+            </div>
+
+            <div id="manifest-table-wrapper" class="data-table-scroll" style="display: none;">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Seat</th>
+                            <th>Passenger Name</th>
+                            <th>Segment (Origin → Dest)</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="manifest-table-body">
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="manifest-empty" style="display: none; text-align: center; padding: var(--space-8) 0;">
+                <p style="color: var(--text-muted); font-size: 0.85rem;">No passengers registered for this trip segment yet.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="staff-bottom-nav">
+        <a href="dashboard.html" class="staff-nav-btn">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+            <span>Home</span>
+        </a>
+        <a href="assigned-trips.html" class="staff-nav-btn">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+            <span>Trips</span>
+        </a>
+        <a href="qr-scanner.html" class="staff-nav-btn staff-scan-highlight" title="Scan QR Code">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM13 3a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z" clip-rule="evenodd"/></svg>
+        </a>
+        <a href="passenger-manifest.html" class="staff-nav-btn active">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+            <span>Manifest</span>
+        </a>
+        <a href="incidents.html" class="staff-nav-btn">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+            <span>Incidents</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+    <script src="../../js/core/router.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.protectPage(['staff', 'admin']);
+            if (!user) return;
+
+            let selectedTripId = Router.getParam('trip_id');
+            let manifestData = [];
+            let currentFilter = 'all';
+
+            // Populate trips selector
+            const tripSelect = document.getElementById('manifest-trip-select');
+            try {
+                const res = await Api.get(API_CONFIG.ENDPOINTS.STAFF.ASSIGNED_TRIPS);
+                if (res.success && res.data && res.data.length > 0) {
+                    tripSelect.innerHTML = res.data.map(t => `
+                        <option value="${t.trip_id}" ${t.trip_id == selectedTripId ? 'selected' : ''}>
+                            ${DOM.escapeHtml(t.bus_number || 'Bus')} (${DOM.escapeHtml(t.bus_type || 'Aircon')}) • ${FormatUtil.time(t.departure_time)} [${DOM.escapeHtml(t.origin_name || 'Monumento')} → ${DOM.escapeHtml(t.destination_name || 'Sapang Palay')}]
+                        </option>
+                    `).join('');
+
+                    if (!selectedTripId) {
+                        selectedTripId = res.data[0].trip_id;
+                    }
+                    loadManifest(selectedTripId);
+                } else {
+                    tripSelect.innerHTML = `<option value="">No active trips found</option>`;
+                }
+            } catch (e) {
+                console.error(e);
+            }
+
+            tripSelect.addEventListener('change', () => {
+                selectedTripId = tripSelect.value;
+                loadManifest(selectedTripId);
+            });
+
+            async function loadManifest(tripId) {
+                if (!tripId) return;
+
+                const loading = document.getElementById('manifest-loading');
+                const wrapper = document.getElementById('manifest-table-wrapper');
+                const empty = document.getElementById('manifest-empty');
+
+                loading.style.display = 'block';
+                wrapper.style.display = 'none';
+                empty.style.display = 'none';
+
+                try {
+                    const res = await Api.get(API_CONFIG.ENDPOINTS.STAFF.PASSENGER_MANIFEST, { trip_id: tripId });
+                    loading.style.display = 'none';
+
+                    if (res.success && res.data) {
+                        manifestData = res.data;
+                        updateStats();
+                        renderManifest();
+                    } else {
+                        manifestData = [];
+                        updateStats();
+                        empty.style.display = 'block';
+                    }
+                } catch (e) {
+                    loading.style.display = 'none';
+                    Toast.error('Could not load passenger manifest.');
+                }
+            }
+
+            function updateStats() {
+                const total = manifestData.length;
+                const boarded = manifestData.filter(m => (m.status || '').toLowerCase() === 'boarded').length;
+                const pending = total - boarded;
+
+                document.getElementById('manifest-total-count').textContent = total;
+                document.getElementById('manifest-boarded-count').textContent = boarded;
+                document.getElementById('manifest-pending-count').textContent = pending;
+            }
+
+            function renderManifest() {
+                const wrapper = document.getElementById('manifest-table-wrapper');
+                const tbody = document.getElementById('manifest-table-body');
+                const empty = document.getElementById('manifest-empty');
+
+                let filtered = manifestData;
+                if (currentFilter === 'pending') {
+                    filtered = manifestData.filter(m => (m.status || '').toLowerCase() !== 'boarded');
+                } else if (currentFilter === 'boarded') {
+                    filtered = manifestData.filter(m => (m.status || '').toLowerCase() === 'boarded');
+                }
+
+                if (filtered.length === 0) {
+                    wrapper.style.display = 'none';
+                    empty.style.display = 'block';
+                    return;
+                }
+
+                empty.style.display = 'none';
+                wrapper.style.display = 'block';
+
+                tbody.innerHTML = filtered.map(m => {
+                    const isBoarded = (m.status || '').toLowerCase() === 'boarded';
+                    return `
+                        <tr>
+                            <td>
+                                <strong style="font-family: var(--font-mono); font-size: 1.1rem; color: var(--color-accent-amber);">
+                                    ${DOM.escapeHtml(m.seat_number || '—')}
+                                </strong>
+                            </td>
+                            <td>
+                                <strong>${DOM.escapeHtml(m.passenger_name || 'Passenger')}</strong>
+                                <small style="display: block; color: var(--text-muted);">${DOM.escapeHtml(m.phone || '')}</small>
+                            </td>
+                            <td>
+                                <div>${DOM.escapeHtml(m.origin_name || 'Monumento')} → ${DOM.escapeHtml(m.destination_name || 'Sapang Palay')}</div>
+                            </td>
+                            <td>
+                                <span class="badge ${m.discount_type !== 'regular' ? 'badge-warning' : 'badge-info'}">
+                                    ${FormatUtil.statusLabel(m.discount_type || 'regular')}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="status-pill ${isBoarded ? 'boarded' : 'pending'}">
+                                    ${isBoarded ? 'BOARDED' : 'PENDING'}
+                                </span>
+                            </td>
+                            <td>
+                                ${!isBoarded ? `
+                                    <button class="btn btn-primary btn-sm mark-boarded-btn" data-ticket-id="${m.ticket_id}" data-seat-id="${m.seat_id}" style="padding: 2px 8px; font-size: 0.75rem;">
+                                        <i class="fa-solid fa-check"></i> Mark Boarded
+                                    </button>
+                                ` : `
+                                    <span style="font-size: 0.75rem; color: var(--color-success); font-weight: 700;"><i class="fa-solid fa-check"></i> Checked In</span>
+                                `}
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                // Bind single mark boarded click
+                tbody.querySelectorAll('.mark-boarded-btn').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const ticketId = btn.dataset.ticketId;
+                        const seatId = btn.dataset.seatId;
+
+                        try {
+                            const res = await Api.post(API_CONFIG.ENDPOINTS.STAFF.RECORD_BOARDING, {
+                                trip_id: selectedTripId,
+                                ticket_id: ticketId,
+                                seat_id: seatId
+                            });
+
+                            if (res.success) {
+                                Toast.success('Passenger marked as boarded.');
+                                loadManifest(selectedTripId);
+                            } else {
+                                Toast.error(res.message || 'Failed to update boarding status.');
+                            }
+                        } catch (e) {
+                            Toast.error('Network error recording boarding.');
+                        }
+                    });
+                });
+            }
+
+            // Filter tabs
+            document.querySelectorAll('.manifest-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.manifest-filter-btn').forEach(b => {
+                        b.classList.remove('btn-primary');
+                        b.classList.add('btn-outline');
+                    });
+                    btn.classList.remove('btn-outline');
+                    btn.classList.add('btn-primary');
+                    
+                    if (btn.id === 'filter-pending') currentFilter = 'pending';
+                    else if (btn.id === 'filter-boarded') currentFilter = 'boarded';
+                    else currentFilter = 'all';
+
+                    renderManifest();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

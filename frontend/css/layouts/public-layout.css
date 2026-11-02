@@ -1,0 +1,134 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Public Layout & Shared Responsive Rules
+   ========================================================= */
+
+.public-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.public-main {
+    flex: 1;
+}
+
+.page-header {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 100%);
+    color: #FFFFFF;
+    padding: var(--space-10) 0 var(--space-8);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+html[data-theme="dark"] .page-header {
+    background: linear-gradient(135deg, #070D18 0%, #0F1A2E 100%);
+}
+
+.page-header h1 {
+    color: #FFFFFF;
+    margin-bottom: 0.5rem;
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+.page-header p {
+    color: #94A3B8;
+    max-width: 640px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+
+/* Global Responsive Refinements */
+.service-feature-row {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-8);
+    align-items: center;
+}
+
+.service-feature-row.reverse {
+    grid-template-columns: 0.9fr 1.1fr;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-8);
+    align-items: flex-start;
+}
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-8);
+    align-items: flex-start;
+}
+
+.passenger-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: var(--space-6);
+    align-items: flex-start;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+}
+
+@media (max-width: 860px) {
+    .service-feature-row,
+    .service-feature-row.reverse {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+    }
+
+    .service-feature-row.reverse > div:first-child {
+        order: 2;
+    }
+
+    .service-feature-row.reverse > div:last-child {
+        order: 1;
+    }
+
+    .contact-grid,
+    .checkout-grid,
+    .passenger-details-grid,
+    .profile-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        padding: var(--space-8) 0 var(--space-6);
+    }
+
+    .page-header h1 {
+        font-size: 1.85rem;
+    }
+
+    .page-header p {
+        font-size: 0.95rem;
+    }
+
+    .container {
+        padding-left: var(--space-4) !important;
+        padding-right: var(--space-4) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .container {
+        padding-left: var(--space-3) !important;
+        padding-right: var(--space-3) !important;
+    }
+}

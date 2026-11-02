@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sta. Cruz (Manila) ↔ Sapang Palay via Muzon, Marilao Exit — BONHAGAN TRANSIT</title>
+    <meta name="description" content="Official stops, distance markers, and interactive LTFRB fare calculator for Bonhagan Transit: Sta. Cruz (Avenida, Manila) to Sapang Palay (San Jose del Monte, Bulacan) via Muzon and NLEX Marilao Exit.">
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Architecture -->
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+
+    <!-- Main Navigation Bar -->
+    <header class="navbar-wrapper">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-brand">
+                <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" class="nav-logo" style="height: 40px; width: auto; max-height: 40px; object-fit: contain;">
+                <span class="nav-brand-text">
+                    BONHAGAN <span>TRANSIT</span>
+                    <span class="nav-brand-pill">Sta. Cruz – Bulacan</span>
+                </span>
+            </a>
+
+            <nav class="nav-menu">
+                <a href="../../index.html" class="nav-link">Home</a>
+                <a href="routes.html" class="nav-link active">Routes & Stops</a>
+                <a href="schedules.html" class="nav-link">Daily Schedules</a>
+                <a href="services.html" class="nav-link">Fleet & Amenities</a>
+                <a href="about.html" class="nav-link">About Us</a>
+                <a href="contact.html" class="nav-link">Contact & Terminals</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle dark/light theme" title="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+                <div id="nav-auth-slot" class="d-flex items-center gap-2">
+                    <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
+                    <a href="../passenger/book-trip.html" class="btn btn-primary btn-sm">Book Ticket</a>
+                </div>
+                <!-- Mobile Hamburger Toggle -->
+                <button class="nav-toggle-btn" aria-label="Toggle navigation" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div class="nav-mobile-menu">
+            <a href="../../index.html" class="nav-mobile-link"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="routes.html" class="nav-mobile-link active"><i class="fa-solid fa-route"></i> Routes & Stops</a>
+            <a href="schedules.html" class="nav-mobile-link"><i class="fa-solid fa-clock"></i> Daily Schedules</a>
+            <a href="services.html" class="nav-mobile-link"><i class="fa-solid fa-bus"></i> Fleet & Amenities</a>
+            <a href="about.html" class="nav-mobile-link"><i class="fa-solid fa-circle-info"></i> About Us</a>
+            <a href="contact.html" class="nav-mobile-link"><i class="fa-solid fa-location-dot"></i> Contact & Terminals</a>
+            <div class="nav-mobile-actions">
+                <a href="login.html" class="btn btn-outline w-100">Sign In</a>
+                <a href="../passenger/book-trip.html" class="btn btn-primary w-100">Book Ticket Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header (Clean, No Rainbow Line) -->
+    <section class="routes-page-header">
+        <div class="container" style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--space-6);">
+            <!-- Breadcrumbs -->
+            <div style="font-size: 0.85rem; color: #94A3B8; margin-bottom: var(--space-3); display: flex; align-items: center; gap: 0.4rem;">
+                <a href="../../index.html" style="color: #94A3B8; text-decoration: none;">Home</a>
+                <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: #64748B;"></i>
+                <span style="color: #F8FAFC; font-weight: 600;">Routes & Fare Matrix</span>
+            </div>
+
+            <div class="routes-header-badge">
+                <i class="fa-solid fa-certificate"></i> Express Route: Via Muzon & NLEX Marilao Exit
+            </div>
+            
+            <h1 class="routes-title">Sta. Cruz (Manila) ↔ Sapang Palay Corridor</h1>
+            <p class="routes-subtitle">
+                Official express transit connecting Avenida, Sta. Cruz, Manila with Sapang Palay, San Jose del Monte, Bulacan via Monumento, NLEX Marilao Exit, and Muzon Commercial Junction.
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main style="padding: var(--space-6) 0 var(--space-16);">
+        <div class="container" style="max-width: var(--container-max); margin: 0 auto; padding: 0 var(--space-6);">
+
+            <!-- Route Metrics Grid -->
+            <div class="stats-grid">
+                <div class="stat-tile">
+                    <div class="stat-tile-header">
+                        <span class="stat-tile-label">Total Corridor Distance</span>
+                        <div class="stat-tile-icon"><i class="fa-solid fa-route"></i></div>
+                    </div>
+                    <div class="stat-tile-value">45.2 <span style="font-size: 1rem; font-weight: 600; color: var(--text-muted);">km</span></div>
+                    <div class="stat-tile-desc" style="color: var(--color-success);">
+                        <i class="fa-solid fa-road"></i> Avenida Manila to Sapang Palay
+                    </div>
+                </div>
+
+                <div class="stat-tile">
+                    <div class="stat-tile-header">
+                        <span class="stat-tile-label">Average Travel Time</span>
+                        <div class="stat-tile-icon"><i class="fa-solid fa-stopwatch"></i></div>
+                    </div>
+                    <div class="stat-tile-value">80 – 110 <span style="font-size: 1rem; font-weight: 600; color: var(--text-muted);">min</span></div>
+                    <div class="stat-tile-desc">
+                        <i class="fa-solid fa-gauge-high"></i> Express via NLEX Marilao Exit
+                    </div>
+                </div>
+
+                <div class="stat-tile">
+                    <div class="stat-tile-header">
+                        <span class="stat-tile-label">Operating Schedule</span>
+                        <div class="stat-tile-icon"><i class="fa-solid fa-clock"></i></div>
+                    </div>
+                    <div class="stat-tile-value" style="font-size: 1.45rem;">4:30 AM – 10:30 PM</div>
+                    <div class="stat-tile-desc" style="color: var(--color-info);">
+                        <i class="fa-solid fa-arrows-spin"></i> 7 Days a Week / Daily Trips
+                    </div>
+                </div>
+
+                <div class="stat-tile">
+                    <div class="stat-tile-header">
+                        <span class="stat-tile-label">Departure Headway</span>
+                        <div class="stat-tile-icon"><i class="fa-solid fa-bus-simple"></i></div>
+                    </div>
+                    <div class="stat-tile-value">15 – 20 <span style="font-size: 1rem; font-weight: 600; color: var(--text-muted);">min</span></div>
+                    <div class="stat-tile-desc" style="color: var(--color-accent-amber);">
+                        <i class="fa-solid fa-bolt"></i> Regular Terminal Dispatch
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two-Column Layout: Stop Timeline & Interactive Fare Calculator -->
+            <div class="routes-layout-grid">
+                
+                <!-- Left Column: Transit Metro Timeline -->
+                <div class="transit-timeline-container">
+                    <div class="timeline-header">
+                        <div>
+                            <h2 class="timeline-header-title">
+                                <i class="fa-solid fa-map-location-dot" style="color: var(--color-accent-amber);"></i>
+                                Official Corridor Stops & Intermediate Stations
+                            </h2>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">
+                                Boarding and drop-off stations approved under LTFRB Express Franchise: Sta. Cruz ↔ Sapang Palay via Muzon, Marilao Exit.
+                            </p>
+                        </div>
+                        <span class="badge badge-warning" style="font-size: 0.75rem;">8 Authorized Stations</span>
+                    </div>
+
+                    <div class="timeline-track">
+                        <!-- Stop 01 -->
+                        <div class="transit-node-row">
+                            <div class="transit-node-beacon origin">01</div>
+                            <div class="transit-card">
+                                <div class="transit-card-top">
+                                    <h3 class="transit-stop-name">Sta. Cruz Terminal (Avenida, Manila)</h3>
+                                    <span class="badge badge-warning">Manila Origin Hub</span>
+                                </div>
+                                <p class="transit-card-desc">
+                                    Rizal Avenue corner Doroteo Jose St., near LRT-1 Doroteo Jose and LRT-2 Recto stations. Primary southern terminal dispatch with ticket counter and passenger lounge.
+                                </p>
+                                <div class="transit-card-meta">
+                                    <span class="transit-km-chip">KM 0.00</span>
+                                    <span><i class="fa-solid fa-train-subway"></i> LRT-1 & LRT-2 Transfer</span>
+                                    <span><i class="fa-solid fa-ticket"></i> Main Manila Dispatch Bay</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stop 02 -->
+                        <div class="transit-node-row">
+                            <div class="transit-node-beacon">02</div>
+                            <div class="transit-card">
+                                <div class="transit-card-top">
+                                    <h3 class="transit-stop-name">Monumento / 5th Avenue (Caloocan)</h3>
+                                    <span class="badge badge-info">Metro Manila Hub</span>
+                                </div>
+                                <p class="transit-card-desc">
+                                    Bonifacio Monument Circle, Rizal Avenue Extension, EDSA. Convenient transfer for Caloocan, Malabon, and Navotas commuters.
+                                </p>
+                                <div class="transit-card-meta">
+                                    <span class="transit-km-chip">KM 6.50</span>
+                                    <span><i class="fa-solid fa-monument"></i> Bonifacio Circle</span>
+                                    <span><i class="fa-solid fa-arrows-split-up-and-left"></i> EDSA / CAMANAVA</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stop 03 -->
+                        <div class="transit-node-row">
+                            <div class="transit-node-beacon">03</div>
+                            <div class="transit-card">
+                                <div class="transit-card-top">
+                                    <h3 class="transit-stop-name">Balintawak Transit Hub (NLEX Entry)</h3>
+                                    <span class="badge badge-info">Interchange Hub</span>
+                                </div>
+                                <p class="transit-card-desc">
+                                    Cloverleaf interchange, Ayala Malls Cloverleaf, LRT-1 Balintawak station walkway. Direct gateway entering the North Luzon Expressway (NLEX).
+                                </p>
+                                <div class="transit-card-meta">
+                                    <span class="transit-km-chip">KM 9.80</span>
+                                    <span><i class="fa-solid fa-bag-shopping"></i> Ayala Malls Access</span>
+                                    <span><i class="fa-solid fa-highway"></i> NLEX Express Entry</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stop 04 -->
+                        <div class="transit-node-row">
+                            <div class="transit-node-beacon">04</div>
+                            <div class="transit-card">
+                                <div class="transit-card-top">
+                                    <h3 class="transit-stop-name">Marilao Exit (NLEX Toll Plaza)</h3>
+                                    <span class="badge badge-warning">Express NLEX Exit</span>
+                                </div>
+                                <p class="transit-card-desc">
+                                    NLEX Marilao interchange, Patubig, Vitarich junction. Express buses exit NLEX directly onto Marilao-San Jose del Monte Provincial Road, bypassing heavy local city traffic.
+                                </p>
+                                <div class="transit-card-meta">
+                                    <span class="transit-km-chip">KM 23.50</span>
+                                    <span><i class="fa-solid fa-truck-fast"></i> NLEX Toll Plaza</span>
+                                    <span><i class="fa-solid fa-arrow-turn-up"></i> Patubig Junction</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stop 05 -->
+                        <div class="transit-node-row">
+                            <div class="transit-node-beacon">05</div>
+                            <div class="transit-card">
+                                <div class="transit-card-top">
+                                    <h3 class="transit-stop-name">Muzon Commercial Junction</h3>
+                                    <span class="badge badge-info">Major Bulacan Hub</span>
+                                </div>
+                                <p class="transit-card-desc">
+                                    St. Joseph the Worker Parish, Muzon Public Market, crossing to Marilao and Santa Maria. Highest-volume boarding and turnstile node in San Jose del Monte.
+                                </p>
+                                <div class="transit-card-meta">
+                                    <span class="transit-km-chip">KM 32.00</span>
+                                    <span><i class="fa-solid fa-cart-shopping"></i> Muzon Public Market</span>
+                                    <span><i class="fa-solid fa-school"></i> High Commuter Exchange</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stop 06 -->
+                        <div class="transit-node-row">
+                            <div class="transit-node-beacon">06</div>
+                            <div class="transit-card">
+                                <div class="transit-card-top">
+                                    <h3 class="transit-stop-name">Tungko / SM San Jose del Monte</h3>
+                                    <span class="badge badge-warning">Commercial Gateway</span>
+                                </div>
+                                <p class="transit-card-desc">
+                                    Tungkong Mangga terminal interchange, SM City SJDM, Quirino Highway intersection. Core commercial district of SJDM.
+                                </p>
+                                <div class="transit-card-meta">
+                                    <span class="transit-km-chip">KM 37.50</span>
+                                    <span><i class="fa-solid fa-building"></i> SM SJDM Terminal</span>
+                                    <span><i class="fa-solid fa-map-pin"></i> Quirino Hwy Crossing</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stop 07 -->
+                        <div class="transit-node-row">
+                            <div class="transit-node-beacon">07</div>
+                            <div class="transit-card">
+                                <div class="transit-card-top">
+                                    <h3 class="transit-stop-name">San Jose del Monte City Hall</h3>
+                                    <span class="badge badge-info">Civic Center</span>
+                                </div>
+                                <p class="transit-card-desc">
+                                    Bulacan Government Center, Dulong Bayan, City College of San Jose del Monte (CCSJDM). Convenient for civil servants, students, and local residents.
+                                </p>
+                                <div class="transit-card-meta">
+                                    <span class="transit-km-chip">KM 41.00</span>
+                                    <span><i class="fa-solid fa-landmark"></i> Government Center</span>
+                                    <span><i class="fa-solid fa-graduation-cap"></i> City College (CCSJDM)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stop 08 -->
+                        <div class="transit-node-row">
+                            <div class="transit-node-beacon destination">08</div>
+                            <div class="transit-card">
+                                <div class="transit-card-top">
+                                    <h3 class="transit-stop-name">Sapang Palay Central Terminal</h3>
+                                    <span class="badge badge-success">Destination Hub</span>
+                                </div>
+                                <p class="transit-card-desc">
+                                    FVR Central Terminal (Area E / Sapang Palay Proper). Main Bonhagan Transit dispatch depot with overnight bus bays, passenger lounge, maintenance shop, and dispatch management.
+                                </p>
+                                <div class="transit-card-meta">
+                                    <span class="transit-km-chip">KM 45.20</span>
+                                    <span><i class="fa-solid fa-warehouse"></i> Central Depot</span>
+                                    <span><i class="fa-solid fa-headset"></i> Customer Dispatch Bay</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Sticky Interactive Fare Calculator -->
+                <div class="calculator-sticky-wrapper">
+                    <div class="calculator-card">
+                        <h2 class="calc-title">
+                            <i class="fa-solid fa-calculator" style="color: var(--color-accent-amber);"></i>
+                            Official Fare Matrix Calculator
+                        </h2>
+                        <p class="calc-desc">
+                            Point-to-point calculation verified according to current LTFRB distance guidelines for Sta. Cruz ↔ Sapang Palay via Marilao Exit.
+                        </p>
+
+                        <!-- Bus Service Class Switcher -->
+                        <div class="calc-form-group">
+                            <label class="calc-label">Select Service Class</label>
+                            <div class="bus-class-toggle-group">
+                                <label class="bus-class-radio-label active" id="label-aircon">
+                                    <input type="radio" name="calc-bus" value="aircon" checked>
+                                    <i class="fa-solid fa-snowflake"></i> Aircon Express
+                                </label>
+                                <label class="bus-class-radio-label" id="label-ordinary">
+                                    <input type="radio" name="calc-bus" value="ordinary">
+                                    <i class="fa-solid fa-wind"></i> Ordinary Commuter
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Boarding Stop Selection -->
+                        <div class="calc-form-group">
+                            <label for="calc-origin" class="calc-label">Boarding Station (Origin)</label>
+                            <select id="calc-origin" class="calc-select">
+                                <option value="1" data-km="0.00" selected>01 — Sta. Cruz Terminal, Manila (KM 0.00)</option>
+                                <option value="2" data-km="6.50">02 — Monumento / 5th Ave (KM 6.50)</option>
+                                <option value="3" data-km="9.80">03 — Balintawak Transit Hub (KM 9.80)</option>
+                                <option value="4" data-km="23.50">04 — Marilao Exit, NLEX (KM 23.50)</option>
+                                <option value="5" data-km="32.00">05 — Muzon Commercial Junction (KM 32.00)</option>
+                                <option value="6" data-km="37.50">06 — Tungko / SM SJDM (KM 37.50)</option>
+                                <option value="7" data-km="41.00">07 — SJDM City Hall (KM 41.00)</option>
+                                <option value="8" data-km="45.20">08 — Sapang Palay Central Terminal (KM 45.20)</option>
+                            </select>
+                        </div>
+
+                        <!-- Drop-off Stop Selection -->
+                        <div class="calc-form-group">
+                            <label for="calc-dest" class="calc-label">Drop-off Station (Destination)</label>
+                            <select id="calc-dest" class="calc-select">
+                                <option value="1" data-km="0.00">01 — Sta. Cruz Terminal, Manila (KM 0.00)</option>
+                                <option value="2" data-km="6.50">02 — Monumento / 5th Ave (KM 6.50)</option>
+                                <option value="3" data-km="9.80">03 — Balintawak Transit Hub (KM 9.80)</option>
+                                <option value="4" data-km="23.50">04 — Marilao Exit, NLEX (KM 23.50)</option>
+                                <option value="5" data-km="32.00">05 — Muzon Commercial Junction (KM 32.00)</option>
+                                <option value="6" data-km="37.50">06 — Tungko / SM SJDM (KM 37.50)</option>
+                                <option value="7" data-km="41.00">07 — SJDM City Hall (KM 41.00)</option>
+                                <option value="8" data-km="45.20" selected>08 — Sapang Palay Central Terminal (KM 45.20)</option>
+                            </select>
+                        </div>
+
+                        <!-- Live Fare Receipt Box -->
+                        <div class="fare-receipt-box">
+                            <div class="fare-receipt-row">
+                                <span>Segment Distance:</span>
+                                <span class="fare-receipt-value" id="calc-dist-val">45.2 km</span>
+                            </div>
+                            <div class="fare-receipt-row">
+                                <span>Est. Travel Time:</span>
+                                <span class="fare-receipt-value" id="calc-time-val">~110 mins</span>
+                            </div>
+                            <div class="fare-receipt-row">
+                                <span>Base Rate Formula:</span>
+                                <span class="fare-receipt-value" id="calc-rate-basis" style="font-size: 0.8rem; color: var(--text-muted);">First 5km (₱15) + ₱2.65/km</span>
+                            </div>
+
+                            <div class="fare-receipt-total">
+                                <div>
+                                    <div class="fare-total-label">Regular Passenger Fare</div>
+                                    <div style="font-size: 0.75rem; color: var(--text-muted);">Adult / Standard Commuter</div>
+                                </div>
+                                <div class="fare-total-amount" id="calc-regular-fare">₱121.53</div>
+                            </div>
+
+                            <div class="fare-discount-chip">
+                                <div>
+                                    <i class="fa-solid fa-graduation-cap"></i> <strong>20% Statutory Discount:</strong>
+                                    <div style="font-size: 0.72rem; color: var(--text-muted);">Student, Senior Citizen, PWD</div>
+                                </div>
+                                <span style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 800; color: var(--color-success);" id="calc-discount-fare">₱97.22</span>
+                            </div>
+                        </div>
+
+                        <!-- Book Button -->
+                        <button type="button" id="btn-proceed-booking" class="btn btn-primary w-100" style="height: 48px; font-size: 1rem; font-weight: 700; box-shadow: 0 4px 14px rgba(254, 204, 2, 0.4);">
+                            <i class="fa-solid fa-ticket"></i> Book This Selected Route
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Brand Footer (No Admin / Staff Portal Links) -->
+    <footer class="footer-wrapper">
+        <div class="footer-container">
+            <div class="footer-brand-col">
+                <div class="footer-brand">
+                    <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 40px; width: auto; max-height: 40px; object-fit: contain;">
+                    <span class="footer-brand-name">BONHAGAN TRANSIT</span>
+                </div>
+                <p class="footer-tagline">
+                    Serving Manila and Bulacan commuters with modern scheduled bus transit, secure reservations, and passenger-first reliability along the Sta. Cruz – Sapang Palay corridor via NLEX Marilao Exit.
+                </p>
+            </div>
+
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Services & Information</h4>
+                <ul class="footer-list">
+                    <li><a href="schedules.html">Daily Trip Schedules</a></li>
+                    <li><a href="routes.html">Fare Matrix & Stops</a></li>
+                    <li><a href="services.html">Aircon & Ordinary Fleet</a></li>
+                    <li><a href="about.html">Company Background</a></li>
+                    <li><a href="contact.html">Terminal Customer Support</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links-col">
+                <h4 class="footer-heading">Passenger Access</h4>
+                <ul class="footer-list">
+                    <li><a href="../passenger/book-trip.html">Book Online Ticket</a></li>
+                    <li><a href="../passenger/dashboard.html">Passenger Portal</a></li>
+                    <li><a href="../passenger/my-tickets.html">My e-Tickets</a></li>
+                    <li><a href="login.html">Passenger Sign In</a></li>
+                    <li><a href="register.html">Create Account</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>© 2026 Bonhagan Transit. IT305W Advanced Web Applications. All rights reserved.</div>
+            <div>Built for Filipino Commuters with PHP 8, Neon PostgreSQL, and Modern Web Standards.</div>
+        </div>
+    </footer>
+
+    <!-- Core Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/navbar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/router.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const originSelect = document.getElementById('calc-origin');
+            const destSelect = document.getElementById('calc-dest');
+            const busRadios = document.querySelectorAll('input[name="calc-bus"]');
+            const distVal = document.getElementById('calc-dist-val');
+            const timeVal = document.getElementById('calc-time-val');
+            const rateBasisVal = document.getElementById('calc-rate-basis');
+            const regFareVal = document.getElementById('calc-regular-fare');
+            const discFareVal = document.getElementById('calc-discount-fare');
+            const bookBtn = document.getElementById('btn-proceed-booking');
+            const labelAircon = document.getElementById('label-aircon');
+            const labelOrdinary = document.getElementById('label-ordinary');
+
+            // Toggle radio styling
+            busRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    if (radio.value === 'aircon') {
+                        labelAircon.classList.add('active');
+                        labelOrdinary.classList.remove('active');
+                    } else {
+                        labelOrdinary.classList.add('active');
+                        labelAircon.classList.remove('active');
+                    }
+                    calculateFare();
+                });
+            });
+
+            function calculateFare() {
+                const origOpt = originSelect.options[originSelect.selectedIndex];
+                const destOpt = destSelect.options[destSelect.selectedIndex];
+                const origKm = parseFloat(origOpt?.dataset.km || 0);
+                const destKm = parseFloat(destOpt?.dataset.km || 0);
+                const distance = Math.abs(destKm - origKm);
+
+                distVal.textContent = distance.toFixed(1) + ' km';
+                const estMinutes = Math.max(15, Math.round(distance * 2.45));
+                timeVal.textContent = `~${estMinutes} mins`;
+
+                const busClass = document.querySelector('input[name="calc-bus"]:checked')?.value || 'aircon';
+                
+                // LTFRB fare formula: Base fare for first 5km + per km thereafter
+                let baseFare = busClass === 'aircon' ? 15.00 : 13.00;
+                let perKm = busClass === 'aircon' ? 2.65 : 2.25;
+                let minFare = busClass === 'aircon' ? 20.00 : 15.00;
+
+                rateBasisVal.textContent = busClass === 'aircon' ? 'First 5km (₱15) + ₱2.65/km' : 'First 5km (₱13) + ₱2.25/km';
+
+                let regularFare = minFare;
+                if (distance > 5) {
+                    regularFare = baseFare + ((distance - 5) * perKm);
+                } else if (distance > 0) {
+                    regularFare = minFare + (distance * 1.5);
+                }
+
+                if (distance === 0) {
+                    regularFare = 0;
+                }
+
+                const discountedFare = regularFare * 0.8;
+
+                regFareVal.textContent = FormatUtil.currency(regularFare);
+                discFareVal.textContent = FormatUtil.currency(discountedFare);
+            }
+
+            originSelect.addEventListener('change', calculateFare);
+            destSelect.addEventListener('change', calculateFare);
+            calculateFare();
+
+            bookBtn.addEventListener('click', () => {
+                const origin = originSelect.value;
+                const dest = destSelect.value;
+                const busClass = document.querySelector('input[name="calc-bus"]:checked')?.value || 'aircon';
+
+                if (origin === dest) {
+                    alert('Please select different boarding and drop-off stations.');
+                    return;
+                }
+
+                Router.navigate('../passenger/book-trip.html', {
+                    origin_stop_id: origin,
+                    destination_stop_id: dest,
+                    bus_type: busClass
+                });
+            });
+        });
+    </script>
+</body>
+</html>

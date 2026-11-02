@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Management — BONHAGAN TRANSIT ADMIN</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="admin-layout">
+
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+            <div>
+                <h2>BONHAGAN</h2>
+                <span>ADMIN DISPATCH</span>
+            </div>
+        </div>
+
+        <nav class="admin-sidebar-nav">
+            <div class="sidebar-group-title">Overview</div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="reports.html" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Revenue & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Operations</div>
+            <ul class="sidebar-menu">
+                <li><a href="buses.html" class="sidebar-link active"><i class="fa-solid fa-bus"></i> Fleet Management</a></li>
+                <li><a href="schedules.html" class="sidebar-link"><i class="fa-solid fa-calendar-days"></i> Daily Schedules</a></li>
+                <li><a href="routes.html" class="sidebar-link"><i class="fa-solid fa-route"></i> Routes & Segments</a></li>
+                <li><a href="stops.html" class="sidebar-link"><i class="fa-solid fa-location-dot"></i> Station Stops</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Ticketing & Finance</div>
+            <ul class="sidebar-menu">
+                <li><a href="bookings.html" class="sidebar-link"><i class="fa-solid fa-ticket"></i> Bookings & Seats</a></li>
+                <li><a href="payments.html" class="sidebar-link"><i class="fa-solid fa-credit-card"></i> Payments & Cash</a></li>
+                <li><a href="discounts.html" class="sidebar-link"><i class="fa-solid fa-scale-balanced"></i> Discount Approvals</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Users & Admin</div>
+            <ul class="sidebar-menu">
+                <li><a href="passengers.html" class="sidebar-link"><i class="fa-solid fa-users"></i> Passengers</a></li>
+                <li><a href="staff.html" class="sidebar-link"><i class="fa-solid fa-user-tie"></i> Staff & Conductors</a></li>
+                <li><a href="settings.html" class="sidebar-link"><i class="fa-solid fa-gear"></i> System Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <span style="font-size: 0.8rem; font-weight: 600;">Admin</span>
+            <button id="btn-admin-logout" class="btn btn-outline btn-sm" style="color: #FFF; border-color: rgba(255,255,255,0.2); font-size: 0.72rem; padding: 2px 8px;">Logout</button>
+        </div>
+    </aside>
+
+    <div class="admin-viewport">
+        <header class="admin-topbar">
+            <div class="admin-topbar-left">
+                <button type="button" class="admin-toggle-btn" aria-label="Toggle sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="admin-page-title">Fleet Management (Route 6 Buses)</h1>
+            </div>
+
+            <div class="admin-topbar-right">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+                <button type="button" id="btn-open-add-bus-modal" class="btn btn-primary btn-sm">+ Add New Bus</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="data-table-wrapper">
+                <div class="data-table-toolbar">
+                    <input type="text" id="bus-search-input" class="form-control" placeholder="Search bus number, plate, or type..." style="width: 280px; height: 38px; font-size: 0.85rem;">
+                </div>
+
+                <div id="buses-loading" class="text-center py-8">
+                    <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Loading bus fleet...</p>
+                </div>
+
+                <div id="buses-table-wrapper" class="data-table-scroll" style="display: none;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Bus Number</th>
+                                <th>Plate Number</th>
+                                <th>Class & Specs</th>
+                                <th>Seating Capacity</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="buses-table-body">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add / Edit Bus Modal -->
+    <div class="modal" id="bus-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title" id="bus-modal-title">Add Route 6 Bus</h3>
+                <button type="button" class="modal-close" data-close-modal>&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bus-form">
+                    <input type="hidden" id="modal-bus-id">
+                    <div class="form-group">
+                        <label class="form-label" for="modal-bus-number">Bus Body Number</label>
+                        <input type="text" id="modal-bus-number" class="form-control" placeholder="e.g. BTH-105" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="modal-plate-number">LTO Plate Number</label>
+                        <input type="text" id="modal-plate-number" class="form-control" placeholder="e.g. NBD 4892" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="modal-bus-type">Service Class</label>
+                        <select id="modal-bus-type" class="form-control form-select" required>
+                            <option value="aircon">Air-Conditioned Express</option>
+                            <option value="ordinary">Ordinary Commuter</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="modal-capacity">Seating Capacity</label>
+                        <input type="number" id="modal-capacity" class="form-control" value="40" min="20" max="60" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="modal-status">Operational Status</label>
+                        <select id="modal-status" class="form-control form-select">
+                            <option value="active">Active (Available for Dispatch)</option>
+                            <option value="maintenance">Maintenance / Repair</option>
+                            <option value="inactive">Inactive / Standby</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" id="btn-save-bus" class="btn btn-primary w-100" style="height: 42px; font-weight: 700;">
+                        Save Bus Information
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/modal.js"></script>
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.protectPage('admin');
+            if (!user) return;
+
+            document.getElementById('btn-admin-logout').addEventListener('click', () => Auth.logout());
+
+            let allBuses = [];
+
+            async function loadBuses() {
+                const loading = document.getElementById('buses-loading');
+                const wrapper = document.getElementById('buses-table-wrapper');
+
+                try {
+                    const res = await Api.get(API_CONFIG.ENDPOINTS.ADMIN.BUSES);
+                    loading.style.display = 'none';
+
+                    if (res.success && res.data) {
+                        allBuses = res.data;
+                        wrapper.style.display = 'block';
+                        renderBuses();
+                    }
+                } catch (e) {
+                    loading.style.display = 'none';
+                    Toast.error('Could not load bus fleet.');
+                }
+            }
+
+            function renderBuses() {
+                const tbody = document.getElementById('buses-table-body');
+                const search = document.getElementById('bus-search-input').value.toLowerCase().trim();
+
+                const filtered = allBuses.filter(b => {
+                    const text = `${b.bus_number || ''} ${b.plate_number || ''} ${b.bus_type || ''}`.toLowerCase();
+                    return !search || text.includes(search);
+                });
+
+                tbody.innerHTML = filtered.map(b => {
+                    const isAircon = ((b.bus_type_code || b.bus_type || '').toLowerCase()).includes('air');
+                    const statusClass = (b.status || 'active').toLowerCase();
+                    return `
+                        <tr>
+                            <td>
+                                <strong style="font-family: var(--font-mono); font-size: 1rem; color: var(--text-primary);">
+                                    ${DOM.escapeHtml(b.bus_number)}
+                                </strong>
+                            </td>
+                            <td>
+                                <code style="font-family: var(--font-mono);">${DOM.escapeHtml(b.plate_number)}</code>
+                            </td>
+                            <td>
+                                <span class="bus-type-pill ${isAircon ? 'aircon' : 'ordinary'}">
+                                    ${isAircon ? '<i class="fa-solid fa-snowflake"></i> Aircon Express' : '<i class="fa-solid fa-wind"></i> Ordinary'}
+                                </span>
+                            </td>
+                            <td>
+                                <strong>${b.capacity || 40} Seats</strong>
+                            </td>
+                            <td>
+                                <span class="status-pill ${statusClass}">${DOM.escapeHtml(b.status || 'ACTIVE')}</span>
+                            </td>
+                            <td>
+                                <button class="btn btn-outline btn-sm edit-bus-btn" data-bus='${JSON.stringify(b)}' style="padding: 2px 8px; font-size: 0.75rem;">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+
+                tbody.querySelectorAll('.edit-bus-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const b = JSON.parse(btn.dataset.bus);
+                        document.getElementById('bus-modal-title').textContent = `Edit Bus ${b.bus_number}`;
+                        document.getElementById('modal-bus-id').value = b.bus_id || '';
+                        document.getElementById('modal-bus-number').value = b.bus_number || '';
+                        document.getElementById('modal-plate-number').value = b.plate_number || '';
+                        document.getElementById('modal-bus-type').value = b.bus_type || 'aircon';
+                        document.getElementById('modal-capacity').value = b.capacity || 40;
+                        document.getElementById('modal-status').value = b.status || 'active';
+                        Modal.open('bus-modal');
+                    });
+                });
+            }
+
+            document.getElementById('bus-search-input').addEventListener('input', renderBuses);
+
+            document.getElementById('btn-open-add-bus-modal').addEventListener('click', () => {
+                document.getElementById('bus-modal-title').textContent = 'Add Route 6 Bus';
+                document.getElementById('bus-form').reset();
+                document.getElementById('modal-bus-id').value = '';
+                Modal.open('bus-modal');
+            });
+
+            document.getElementById('bus-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const saveBtn = document.getElementById('btn-save-bus');
+                DOM.setLoading(saveBtn, true, 'Saving...');
+
+                const busId = document.getElementById('modal-bus-id').value;
+                const payload = {
+                    bus_id: busId || undefined,
+                    bus_number: document.getElementById('modal-bus-number').value.trim(),
+                    plate_number: document.getElementById('modal-plate-number').value.trim(),
+                    bus_type: document.getElementById('modal-bus-type').value,
+                    capacity: parseInt(document.getElementById('modal-capacity').value, 10),
+                    status: document.getElementById('modal-status').value
+                };
+
+                try {
+                    const res = await Api.post(API_CONFIG.ENDPOINTS.ADMIN.BUSES, payload);
+                    if (res.success) {
+                        Toast.success('Bus details saved successfully.');
+                        Modal.close('bus-modal');
+                        loadBuses();
+                    } else {
+                        Toast.error(res.message || 'Failed to save bus.');
+                    }
+                } catch (err) {
+                    Toast.error('Network error updating fleet.');
+                } finally {
+                    DOM.setLoading(saveBtn, false, 'Save Bus Information');
+                }
+            });
+
+            loadBuses();
+        });
+    </script>
+</body>
+</html>
+
+

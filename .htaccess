@@ -1,0 +1,72 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 1. Route API requests to PHP Backend
+    RewriteRule ^api/(.*)$ backend/public/index.php [QSA,L]
+
+    # 2. Route storage uploads
+    RewriteRule ^storage/uploads/(.*)$ backend/storage/uploads/$1 [L]
+
+    # 3. Route static assets to frontend folder if not found in root
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(css|js|assets|fonts)/(.*)$ frontend/$1/$2 [L]
+
+    # 4. Clean URL Mappings (No .html or /frontend in browser)
+    RewriteRule ^$ frontend/index.html [L]
+    RewriteRule ^home/?$ frontend/index.html [L]
+    RewriteRule ^routes/?$ frontend/pages/public/routes.html [L]
+    RewriteRule ^schedules/?$ frontend/pages/public/schedules.html [L]
+    RewriteRule ^services/?$ frontend/pages/public/services.html [L]
+    RewriteRule ^about/?$ frontend/pages/public/about.html [L]
+    RewriteRule ^contact/?$ frontend/pages/public/contact.html [L]
+    RewriteRule ^login/?$ frontend/pages/public/login.html [L]
+    RewriteRule ^register/?$ frontend/pages/public/register.html [L]
+    
+    # Passenger Pages
+    RewriteRule ^book(-trip)?/?$ frontend/pages/passenger/book-trip.html [L]
+    RewriteRule ^passenger/?$ frontend/pages/passenger/dashboard.html [L]
+    RewriteRule ^passenger/dashboard/?$ frontend/pages/passenger/dashboard.html [L]
+    RewriteRule ^passenger/my-tickets/?$ frontend/pages/passenger/my-tickets.html [L]
+    RewriteRule ^passenger/ticket-details/?$ frontend/pages/passenger/ticket-details.html [L]
+    RewriteRule ^passenger/booking-history/?$ frontend/pages/passenger/booking-history.html [L]
+    RewriteRule ^passenger/notifications/?$ frontend/pages/passenger/notifications.html [L]
+    RewriteRule ^passenger/profile/?$ frontend/pages/passenger/profile.html [L]
+    RewriteRule ^passenger/seat-selection/?$ frontend/pages/passenger/seat-selection.html [L]
+    RewriteRule ^passenger/passenger-details/?$ frontend/pages/passenger/passenger-details.html [L]
+    RewriteRule ^passenger/checkout/?$ frontend/pages/passenger/checkout.html [L]
+    RewriteRule ^passenger/confirmation/?$ frontend/pages/passenger/booking-confirmation.html [L]
+
+    # Admin Pages
+    RewriteRule ^admin/?$ frontend/pages/admin/dashboard.html [L]
+    RewriteRule ^admin/dashboard/?$ frontend/pages/admin/dashboard.html [L]
+    RewriteRule ^admin/buses/?$ frontend/pages/admin/buses.html [L]
+    RewriteRule ^admin/routes/?$ frontend/pages/admin/routes.html [L]
+    RewriteRule ^admin/stops/?$ frontend/pages/admin/stops.html [L]
+    RewriteRule ^admin/schedules/?$ frontend/pages/admin/schedules.html [L]
+    RewriteRule ^admin/bookings/?$ frontend/pages/admin/bookings.html [L]
+    RewriteRule ^admin/passengers/?$ frontend/pages/admin/passengers.html [L]
+    RewriteRule ^admin/discounts/?$ frontend/pages/admin/discounts.html [L]
+    RewriteRule ^admin/payments/?$ frontend/pages/admin/payments.html [L]
+    RewriteRule ^admin/staff/?$ frontend/pages/admin/staff.html [L]
+    RewriteRule ^admin/reports/?$ frontend/pages/admin/reports.html [L]
+    RewriteRule ^admin/settings/?$ frontend/pages/admin/settings.html [L]
+
+    # Staff Pages
+    RewriteRule ^staff/?$ frontend/pages/staff/dashboard.html [L]
+    RewriteRule ^staff/dashboard/?$ frontend/pages/staff/dashboard.html [L]
+    RewriteRule ^staff/assigned-trips/?$ frontend/pages/staff/assigned-trips.html [L]
+    RewriteRule ^staff/passenger-manifest/?$ frontend/pages/staff/passenger-manifest.html [L]
+    RewriteRule ^staff/qr-scanner/?$ frontend/pages/staff/qr-scanner.html [L]
+    RewriteRule ^staff/incidents/?$ frontend/pages/staff/incidents.html [L]
+
+    # 5. Fallback for physical files
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 6. Fallback inside frontend
+    RewriteCond %{DOCUMENT_ROOT}/frontend/$1 -f
+    RewriteRule ^(.*)$ frontend/$1 [L]
+</IfModule>
+

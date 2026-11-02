@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Bookings & Seats — BONHAGAN TRANSIT ADMIN</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="admin-layout">
+
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+            <div>
+                <h2>BONHAGAN</h2>
+                <span>ADMIN DISPATCH</span>
+            </div>
+        </div>
+
+        <nav class="admin-sidebar-nav">
+            <div class="sidebar-group-title">Overview</div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="reports.html" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Revenue & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Operations</div>
+            <ul class="sidebar-menu">
+                <li><a href="buses.html" class="sidebar-link"><i class="fa-solid fa-bus"></i> Fleet Management</a></li>
+                <li><a href="schedules.html" class="sidebar-link"><i class="fa-solid fa-calendar-days"></i> Daily Schedules</a></li>
+                <li><a href="routes.html" class="sidebar-link"><i class="fa-solid fa-route"></i> Routes & Segments</a></li>
+                <li><a href="stops.html" class="sidebar-link"><i class="fa-solid fa-location-dot"></i> Station Stops</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Ticketing & Finance</div>
+            <ul class="sidebar-menu">
+                <li><a href="bookings.html" class="sidebar-link active"><i class="fa-solid fa-ticket"></i> Bookings & Seats</a></li>
+                <li><a href="payments.html" class="sidebar-link"><i class="fa-solid fa-credit-card"></i> Payments & Cash</a></li>
+                <li><a href="discounts.html" class="sidebar-link"><i class="fa-solid fa-scale-balanced"></i> Discount Approvals</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Users & Admin</div>
+            <ul class="sidebar-menu">
+                <li><a href="passengers.html" class="sidebar-link"><i class="fa-solid fa-users"></i> Passengers</a></li>
+                <li><a href="staff.html" class="sidebar-link"><i class="fa-solid fa-user-tie"></i> Staff & Conductors</a></li>
+                <li><a href="settings.html" class="sidebar-link"><i class="fa-solid fa-gear"></i> System Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <span style="font-size: 0.8rem; font-weight: 600;">Admin</span>
+            <button id="btn-admin-logout" class="btn btn-outline btn-sm" style="color: #FFF; border-color: rgba(255,255,255,0.2); font-size: 0.72rem; padding: 2px 8px;">Logout</button>
+        </div>
+    </aside>
+
+    <div class="admin-viewport">
+        <header class="admin-topbar">
+            <div class="admin-topbar-left">
+                <button type="button" class="admin-toggle-btn" aria-label="Toggle sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="admin-page-title">Passenger Bookings & Ticket Registry</h1>
+            </div>
+
+            <div class="admin-topbar-right">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="data-table-wrapper">
+                <div class="data-table-toolbar">
+                    <input type="text" id="booking-search-input" class="form-control" placeholder="Search reference, passenger, or phone..." style="width: 280px; height: 38px; font-size: 0.85rem;">
+                    
+                    <select id="booking-status-filter" class="form-control form-select" style="width: auto; height: 38px; font-size: 0.85rem;">
+                        <option value="all" selected>All Statuses</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="pending">Pending</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div id="bookings-loading" class="text-center py-8">
+                    <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Loading bookings database...</p>
+                </div>
+
+                <div id="bookings-table-wrapper" class="data-table-scroll" style="display: none;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Booking Ref</th>
+                                <th>Contact / Passenger</th>
+                                <th>Route Corridor</th>
+                                <th>Departure</th>
+                                <th>Seats</th>
+                                <th>Fare</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-table-body">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.protectPage('admin');
+            if (!user) return;
+
+            document.getElementById('btn-admin-logout').addEventListener('click', () => Auth.logout());
+
+            let allBookings = [];
+
+            async function loadBookings() {
+                const loading = document.getElementById('bookings-loading');
+                const wrapper = document.getElementById('bookings-table-wrapper');
+
+                try {
+                    const res = await Api.get(API_CONFIG.ENDPOINTS.ADMIN.BOOKINGS);
+                    loading.style.display = 'none';
+
+                    if (res.success && res.data) {
+                        allBookings = res.data;
+                        wrapper.style.display = 'block';
+                        renderBookings();
+                    }
+                } catch (e) {
+                    loading.style.display = 'none';
+                    Toast.error('Could not load bookings.');
+                }
+            }
+
+            function renderBookings() {
+                const tbody = document.getElementById('bookings-table-body');
+                const search = document.getElementById('booking-search-input').value.toLowerCase().trim();
+                const status = document.getElementById('booking-status-filter').value;
+
+                const filtered = allBookings.filter(b => {
+                    const matchStatus = status === 'all' || (b.status || '').toLowerCase() === status.toLowerCase();
+                    const text = `${b.booking_reference || ''} ${b.passenger_name || ''} ${b.contact_name || ''} ${b.contact_phone || ''}`.toLowerCase();
+                    const matchSearch = !search || text.includes(search);
+                    return matchStatus && matchSearch;
+                });
+
+                tbody.innerHTML = filtered.map(b => {
+                    const statusClass = (b.status || 'confirmed').toLowerCase();
+                    return `
+                        <tr>
+                            <td><strong style="font-family: var(--font-mono); color: var(--text-primary);">${DOM.escapeHtml(b.booking_reference || ('#BK-' + b.booking_id))}</strong></td>
+                            <td>
+                                <strong>${DOM.escapeHtml(b.passenger_name || b.contact_name || 'Passenger')}</strong>
+                                <small style="display: block; color: var(--text-muted);">${DOM.escapeHtml(b.contact_phone || b.phone || '—')}</small>
+                            </td>
+                            <td>${DOM.escapeHtml(b.origin_name || 'Monumento')} → ${DOM.escapeHtml(b.destination_name || 'Sapang Palay')}</td>
+                            <td>${FormatUtil.date(b.departure_time, true)}</td>
+                            <td><span class="badge badge-info">${DOM.escapeHtml(b.seat_numbers || '1A')}</span></td>
+                            <td><strong>${FormatUtil.currency(b.total_amount || 0)}</strong></td>
+                            <td><span class="status-pill ${statusClass}">${DOM.escapeHtml(b.status || 'CONFIRMED')}</span></td>
+                            <td>
+                                <a href="../passenger/ticket-details.html?booking_id=${b.booking_id}" class="btn btn-outline btn-sm" style="padding: 2px 8px; font-size: 0.75rem;">
+                                    View Pass
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            document.getElementById('booking-search-input').addEventListener('input', renderBookings);
+            document.getElementById('booking-status-filter').addEventListener('change', renderBookings);
+
+            loadBookings();
+        });
+    </script>
+</body>
+</html>
+
+

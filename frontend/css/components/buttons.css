@@ -1,0 +1,107 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Button Components
+   ========================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1;
+    padding: 0.75rem 1.35rem;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    text-align: center;
+    user-select: none;
+    border: 1px solid transparent;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn:disabled, .btn[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Primary Button (Vivid Yellow — Official Transit Brand Action) */
+.btn-primary {
+    background-color: var(--color-accent-amber);
+    color: #0F172A;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(254, 204, 2, 0.35);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-accent-amber-hover);
+    color: #0F172A;
+    box-shadow: 0 4px 12px rgba(254, 204, 2, 0.45);
+    transform: translateY(-1px);
+}
+
+/* Secondary Button (Navy Brand) */
+.btn-navy {
+    background-color: var(--color-primary-navy);
+    color: #FFFFFF;
+}
+
+.btn-navy:hover {
+    background-color: var(--color-secondary-navy);
+}
+
+/* Outline Button */
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text-primary);
+}
+
+.btn-outline:hover {
+    background: var(--bg-surface-muted);
+    border-color: var(--text-secondary);
+}
+
+/* Subtle / Ghost Button */
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+    background: var(--bg-surface-muted);
+    color: var(--text-primary);
+}
+
+/* Danger Button */
+.btn-danger {
+    background-color: var(--color-danger);
+    color: #FFFFFF;
+}
+
+.btn-danger:hover {
+    background-color: #B91C1C;
+}
+
+/* Sizes */
+.btn-sm {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.8125rem;
+    border-radius: var(--radius-sm);
+}
+
+.btn-lg {
+    padding: 0.95rem 1.75rem;
+    font-size: 1.0625rem;
+    border-radius: var(--radius-lg);
+}
+
+.btn-block {
+    display: flex;
+    width: 100%;
+}
+

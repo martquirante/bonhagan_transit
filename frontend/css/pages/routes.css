@@ -1,0 +1,521 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Routes & Stops Page Stylesheet
+   Crafted Transportation System Timeline & Fare Matrix UI
+   ========================================================= */
+
+.routes-page-header {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.96) 100%);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: var(--space-10) 0 var(--space-8);
+    position: relative;
+    overflow: hidden;
+}
+
+html[data-theme="dark"] .routes-page-header {
+    background: linear-gradient(135deg, #070D18 0%, #0F1A2E 100%);
+}
+
+.routes-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--color-accent-amber);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+}
+
+.routes-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin: 0 0 var(--space-2) 0;
+}
+
+.routes-subtitle {
+    color: #94A3B8;
+    font-size: 1.05rem;
+    max-width: 680px;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Route Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin: var(--space-8) 0;
+}
+
+@media (max-width: 1024px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stat-tile {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.stat-tile:hover {
+    border-color: var(--color-accent-amber);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-tile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+}
+
+.stat-tile-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.stat-tile-icon {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-accent-amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+}
+
+.stat-tile-value {
+    font-size: 1.75rem;
+    font-family: var(--font-mono);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: var(--space-2);
+    letter-spacing: -0.02em;
+}
+
+.stat-tile-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+/* Two-Column Routes Layout */
+.routes-layout-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: var(--space-8);
+    align-items: start;
+    margin-bottom: var(--space-16);
+}
+
+@media (max-width: 1024px) {
+    .routes-layout-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+    }
+}
+
+/* Transit Timeline Architecture */
+.transit-timeline-container {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-sm);
+}
+
+.timeline-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.timeline-header-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+}
+
+.timeline-track {
+    position: relative;
+    padding-left: 3.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.timeline-track::before {
+    content: '';
+    position: absolute;
+    left: 1.25rem;
+    top: 24px;
+    bottom: 24px;
+    width: 3px;
+    background: #0F172A;
+    border-radius: 3px;
+    z-index: 1;
+}
+
+html[data-theme="dark"] .timeline-track::before {
+    background: #FFFFFF;
+}
+
+html[data-theme="light"] .timeline-track::before {
+    background: #0F172A;
+}
+
+/* Individual Transit Node Card */
+.transit-node-row {
+    position: relative;
+}
+
+.transit-node-beacon {
+    position: absolute;
+    left: calc(-3.25rem + 0.25rem);
+    top: 18px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    border: 3px solid var(--border-strong);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 4px var(--bg-surface);
+    transition: all var(--transition-fast);
+}
+
+.transit-node-row:hover .transit-node-beacon {
+    transform: scale(1.1);
+}
+
+.transit-node-beacon.origin {
+    border-color: var(--color-accent-amber);
+    background: var(--color-accent-amber);
+    color: #0F172A;
+    box-shadow: 0 0 0 4px rgba(254, 204, 2, 0.35);
+}
+
+.transit-node-beacon.destination {
+    border-color: var(--color-success);
+    background: var(--color-success);
+    color: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.25);
+}
+
+.transit-card {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-5);
+    transition: all var(--transition-fast);
+}
+
+.transit-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-md);
+    transform: translateX(3px);
+}
+
+.transit-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+    flex-wrap: wrap;
+}
+
+.transit-stop-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.transit-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-2) 0;
+    line-height: 1.45;
+}
+
+.transit-card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.transit-km-chip {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    padding: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-accent-amber);
+    border: none;
+}
+
+/* Sticky Fare Calculator Card */
+.calculator-sticky-wrapper {
+    position: sticky;
+    top: 92px;
+    z-index: 10;
+}
+
+.calculator-card {
+    background: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.calc-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-1) 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.calc-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0 0 var(--space-5) 0;
+}
+
+.calc-form-group {
+    margin-bottom: var(--space-4);
+}
+
+.calc-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+}
+
+.calc-select {
+    width: 100%;
+    height: 44px;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--bg-input);
+    border: 1px solid var(--border-strong);
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    outline: none;
+    transition: all var(--transition-fast);
+}
+
+.calc-select:focus {
+    border-color: var(--color-accent-amber);
+    box-shadow: 0 0 0 3px rgba(254, 204, 2, 0.25);
+}
+
+/* Bus Service Class Toggle Tabs */
+.bus-class-toggle-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    background: var(--bg-input);
+    padding: 4px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+    margin-bottom: var(--space-5);
+}
+
+.bus-class-radio-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.6rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+
+.bus-class-radio-label input {
+    display: none;
+}
+
+.bus-class-radio-label.active {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.bus-class-radio-label.active .fa-snowflake {
+    color: #38BDF8;
+}
+
+.bus-class-radio-label.active .fa-wind {
+    color: #10B981;
+}
+
+/* Live Fare Receipt Display */
+.fare-receipt-box {
+    background: var(--bg-surface-muted);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-5);
+}
+
+.fare-receipt-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-2) 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.fare-receipt-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.fare-receipt-value {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.fare-receipt-total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border-strong);
+}
+
+.fare-total-label {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.fare-total-amount {
+    font-size: 1.85rem;
+    font-family: var(--font-mono);
+    font-weight: 800;
+    color: var(--color-accent-amber);
+    line-height: 1;
+}
+
+.fare-discount-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-success-bg);
+    border: 1px solid var(--color-success);
+    padding: 0.45rem 0.75rem;
+    border-radius: var(--radius-md);
+    margin-top: var(--space-3);
+    font-size: 0.8rem;
+    color: var(--color-success);
+    font-weight: 700;
+}
+
+html[data-theme="dark"] .transit-node-beacon.destination {
+    color: #0F172A;
+}
+
+/* Mobile Responsiveness for Corridor Stations & Fare Matrix */
+@media (max-width: 640px) {
+    .transit-timeline-container {
+        padding: var(--space-4) var(--space-3);
+    }
+    .timeline-track {
+        padding-left: 2.5rem;
+    }
+    .timeline-track::before {
+        left: 0.95rem;
+    }
+    .transit-node-beacon {
+        left: calc(-2.5rem + 0.15rem);
+        width: 30px;
+        height: 30px;
+        font-size: 0.72rem;
+        top: 14px;
+    }
+    .transit-card {
+        padding: var(--space-3) var(--space-3);
+    }
+    .transit-stop-name {
+        font-size: 0.95rem;
+    }
+    .calculator-sticky-wrapper {
+        position: static;
+    }
+    .fare-calculator-card {
+        padding: var(--space-4);
+    }
+}
+
+

@@ -1,0 +1,83 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Dark Theme Overrides & High Contrast
+   ========================================================= */
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html[data-theme="dark"] .hero-section {
+    background: linear-gradient(135deg, #070B13 0%, #0D1627 70%, #0A1424 100%);
+    color: #FFFFFF;
+}
+
+html[data-theme="dark"] .bus-card-showcase {
+    background: #131E32;
+    border-color: #233554;
+}
+
+html[data-theme="dark"] .bus-cutout-img {
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6));
+}
+
+html[data-theme="dark"] .table-portal tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Stat Tiles & Route Metrics — Guaranteed High Contrast */
+html[data-theme="dark"] .stat-tile,
+html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .transit-card,
+html[data-theme="dark"] .calculator-card {
+    background-color: var(--bg-surface);
+    border-color: var(--border-subtle);
+}
+
+html[data-theme="dark"] .stat-tile-value,
+html[data-theme="dark"] .stat-card-value {
+    color: #F8FAFC !important;
+}
+
+html[data-theme="dark"] .stat-tile-label,
+html[data-theme="dark"] .stat-card-label {
+    color: #94A3B8 !important;
+}
+
+html[data-theme="dark"] .stat-tile-desc,
+html[data-theme="dark"] .transit-card-desc {
+    color: #CBD5E1 !important;
+}
+
+html[data-theme="dark"] .transit-card-meta {
+    color: #94A3B8 !important;
+}
+
+/* Form Controls & Select Options */
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] .calc-select {
+    background-color: var(--bg-input);
+    color: #F8FAFC;
+    border-color: #24344D;
+}
+
+html[data-theme="dark"] select option,
+html[data-theme="dark"] select optgroup {
+    background-color: #101B2E;
+    color: #F8FAFC;
+}
+
+/* Tables in Dark Mode */
+html[data-theme="dark"] .data-table th,
+html[data-theme="dark"] .table-portal th {
+    background-color: #16243D;
+    color: #CBD5E1;
+    border-color: #24344D;
+}
+
+html[data-theme="dark"] .data-table td,
+html[data-theme="dark"] .table-portal td {
+    border-color: #1E2D44;
+    color: #F1F5F9;
+}
+

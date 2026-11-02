@@ -1,0 +1,205 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Electronic Ticket Card & Print Styles
+   ========================================================= */
+
+.ticket-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    perspective: 1000px;
+}
+
+.ticket-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    position: relative;
+}
+
+.ticket-header {
+    background: var(--color-primary-navy);
+    color: #FFFFFF;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--color-accent-amber);
+}
+
+.ticket-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ticket-brand img {
+    height: 40px;
+}
+
+.ticket-brand h4 {
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+}
+
+.ticket-badge {
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ticket-badge-valid { background: var(--color-success-bg); color: var(--color-success); border: 1px solid var(--color-success); }
+.ticket-badge-boarded { background: var(--color-info-bg); color: var(--color-info); border: 1px solid var(--color-info); }
+.ticket-badge-cancelled { background: var(--color-danger-bg); color: var(--color-danger); border: 1px solid var(--color-danger); }
+.ticket-badge-pending { background: var(--color-warning-bg); color: var(--color-warning); border: 1px solid var(--color-warning); }
+
+.ticket-body {
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .ticket-body {
+        grid-template-columns: 1fr auto;
+        gap: 2rem;
+    }
+}
+
+.ticket-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.ticket-field-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.ticket-field-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.ticket-field-value.highlight {
+    color: var(--color-accent-amber);
+    font-size: 1.15rem;
+}
+
+.ticket-qr-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-strong);
+    text-align: center;
+}
+
+.ticket-qr-section svg {
+    width: 140px;
+    height: 140px;
+}
+
+.ticket-qr-token {
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    color: #64748B;
+    margin-top: 0.5rem;
+}
+
+/* Perforation Tear Line */
+.ticket-perforation {
+    position: relative;
+    height: 0;
+    border-top: 2px dashed var(--border-strong);
+    margin: 0;
+}
+
+.ticket-perforation::before, .ticket-perforation::after {
+    content: '';
+    position: absolute;
+    top: -12px;
+    width: 24px;
+    height: 24px;
+    background: var(--bg-main);
+    border-radius: 50%;
+}
+
+.ticket-perforation::before { left: -13px; }
+.ticket-perforation::after { right: -13px; }
+
+.ticket-footer {
+    padding: 1.25rem 2rem;
+    background: var(--bg-surface-muted);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+}
+
+.ticket-bus-visual {
+    max-height: 85px;
+    object-fit: contain;
+}
+
+@media (max-width: 640px) {
+    .ticket-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+        padding: 1.25rem 1rem;
+    }
+    .ticket-header > div:last-child {
+        text-align: left !important;
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+    }
+    .ticket-body {
+        padding: 1.25rem 1rem;
+    }
+    .ticket-info-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    .ticket-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-2);
+        padding: 1rem;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .ticket-card, .ticket-card * {
+        visibility: visible;
+    }
+    .ticket-card {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
+

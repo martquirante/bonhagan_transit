@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Trip Dispatch & Schedules — BONHAGAN TRANSIT ADMIN</title>
+    <link rel="icon" type="image/png" href="../../assets/images/logo/bonhagan-logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body class="admin-layout">
+
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-sidebar-header">
+            <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
+            <div>
+                <h2>BONHAGAN</h2>
+                <span>ADMIN DISPATCH</span>
+            </div>
+        </div>
+
+        <nav class="admin-sidebar-nav">
+            <div class="sidebar-group-title">Overview</div>
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="reports.html" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Revenue & Reports</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Operations</div>
+            <ul class="sidebar-menu">
+                <li><a href="buses.html" class="sidebar-link"><i class="fa-solid fa-bus"></i> Fleet Management</a></li>
+                <li><a href="schedules.html" class="sidebar-link active"><i class="fa-solid fa-calendar-days"></i> Daily Schedules</a></li>
+                <li><a href="routes.html" class="sidebar-link"><i class="fa-solid fa-route"></i> Routes & Segments</a></li>
+                <li><a href="stops.html" class="sidebar-link"><i class="fa-solid fa-location-dot"></i> Station Stops</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Ticketing & Finance</div>
+            <ul class="sidebar-menu">
+                <li><a href="bookings.html" class="sidebar-link"><i class="fa-solid fa-ticket"></i> Bookings & Seats</a></li>
+                <li><a href="payments.html" class="sidebar-link"><i class="fa-solid fa-credit-card"></i> Payments & Cash</a></li>
+                <li><a href="discounts.html" class="sidebar-link"><i class="fa-solid fa-scale-balanced"></i> Discount Approvals</a></li>
+            </ul>
+
+            <div class="sidebar-group-title">Users & Admin</div>
+            <ul class="sidebar-menu">
+                <li><a href="passengers.html" class="sidebar-link"><i class="fa-solid fa-users"></i> Passengers</a></li>
+                <li><a href="staff.html" class="sidebar-link"><i class="fa-solid fa-user-tie"></i> Staff & Conductors</a></li>
+                <li><a href="settings.html" class="sidebar-link"><i class="fa-solid fa-gear"></i> System Settings</a></li>
+            </ul>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <span style="font-size: 0.8rem; font-weight: 600;">Admin</span>
+            <button id="btn-admin-logout" class="btn btn-outline btn-sm" style="color: #FFF; border-color: rgba(255,255,255,0.2); font-size: 0.72rem; padding: 2px 8px;">Logout</button>
+        </div>
+    </aside>
+
+    <div class="admin-viewport">
+        <header class="admin-topbar">
+            <div class="admin-topbar-left">
+                <button type="button" class="admin-toggle-btn" aria-label="Toggle sidebar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h1 class="admin-page-title">Trip Scheduling & Dispatch Matrix</h1>
+            </div>
+
+            <div class="admin-topbar-right">
+                <button type="button" class="theme-toggle-btn" aria-label="Toggle theme">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                </button>
+                <button type="button" id="btn-open-add-trip-modal" class="btn btn-primary btn-sm">+ Schedule New Run</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <div class="data-table-wrapper">
+                <div class="data-table-toolbar">
+                    <input type="date" id="trip-date-filter" class="form-control" style="width: auto; height: 38px; font-size: 0.85rem;">
+                </div>
+
+                <div id="trips-loading" class="text-center py-8">
+                    <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
+                    <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Loading daily scheduled trips...</p>
+                </div>
+
+                <div id="trips-table-wrapper" class="data-table-scroll" style="display: none;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Trip ID</th>
+                                <th>Bus Coach</th>
+                                <th>Corridor Run</th>
+                                <th>Departure Time</th>
+                                <th>Base Fare</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trips-table-body">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Schedule Trip Modal -->
+    <div class="modal" id="trip-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">Schedule Route 6 Bus Trip</h3>
+                <button type="button" class="modal-close" data-close-modal>&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="trip-form">
+                    <div class="form-group">
+                        <label class="form-label" for="trip-bus-select">Assign Bus Coach</label>
+                        <select id="trip-bus-select" class="form-control form-select" required>
+                            <!-- Populated via API -->
+                        </select>
+                    </div>
+
+                    <div class="d-flex gap-3" style="flex-wrap: wrap;">
+                        <div class="form-group flex-1" style="min-width: 200px;">
+                            <label class="form-label" for="trip-origin-select">Origin Terminal</label>
+                            <select id="trip-origin-select" class="form-control form-select" required>
+                                <option value="1" selected>Monumento Terminal (Caloocan)</option>
+                                <option value="7">Sapang Palay Central Terminal</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex-1" style="min-width: 200px;">
+                            <label class="form-label" for="trip-dest-select">Destination Terminal</label>
+                            <select id="trip-dest-select" class="form-control form-select" required>
+                                <option value="7" selected>Sapang Palay Central Terminal</option>
+                                <option value="1">Monumento Terminal (Caloocan)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3" style="flex-wrap: wrap;">
+                        <div class="form-group flex-1" style="min-width: 200px;">
+                            <label class="form-label" for="trip-datetime">Scheduled Departure Date & Time</label>
+                            <input type="datetime-local" id="trip-datetime" class="form-control" required>
+                        </div>
+                        <div class="form-group flex-1" style="min-width: 200px;">
+                            <label class="form-label" for="trip-fare">Base Regular Fare (₱)</label>
+                            <input type="number" id="trip-fare" class="form-control" value="65.00" step="0.5" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-save-trip" class="btn btn-primary w-100" style="height: 42px; font-weight: 700;">
+                        Schedule Run & Generate Seats
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../js/config/api-config.js"></script>
+    <script src="../../js/utils/storage.js"></script>
+    <script src="../../js/utils/dom.js"></script>
+    <script src="../../js/utils/formatting.js"></script>
+    <script src="../../js/components/toast.js"></script>
+    <script src="../../js/components/modal.js"></script>
+    <script src="../../js/components/sidebar.js"></script>
+    <script src="../../js/core/theme.js"></script>
+    <script src="../../js/core/session.js"></script>
+    <script src="../../js/core/api.js"></script>
+    <script src="../../js/core/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await Auth.protectPage('admin');
+            if (!user) return;
+
+            document.getElementById('btn-admin-logout').addEventListener('click', () => Auth.logout());
+
+            const dateFilter = document.getElementById('trip-date-filter');
+            const today = new Date().toISOString().split('T')[0];
+            dateFilter.value = today;
+
+            // Load bus options for modal
+            try {
+                const bRes = await Api.get(API_CONFIG.ENDPOINTS.ADMIN.BUSES);
+                if (bRes.success && bRes.data) {
+                    document.getElementById('trip-bus-select').innerHTML = bRes.data.map(b => `
+                        <option value="${b.bus_id}">${DOM.escapeHtml(b.bus_number)} • ${DOM.escapeHtml(b.plate_number)} (${(b.bus_type || 'aircon').toUpperCase()})</option>
+                    `).join('');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+
+            async function loadTrips() {
+                const loading = document.getElementById('trips-loading');
+                const wrapper = document.getElementById('trips-table-wrapper');
+                const tbody = document.getElementById('trips-table-body');
+
+                loading.style.display = 'block';
+                wrapper.style.display = 'none';
+
+                try {
+                    const res = await Api.get(API_CONFIG.ENDPOINTS.ADMIN.TRIPS, { date: dateFilter.value });
+                    loading.style.display = 'none';
+
+                    if (res.success && res.data && res.data.length > 0) {
+                        wrapper.style.display = 'block';
+                        tbody.innerHTML = res.data.map(t => {
+                            const isAircon = ((t.bus_type_code || t.bus_type || '').toLowerCase()).includes('air');
+                            return `
+                                <tr>
+                                    <td><strong style="font-family: var(--font-mono); font-size: 0.85rem;">#TRP-${t.trip_id}</strong></td>
+                                    <td>
+                                        <strong>${DOM.escapeHtml(t.bus_number || 'BTH-101')}</strong>
+                                        <span class="bus-type-pill ${isAircon ? 'aircon' : 'ordinary'}">${isAircon ? '<i class="fa-solid fa-snowflake"></i> Aircon' : '<i class="fa-solid fa-wind"></i> Ordinary'}</span>
+                                    </td>
+                                    <td>${DOM.escapeHtml(t.origin_name || 'Monumento')} <i class="fa-solid fa-arrow-right" style="margin: 0 4px; font-size: 0.85em;"></i> ${DOM.escapeHtml(t.destination_name || 'Sapang Palay')}</td>
+                                    <td>
+                                        <div>${FormatUtil.date(t.departure_time)}</div>
+                                        <small style="color: var(--text-muted);">${FormatUtil.time(t.departure_time)}</small>
+                                    </td>
+                                    <td><strong>${FormatUtil.currency(t.base_fare || 65.00)}</strong></td>
+                                    <td><span class="status-pill scheduled">${DOM.escapeHtml(t.status || 'SCHEDULED')}</span></td>
+                                    <td>
+                                        <a href="../staff/passenger-manifest.html?trip_id=${t.trip_id}" class="btn btn-outline btn-sm" style="padding: 2px 8px; font-size: 0.75rem;">
+                                            Manifest
+                                        </a>
+                                    </td>
+                                </tr>
+                            `;
+                        }).join('');
+                    } else {
+                        wrapper.style.display = 'block';
+                        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4" style="color: var(--text-muted);">No trips scheduled for selected date.</td></tr>`;
+                    }
+                } catch (e) {
+                    loading.style.display = 'none';
+                    Toast.error('Could not load schedules.');
+                }
+            }
+
+            dateFilter.addEventListener('change', loadTrips);
+
+            document.getElementById('btn-open-add-trip-modal').addEventListener('click', () => {
+                document.getElementById('trip-form').reset();
+                Modal.open('trip-modal');
+            });
+
+            document.getElementById('trip-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const saveBtn = document.getElementById('btn-save-trip');
+                DOM.setLoading(saveBtn, true, 'Scheduling...');
+
+                const payload = {
+                    bus_id: document.getElementById('trip-bus-select').value,
+                    origin_stop_id: document.getElementById('trip-origin-select').value,
+                    destination_stop_id: document.getElementById('trip-dest-select').value,
+                    departure_time: document.getElementById('trip-datetime').value,
+                    base_fare: parseFloat(document.getElementById('trip-fare').value)
+                };
+
+                try {
+                    const res = await Api.post(API_CONFIG.ENDPOINTS.ADMIN.TRIPS, payload);
+                    if (res.success) {
+                        Toast.success('Trip scheduled and seat inventory initialized.');
+                        Modal.close('trip-modal');
+                        loadTrips();
+                    } else {
+                        Toast.error(res.message || 'Failed to schedule trip.');
+                    }
+                } catch (err) {
+                    Toast.error('Error creating trip run.');
+                } finally {
+                    DOM.setLoading(saveBtn, false, 'Schedule Run & Generate Seats');
+                }
+            });
+
+            loadTrips();
+        });
+    </script>
+</body>
+</html>
+
+

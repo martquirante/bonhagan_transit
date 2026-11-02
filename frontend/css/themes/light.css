@@ -1,0 +1,52 @@
+/* =========================================================
+   BONHAGAN TRANSIT — Light Theme Overrides & High Contrast
+   ========================================================= */
+
+html[data-theme="light"] {
+    color-scheme: light;
+}
+
+html[data-theme="light"] .hero-section {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 70%, #0F2347 100%);
+    color: #FFFFFF;
+}
+
+html[data-theme="light"] .card-elevated {
+    box-shadow: var(--shadow-lg);
+}
+
+/* Stat Tiles & Route Metrics — Guaranteed High Contrast in Light Mode */
+html[data-theme="light"] .stat-tile-value,
+html[data-theme="light"] .stat-card-value {
+    color: #0F172A !important;
+}
+
+html[data-theme="light"] .stat-tile-label,
+html[data-theme="light"] .stat-card-label {
+    color: #475569 !important;
+}
+
+html[data-theme="light"] .stat-tile-desc,
+html[data-theme="light"] .transit-card-desc {
+    color: #334155 !important;
+}
+
+html[data-theme="light"] .transit-card-meta {
+    color: #64748B !important;
+}
+
+/* Form Controls & Select Options */
+html[data-theme="light"] .form-control,
+html[data-theme="light"] .form-select,
+html[data-theme="light"] .calc-select {
+    background-color: #FFFFFF;
+    color: #0F172A;
+    border-color: #CBD5E1;
+}
+
+html[data-theme="light"] select option,
+html[data-theme="light"] select optgroup {
+    background-color: #FFFFFF;
+    color: #0F172A;
+}
+

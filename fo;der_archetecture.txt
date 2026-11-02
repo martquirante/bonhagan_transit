@@ -1,0 +1,221 @@
+BONHAGAN-TRANSIT/
+│
+├── frontend/
+│   │
+│   ├── index.html
+│   ├── about.html
+│   ├── routes.html
+│   ├── schedules.html
+│   ├── login.html
+│   ├── register.html
+│   │
+│   ├── passenger/
+│   │   ├── dashboard.html
+│   │   ├── search-trips.html
+│   │   ├── booking.html
+│   │   ├── seat-selection.html
+│   │   ├── passenger-details.html
+│   │   ├── checkout.html
+│   │   ├── my-tickets.html
+│   │   ├── booking-history.html
+│   │   ├── my-discounts.html
+│   │   └── profile.html
+│   │
+│   ├── admin/
+│   │   ├── dashboard.html
+│   │   ├── buses.html
+│   │   ├── routes.html
+│   │   ├── bus-stops.html
+│   │   ├── schedules.html
+│   │   ├── bookings.html
+│   │   ├── passengers.html
+│   │   ├── discount-verification.html
+│   │   ├── fare-management.html
+│   │   ├── payments.html
+│   │   ├── staff-management.html
+│   │   ├── reports.html
+│   │   ├── notifications.html
+│   │   └── settings.html
+│   │
+│   ├── staff/
+│   │   ├── dashboard.html
+│   │   ├── assigned-trips.html
+│   │   ├── passenger-manifest.html
+│   │   ├── scan-ticket.html
+│   │   ├── boarding-records.html
+│   │   └── incident-reports.html
+│   │
+│   ├── assets/
+│   │   ├── images/
+│   │   │   ├── branding/
+│   │   │   │   └── bonhagan-logo.png
+│   │   │   ├── buses/
+│   │   │   ├── destinations/
+│   │   │   └── backgrounds/
+│   │   │
+│   │   ├── icons/
+│   │   └── fonts/
+│   │
+│   ├── css/
+│   │   ├── global/
+│   │   │   ├── variables.css
+│   │   │   ├── reset.css
+│   │   │   ├── typography.css
+│   │   │   └── utilities.css
+│   │   │
+│   │   ├── components/
+│   │   │   ├── navbar.css
+│   │   │   ├── sidebar.css
+│   │   │   ├── buttons.css
+│   │   │   ├── cards.css
+│   │   │   ├── modals.css
+│   │   │   └── tables.css
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── landing.css
+│   │   │   ├── auth.css
+│   │   │   ├── passenger/
+│   │   │   ├── admin/
+│   │   │   └── staff/
+│   │   │
+│   │   └── main.css
+│   │
+│   ├── js/
+│   │   ├── config/
+│   │   │   └── supabase-client.js
+│   │   │
+│   │   ├── global/
+│   │   │   ├── app.js
+│   │   │   ├── auth-guard.js
+│   │   │   └── navigation.js
+│   │   │
+│   │   ├── services/
+│   │   │   ├── api.js
+│   │   │   ├── auth-service.js
+│   │   │   └── notification-service.js
+│   │   │
+│   │   └── pages/
+│   │       ├── landing.js
+│   │       ├── login.js
+│   │       ├── register.js
+│   │       ├── passenger/
+│   │       ├── admin/
+│   │       └── staff/
+│   │
+│   └── components/
+│       ├── navbar.html
+│       ├── footer.html
+│       ├── passenger-sidebar.html
+│       ├── admin-sidebar.html
+│       └── staff-sidebar.html
+│
+├── backend/
+│   │
+│   ├── public/
+│   │   └── index.php
+│   │
+│   ├── api/
+│   │   ├── auth/
+│   │   │   ├── login.php
+│   │   │   ├── register.php
+│   │   │   └── logout.php
+│   │   │
+│   │   ├── passengers/
+│   │   │   ├── get-profile.php
+│   │   │   ├── update-profile.php
+│   │   │   └── get-bookings.php
+│   │   │
+│   │   ├── trips/
+│   │   │   ├── search-trips.php
+│   │   │   ├── get-schedules.php
+│   │   │   └── get-trip-details.php
+│   │   │
+│   │   ├── bookings/
+│   │   │   ├── create-booking.php
+│   │   │   ├── cancel-booking.php
+│   │   │   ├── get-booking.php
+│   │   │   └── check-availability.php
+│   │   │
+│   │   ├── seats/
+│   │   │   ├── get-seats.php
+│   │   │   └── reserve-seat.php
+│   │   │
+│   │   ├── tickets/
+│   │   │   ├── generate-ticket.php
+│   │   │   ├── get-tickets.php
+│   │   │   └── validate-ticket.php
+│   │   │
+│   │   ├── payments/
+│   │   │   ├── create-payment.php
+│   │   │   ├── verify-payment.php
+│   │   │   └── payment-status.php
+│   │   │
+│   │   ├── discounts/
+│   │   │   ├── submit-discount.php
+│   │   │   └── verify-discount.php
+│   │   │
+│   │   ├── admin/
+│   │   │   ├── dashboard-stats.php
+│   │   │   ├── manage-buses.php
+│   │   │   ├── manage-routes.php
+│   │   │   ├── manage-schedules.php
+│   │   │   ├── manage-fares.php
+│   │   │   ├── manage-staff.php
+│   │   │   └── generate-reports.php
+│   │   │
+│   │   ├── staff/
+│   │   │   ├── assigned-trips.php
+│   │   │   ├── passenger-manifest.php
+│   │   │   ├── record-boarding.php
+│   │   │   └── report-incident.php
+│   │   │
+│   │   └── notifications/
+│   │       ├── get-notifications.php
+│   │       └── mark-as-read.php
+│   │
+│   ├── config/
+│   │   ├── database.php
+│   │   ├── supabase.php
+│   │   └── environment.php
+│   │
+│   ├── middleware/
+│   │   ├── auth-middleware.php
+│   │   ├── admin-middleware.php
+│   │   ├── staff-middleware.php
+│   │   └── cors-middleware.php
+│   │
+│   ├── services/
+│   │   ├── BookingService.php
+│   │   ├── FareService.php
+│   │   ├── PaymentService.php
+│   │   ├── TicketService.php
+│   │   ├── QRCodeService.php
+│   │   └── NotificationService.php
+│   │
+│   ├── helpers/
+│   │   ├── response.php
+│   │   ├── validation.php
+│   │   └── json-helper.php
+│   │
+│   ├── storage/
+│   │   ├── logs/
+│   │   └── uploads/
+│   │
+│   └── .env.example
+│
+├── database/
+│   ├── schema.sql
+│   ├── seed.sql
+│   ├── migrations/
+│   └── documentation/
+│       └── database-design.md
+│
+├── docs/
+│   ├── system-blueprint.md
+│   ├── system-requirements.md
+│   ├── use-case-diagram.md
+│   ├── dfd.md
+│   └── erd.md
+│
+├── .gitignore
+└── README.md
