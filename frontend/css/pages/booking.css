@@ -15,7 +15,7 @@
 .booking-steps-bar::before {
     content: '';
     position: absolute;
-    top: 50%;
+    top: 18px;
     left: 40px;
     right: 40px;
     height: 3px;
@@ -32,7 +32,6 @@
     align-items: center;
     gap: var(--space-2);
     text-decoration: none;
-    background-color: var(--bg-main);
     padding: 0 var(--space-2);
 }
 
@@ -48,6 +47,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 0 4px var(--bg-main);
     transition: all var(--transition-fast);
 }
 
@@ -493,39 +493,130 @@ html[data-theme="dark"] .seat-btn.occupied {
         height: 44px;
         font-weight: 700;
     }
+    /* Steps Bar Mobile */
     .booking-steps-bar {
         margin-bottom: var(--space-5);
+        padding: 0 var(--space-1);
     }
     .booking-steps-bar::before {
+        top: 15px;
         left: 20px;
         right: 20px;
+        height: 2px;
     }
-    .step-label {
-        font-size: 0.68rem;
-        text-align: center;
-        max-width: 65px;
-        line-height: 1.2;
+    .step-item {
+        padding: 0 4px;
+        gap: 6px;
     }
     .step-circle {
         width: 30px;
         height: 30px;
         font-size: 0.75rem;
+        box-shadow: 0 0 0 4px var(--bg-main);
+    }
+    .step-label {
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-align: center;
+        max-width: 68px;
+        line-height: 1.15;
+    }
+    .step-item.active .step-label {
+        color: var(--color-accent-amber);
+        font-weight: 700;
+    }
+    .step-item.completed .step-label {
+        color: var(--color-success, #10B981);
+    }
+
+    /* Trip Overview Strip Mobile */
+    .trip-overview-card {
+        padding: var(--space-3) var(--space-4) !important;
+    }
+    .trip-overview-row {
+        gap: var(--space-3) !important;
+    }
+    .trip-stats-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        width: 100% !important;
+        gap: var(--space-2) !important;
+        padding-top: var(--space-3) !important;
+        border-top: 1px solid var(--border-subtle) !important;
+        text-align: center;
+    }
+
+    /* Cabin Blueprint Mobile */
+    .bus-cabin-blueprint {
+        padding: var(--space-5) var(--space-3) var(--space-4);
+        border-radius: 28px 28px 16px 16px;
+        max-width: 100%;
+    }
+    .bus-front-header {
+        padding-bottom: var(--space-4);
+        margin-bottom: var(--space-4);
+    }
+    .driver-compartment, .passenger-entry-door {
+        font-size: 0.72rem;
+        padding: 4px 8px;
+    }
+    .seat-row {
+        grid-template-columns: 42px 42px 22px 42px 42px;
+        gap: 4px;
+        justify-content: center;
+    }
+    .seat-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 0.8rem;
+        border-radius: 8px;
+    }
+    .aisle-spacer {
+        font-size: 0.65rem;
+    }
+    .seat-legend {
+        gap: var(--space-3);
+        margin-top: var(--space-4);
+        padding-top: var(--space-3);
+    }
+    .legend-item {
+        font-size: 0.75rem;
+    }
+    .legend-sample {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+    }
+}
+
+@media (max-width: 390px) {
+    .booking-steps-bar::before {
+        top: 13px;
+        left: 14px;
+        right: 14px;
+    }
+    .step-circle {
+        width: 26px;
+        height: 26px;
+        font-size: 0.7rem;
+    }
+    .step-label {
+        font-size: 0.62rem;
+        max-width: 58px;
+        letter-spacing: -0.01em;
     }
     .bus-cabin-blueprint {
-        padding: var(--space-6) var(--space-3) var(--space-4);
-        border-radius: 28px 28px 16px 16px;
+        padding: var(--space-4) var(--space-2) var(--space-3);
+    }
+    .seat-row {
+        grid-template-columns: 36px 36px 16px 36px 36px;
+        gap: 3px;
     }
     .seat-btn {
         width: 36px;
         height: 36px;
-        font-size: 0.75rem;
-    }
-    .seat-row {
-        grid-template-columns: 38px 38px 22px 38px 38px;
-        gap: 4px;
-    }
-    .aisle-gap {
-        width: 18px;
+        font-size: 0.72rem;
+        border-radius: 6px;
     }
 }
 
