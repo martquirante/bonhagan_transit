@@ -22,7 +22,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://bonhagan-transit.onrender.com/api/$1"
+      "destination": "https://bonhagan-transit.onrender.com/backend/api/$1"
     },
     {
       "source": "/css/(.*)",
