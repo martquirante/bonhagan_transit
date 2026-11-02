@@ -17,6 +17,7 @@
 @import url('./components/modals.css');
 @import url('./components/notifications.css');
 @import url('./components/ticket.css');
+@import url('./components/skeleton.css');
 
 @import url('./layouts/public-layout.css');
 @import url('./layouts/passenger-layout.css');

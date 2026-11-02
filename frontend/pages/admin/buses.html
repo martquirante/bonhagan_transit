@@ -83,9 +83,12 @@
                     <input type="text" id="bus-search-input" class="form-control" placeholder="Search bus number, plate, or type..." style="width: 280px; height: 38px; font-size: 0.85rem;">
                 </div>
 
-                <div id="buses-loading" class="text-center py-8">
-                    <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
-                    <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Loading bus fleet...</p>
+                <div id="buses-loading" style="padding: var(--space-2) 0;">
+                    <span class="skeleton skeleton-row"></span>
+                    <span class="skeleton skeleton-row"></span>
+                    <span class="skeleton skeleton-row"></span>
+                    <span class="skeleton skeleton-row"></span>
+                    <span class="skeleton skeleton-row"></span>
                 </div>
 
                 <div id="buses-table-wrapper" class="data-table-scroll" style="display: none;">

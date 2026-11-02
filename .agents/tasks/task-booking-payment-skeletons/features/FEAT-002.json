@@ -1,0 +1,65 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Replace all 18 spinner loading states with contextual skeleton loaders across the entire frontend (Bug 3). Independent of FEAT-001 — no backend dependency, pure frontend CSS + HTML changes. Involves creating one new CSS file, adding one @import, and editing 18 HTML files.",
+  "status": "completed",
+  "steps": [
+    "1. Create frontend/css/components/skeleton.css with all skeleton utility classes using the project's design tokens from frontend/css/base/variables.css. The file must define: .skeleton (base with shimmer animation), .skeleton-line + width modifiers (.w-full, .w-3-4, .w-1-2, .w-1-3, .w-1-4), .skeleton-row (52px table row), .skeleton-trip-card (130px for trip cards), .skeleton-ticket-card (220px for ticket summary cards), .skeleton-seat (48x40px for bus seat buttons), .skeleton-notif (72px notification item), .skeleton-detail-card (320px for full ticket/trip detail), .skeleton-circle (border-radius: var(--radius-full)), .skeleton-shift-item (80px for staff shift list items). Include dark theme override for shimmer opacity.",
+
+    "2. Edit frontend/css/main.css — add `@import url('./components/skeleton.css');` on the line after `@import url('./components/ticket.css');`.",
+
+    "3. Edit frontend/pages/passenger/book-trip.html: replace #search-loading div (which contains the spinner-border div and the 'Searching Route 6...' p tag) with a skeleton version containing 3x skeleton-trip-card spans. The outer div keeps id='search-loading' and style='display: none;'.",
+
+    "4. Edit frontend/pages/passenger/seat-selection.html: replace the inner content of #seat-rows-container (the spinner div + p) with 10 .seat-row divs each containing 4 .skeleton.skeleton-seat spans and an .aisle-spacer div. This matches the exact DOM structure that renderSeatGrid() produces so the layout does not shift when seats load.",
+
+    "5. Edit frontend/pages/passenger/dashboard.html: replace #bookings-loading inner content (spinner div + p) with 5x skeleton-row spans. Keep id='bookings-loading' and remove py-6 class (use inline padding instead).",
+
+    "6. Edit frontend/pages/passenger/booking-history.html: replace #history-loading inner content with 5x skeleton-row spans. Keep id='history-loading'.",
+
+    "7. Edit frontend/pages/passenger/my-tickets.html: replace #tickets-loading (spinner div + p) with a div that has class='tickets-grid' (same grid class as #tickets-grid) containing 3x skeleton-ticket-card spans. Keep id='tickets-loading'.",
+
+    "8. Edit frontend/pages/passenger/notifications.html: replace #notifs-loading inner content with 4 flex rows each containing a 40x40 skeleton-circle span + a flex:1 div containing 3 skeleton-line spans (w-3-4, w-full, w-1-2). Use display:flex, gap:var(--space-4), align-items:flex-start for each row.",
+
+    "9. Edit frontend/pages/passenger/ticket-details.html: replace #ticket-loading inner content (spinner + p) with 1x skeleton-detail-card span.",
+
+    "10. Edit frontend/pages/passenger/trip-details.html: replace #trip-detail-loading inner content (spinner + p) with 1x skeleton-detail-card span.",
+
+    "11. Edit frontend/pages/public/schedules.html: replace #schedules-loading inner content (spinner + p) with 4x skeleton-trip-card spans.",
+
+    "12. Edit frontend/pages/admin/bookings.html: replace #bookings-loading inner content with 6x skeleton-row spans.",
+
+    "13. Edit frontend/pages/admin/buses.html: replace #buses-loading inner content with 5x skeleton-row spans.",
+
+    "14. Edit frontend/pages/admin/passengers.html: replace #passengers-loading inner content with 5x skeleton-row spans.",
+
+    "15. Edit frontend/pages/admin/payments.html: replace #payments-loading inner content with 5x skeleton-row spans.",
+
+    "16. Edit frontend/pages/admin/discounts.html: replace #discounts-loading inner content with 5x skeleton-row spans.",
+
+    "17. Edit frontend/pages/admin/routes.html: replace #routes-loading inner content with 3x skeleton-row spans (routes are few).",
+
+    "18. Edit frontend/pages/staff/dashboard.html: replace #shifts-loading inner content with 2x skeleton-shift-item spans in a flex column container (gap: var(--space-3)).",
+
+    "19. Edit frontend/pages/staff/assigned-trips.html: replace #assigned-loading inner content with 3x skeleton-shift-item spans in a flex column container (gap: var(--space-4)).",
+
+    "20. Edit frontend/pages/staff/passenger-manifest.html: replace #manifest-loading inner content with 5x skeleton-row spans."
+  ],
+  "acceptance_criteria": [
+    "frontend/css/components/skeleton.css exists and defines all 10 shape classes: .skeleton-line, .skeleton-row, .skeleton-trip-card, .skeleton-ticket-card, .skeleton-seat, .skeleton-notif, .skeleton-detail-card, .skeleton-circle, .skeleton-shift-item, plus .skeleton base class",
+    "frontend/css/main.css contains `@import url('./components/skeleton.css');` after the ticket.css import",
+    "All 18 loading element IDs exist in their respective files with skeleton HTML (no spinner-border divs remain in any loading container)",
+    "Seat-selection.html skeleton uses the exact .seat-row / .aisle-spacer structure matching renderSeatGrid() output",
+    "My-tickets.html skeleton uses the .tickets-grid class to preserve the CSS Grid layout",
+    "Notifications.html skeleton uses flex rows with circle + text lines matching the real notification item layout",
+    "Dark theme: skeleton shimmer uses rgba(255,255,255,0.08) in dark mode, 0.18 in light mode",
+    "loading.js is NOT modified (global overlay spinner is intentional)"
+  ],
+  "verification": [
+    "Open frontend/pages/passenger/book-trip.html in a browser with DevTools Network > Slow 3G; confirm skeleton trip cards appear during fetch, then real trip cards replace them",
+    "Open frontend/pages/passenger/seat-selection.html with Slow 3G; confirm seat grid skeleton (10 rows of 4 seat buttons) appears during fetch",
+    "Open frontend/pages/admin/buses.html with Slow 3G; confirm 5 skeleton rows appear in the table area before data loads",
+    "Toggle dark mode on any skeleton page and confirm shimmer is visible but subtler (no white flash)"
+  ],
+  "blocked_reason": null,
+  "findings": "Implemented all 20 steps. Created frontend/css/components/skeleton.css (2747 bytes) with all 10 shape classes (.skeleton, .skeleton-line + width modifiers, .skeleton-row, .skeleton-trip-card, .skeleton-ticket-card, .skeleton-seat, .skeleton-notif, .skeleton-detail-card, .skeleton-circle, .skeleton-shift-item) and dark theme shimmer override. Added @import url('./components/skeleton.css') to main.css after ticket.css. Replaced spinner-border HTML in all 18 loading container IDs across passenger, admin, staff, and public pages. Verified: zero spinner-border matches in all 18 target files; skeleton classes present in all 18; skeleton.css exists; @import confirmed in main.css. loading.js was not modified."
+}
