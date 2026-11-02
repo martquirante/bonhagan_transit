@@ -325,12 +325,29 @@
                 Loading.show('Creating reservation and locking assigned seats...');
 
                 try {
+                    const originStopId = draft.origin_stop_id || (draft.trip && draft.trip.boarding_route_stop_id) || (draft.trip && draft.trip.origin_id) || 1;
+                    const destStopId = draft.destination_stop_id || (draft.trip && draft.trip.dropoff_route_stop_id) || (draft.trip && draft.trip.destination_id) || 8;
+
+                    const formattedPassengers = (draft.passengers || []).map((p, idx) => ({
+                        passenger_name: p.passenger_name || p.full_name || p.name || `Passenger ${idx + 1}`,
+                        full_name: p.full_name || p.passenger_name || `Passenger ${idx + 1}`,
+                        passenger_type: (p.passenger_type || p.discount_type || 'regular') === 'student' ? 'student' : ((p.passenger_type || p.discount_type || 'regular') !== 'regular' ? 'senior_citizen' : 'regular'),
+                        discount_type: p.discount_type || p.passenger_type || 'regular',
+                        seat_id: p.seat_id,
+                        seat_number: p.seat_number,
+                        boarding_stop_id: originStopId,
+                        dropoff_stop_id: destStopId,
+                        boarding_route_stop_id: originStopId,
+                        dropoff_route_stop_id: destStopId,
+                        allocation_type: 'seat'
+                    }));
+
                     const payload = {
-                        trip_id: draft.trip_id,
-                        origin_stop_id: draft.origin_stop_id,
-                        destination_stop_id: draft.destination_stop_id,
-                        seats: draft.seats.map(s => s.seat_id || s.seat_number),
-                        passengers: draft.passengers,
+                        trip_id: draft.trip_id || (draft.trip && draft.trip.trip_id),
+                        origin_stop_id: originStopId,
+                        destination_stop_id: destStopId,
+                        seats: (draft.seats || []).map(s => s.seat_id || s.seat_number),
+                        passengers: formattedPassengers,
                         payment_method: selectedMethod,
                         total_amount: draft.total_amount
                     };

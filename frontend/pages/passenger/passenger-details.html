@@ -281,8 +281,10 @@
                     passengerList.push({
                         seat_id: seatId,
                         seat_number: seatNumber,
+                        passenger_name: name,
                         full_name: name,
                         discount_type: cat,
+                        passenger_type: cat === 'student' ? 'student' : (cat !== 'regular' ? 'senior_citizen' : 'regular'),
                         is_discounted: cat !== 'regular',
                         fare: cat !== 'regular' ? (farePerSeat * 0.8) : farePerSeat
                     });

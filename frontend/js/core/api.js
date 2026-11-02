@@ -37,17 +37,28 @@ const Api = {
             const response = await fetch(url, config);
             let result;
 
-            const contentType = response.headers.get('content-type');
-            if (contentType && contentType.includes('application/json')) {
-                result = await response.json();
-            } else {
-                const text = await response.text();
+            const contentType = response.headers.get('content-type') || '';
+            const rawText = await response.text();
+
+            // Resilient JSON parser: handles responses with prepended PHP warnings or HTML wrappers
+            const jsonStart = rawText.indexOf('{');
+            const jsonEnd = rawText.lastIndexOf('}');
+            if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
                 try {
-                    result = JSON.parse(text);
+                    result = JSON.parse(rawText.substring(jsonStart, jsonEnd + 1));
                 } catch (e) {
+                    // fall back to full parse
+                }
+            }
+
+            if (!result) {
+                try {
+                    result = JSON.parse(rawText);
+                } catch (e) {
+                    const cleanMessage = rawText.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
                     result = {
                         success: response.ok,
-                        message: text || response.statusText,
+                        message: cleanMessage || response.statusText,
                         data: null
                     };
                 }
