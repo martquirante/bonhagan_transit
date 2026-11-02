@@ -9,14 +9,21 @@ require_once dirname(dirname(__DIR__)) . '/helpers/response.php';
 require_once dirname(dirname(__DIR__)) . '/services/SeatReservationService.php';
 require_once dirname(dirname(__DIR__)) . '/services/FareService.php';
 
-// Support parameter variations
-$rawOrigin = isset($_GET['origin_id']) ? (int)$_GET['origin_id'] : 
-             (isset($_GET['origin_stop_id']) ? (int)$_GET['origin_stop_id'] : 
-             (isset($_GET['origin']) ? (int)$_GET['origin'] : 0));
+// Support parameter variations with robust sanitization (handles negative numbers, strings, etc.)
+function parseStopParam($val): int {
+    if ($val === null || $val === '') return 0;
+    $digits = preg_replace('/\D/', '', (string)$val);
+    if ($digits === '') return 0;
+    return (int)$digits;
+}
 
-$rawDest = isset($_GET['destination_id']) ? (int)$_GET['destination_id'] : 
-           (isset($_GET['destination_stop_id']) ? (int)$_GET['destination_stop_id'] : 
-           (isset($_GET['destination']) ? (int)$_GET['destination'] : 0));
+$rawOrigin = isset($_GET['origin_id']) ? parseStopParam($_GET['origin_id']) : 
+             (isset($_GET['origin_stop_id']) ? parseStopParam($_GET['origin_stop_id']) : 
+             (isset($_GET['origin']) ? parseStopParam($_GET['origin']) : 0));
+
+$rawDest = isset($_GET['destination_id']) ? parseStopParam($_GET['destination_id']) : 
+           (isset($_GET['destination_stop_id']) ? parseStopParam($_GET['destination_stop_id']) : 
+           (isset($_GET['destination']) ? parseStopParam($_GET['destination']) : 0));
 
 $travelDate = isset($_GET['date']) ? trim($_GET['date']) : 
               (isset($_GET['travel_date']) ? trim($_GET['travel_date']) : '');

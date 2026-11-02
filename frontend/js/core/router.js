@@ -18,6 +18,7 @@ const Router = {
         'register.html': { clean: '/register', live: 'pages/public/register.html' },
 
         // Passenger Pages
+        'dashboard.html': { clean: '/dashboard', live: 'pages/passenger/dashboard.html' },
         'book-trip.html': { clean: '/book-trip', live: 'pages/passenger/book-trip.html' },
         'seat-selection.html': { clean: '/passenger/seat-selection', live: 'pages/passenger/seat-selection.html' },
         'passenger-details.html': { clean: '/passenger/passenger-details', live: 'pages/passenger/passenger-details.html' },

@@ -17,18 +17,18 @@
     <!-- Header Navbar -->
     <header class="portal-header">
         <div class="portal-nav-inner">
-            <a href="../../index.html" class="portal-brand">
+            <a href="/" class="portal-brand">
                 <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Logo" style="height: 44px; width: auto; max-height: 44px; object-fit: contain;">
                 <span>BONHAGAN <small style="font-size:0.75rem; color:var(--color-accent-amber);">PASSENGER</small></span>
             </a>
 
             <ul class="portal-links">
-                <li><a href="dashboard.html" class="portal-link">Dashboard</a></li>
-                <li><a href="book-trip.html" class="portal-link active">Book Trip</a></li>
-                <li><a href="my-tickets.html" class="portal-link">My Tickets</a></li>
-                <li><a href="booking-history.html" class="portal-link">Booking History</a></li>
-                <li><a href="notifications.html" class="portal-link">Notifications</a></li>
-                <li><a href="profile.html" class="portal-link">Profile</a></li>
+                <li><a href="/dashboard" class="portal-link">Dashboard</a></li>
+                <li><a href="/book-trip" class="portal-link active">Book Trip</a></li>
+                <li><a href="/my-tickets" class="portal-link">My Tickets</a></li>
+                <li><a href="/booking-history" class="portal-link">Booking History</a></li>
+                <li><a href="/notifications" class="portal-link">Notifications</a></li>
+                <li><a href="/profile" class="portal-link">Profile</a></li>
             </ul>
 
             <div class="portal-actions">
@@ -173,6 +173,17 @@
                 document.getElementById('user-avatar-initial').textContent = (user.full_name || user.username).charAt(0).toUpperCase();
             }
 
+            // Robust stop ID sanitization (handles negative numbers, strings, or route_stop IDs 7..14)
+            function sanitizeStopId(val, fallback) {
+                if (val === undefined || val === null || val === '') return fallback;
+                const digits = String(val).replace(/\D/g, '');
+                if (!digits) return fallback;
+                let num = parseInt(digits, 10);
+                if (num >= 7 && num <= 14) num = num - 6; // Route stop ID mapped to dropdown index
+                if (num >= 1 && num <= 8) return String(num);
+                return fallback;
+            }
+
             // Populate from URL params or default today
             const urlParams = Router.getParams();
             const today = new Date().toLocaleDateString('en-CA');
@@ -182,11 +193,22 @@
             const dateInput = document.getElementById('search-date');
             const passSelect = document.getElementById('search-passengers');
 
-            dateInput.value = urlParams.travel_date || today;
-            dateInput.min = today;
+            const paramDate = urlParams.travel_date || urlParams.date;
+            dateInput.value = paramDate || today;
+            if (paramDate && paramDate < today) {
+                dateInput.min = paramDate;
+            } else {
+                dateInput.min = today;
+            }
 
-            if (urlParams.origin_stop_id) originSelect.value = urlParams.origin_stop_id;
-            if (urlParams.destination_stop_id) destSelect.value = urlParams.destination_stop_id;
+            const initialOrigin = sanitizeStopId(urlParams.origin_stop_id || urlParams.origin, '1');
+            let initialDest = sanitizeStopId(urlParams.destination_stop_id || urlParams.destination, '8');
+            if (initialOrigin === initialDest) {
+                initialDest = initialOrigin === '8' ? '1' : '8';
+            }
+
+            originSelect.value = initialOrigin;
+            destSelect.value = initialDest;
             if (urlParams.passengers) passSelect.value = urlParams.passengers;
 
             let currentBusTypeFilter = urlParams.bus_type || 'all';
@@ -228,13 +250,14 @@
             });
 
             async function performSearch() {
-                const origin = originSelect.value;
-                const dest = destSelect.value;
-                const date = dateInput.value;
+                let origin = sanitizeStopId(originSelect.value, '1');
+                let dest = sanitizeStopId(destSelect.value, '8');
+                const date = dateInput.value || today;
 
                 if (origin === dest) {
-                    Toast.error('Origin and Destination stops cannot be identical.');
-                    return;
+                    Toast.warning('Origin and Destination stops cannot be identical. Defaulted to destination terminal.');
+                    dest = origin === '8' ? '1' : '8';
+                    destSelect.value = dest;
                 }
 
                 const loading = document.getElementById('search-loading');
@@ -269,7 +292,7 @@
                             renderSearchResults();
                         } else {
                             loadedTrips = [];
-                            empty.style.display = 'block';
+                            renderSearchResults();
                         }
                     }
                 } catch (e) {
@@ -362,6 +385,18 @@
 
             document.getElementById('btn-show-all-trips')?.addEventListener('click', () => {
                 currentBusTypeFilter = 'all';
+                document.querySelectorAll('.bus-filter-btn').forEach(b => {
+                    if (b.dataset.type === 'all') {
+                        b.classList.add('btn-primary');
+                        b.classList.remove('btn-outline');
+                    } else {
+                        b.classList.remove('btn-primary');
+                        b.classList.add('btn-outline');
+                    }
+                });
+                dateInput.value = today;
+                originSelect.value = '1';
+                destSelect.value = '8';
                 performSearch();
             });
 

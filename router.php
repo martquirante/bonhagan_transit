@@ -88,6 +88,7 @@ $canonicalPages = [
     '/register'                      => __DIR__ . '/frontend/pages/public/register.html',
 
     // Passenger Booking Engine & Portal
+    '/dashboard'                     => __DIR__ . '/frontend/pages/passenger/dashboard.html',
     '/book'                          => __DIR__ . '/frontend/pages/passenger/book-trip.html',
     '/book-trip'                     => __DIR__ . '/frontend/pages/passenger/book-trip.html',
     '/passenger'                     => __DIR__ . '/frontend/pages/passenger/dashboard.html',

@@ -193,6 +193,10 @@
       "destination": "/frontend/pages/passenger/dashboard"
     },
     {
+      "source": "/dashboard",
+      "destination": "/frontend/pages/passenger/dashboard"
+    },
+    {
       "source": "/passenger/:page",
       "destination": "/frontend/pages/passenger/:page"
     },
