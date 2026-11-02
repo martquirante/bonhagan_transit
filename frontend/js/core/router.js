@@ -52,6 +52,10 @@ const Router = {
      * Dynamically resolves the base path (e.g. '/frontend' on Live Server or subdirectories).
      */
     getBasePath() {
+        const host = window.location.hostname;
+        if (host.endsWith('vercel.app') || host.endsWith('onrender.com')) {
+            return '';
+        }
         const path = window.location.pathname;
         const frontendIdx = path.indexOf('/frontend/');
         if (frontendIdx !== -1) {
@@ -61,9 +65,13 @@ const Router = {
     },
 
     /**
-     * Checks if current environment is using clean URLs (e.g. router.php or Apache mod_rewrite).
+     * Checks if current environment is using clean URLs (e.g. router.php, Vercel, Render, Apache mod_rewrite).
      */
     isCleanUrlMode() {
+        const host = window.location.hostname;
+        if (host.endsWith('vercel.app') || host.endsWith('onrender.com')) {
+            return true;
+        }
         return !window.location.pathname.includes('.html') && !window.location.pathname.includes('/frontend/');
     },
 

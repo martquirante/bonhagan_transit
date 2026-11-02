@@ -2,6 +2,23 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/frontend",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/frontend/index",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/frontend/index.html",
+      "destination": "/",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -20,108 +37,188 @@
       "destination": "/frontend/assets/$1"
     },
     {
+      "source": "/pages/public/(.*)",
+      "destination": "/frontend/pages/public/$1"
+    },
+    {
+      "source": "/pages/passenger/(.*)",
+      "destination": "/frontend/pages/passenger/$1"
+    },
+    {
+      "source": "/pages/admin/(.*)",
+      "destination": "/frontend/pages/admin/$1"
+    },
+    {
+      "source": "/pages/staff/(.*)",
+      "destination": "/frontend/pages/staff/$1"
+    },
+    {
       "source": "/",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/home",
-      "destination": "/frontend/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/routes",
-      "destination": "/frontend/pages/public/routes.html"
+      "destination": "/frontend/pages/public/routes"
     },
     {
       "source": "/schedules",
-      "destination": "/frontend/pages/public/schedules.html"
+      "destination": "/frontend/pages/public/schedules"
     },
     {
       "source": "/services",
-      "destination": "/frontend/pages/public/services.html"
+      "destination": "/frontend/pages/public/services"
     },
     {
       "source": "/about",
-      "destination": "/frontend/pages/public/about.html"
+      "destination": "/frontend/pages/public/about"
     },
     {
       "source": "/contact",
-      "destination": "/frontend/pages/public/contact.html"
+      "destination": "/frontend/pages/public/contact"
     },
     {
       "source": "/login",
-      "destination": "/frontend/pages/public/login.html"
+      "destination": "/frontend/pages/public/login"
     },
     {
       "source": "/register",
-      "destination": "/frontend/pages/public/register.html"
+      "destination": "/frontend/pages/public/register"
     },
     {
       "source": "/book",
-      "destination": "/frontend/pages/passenger/book-trip.html"
+      "destination": "/frontend/pages/passenger/book-trip"
     },
     {
       "source": "/book-trip",
-      "destination": "/frontend/pages/passenger/book-trip.html"
+      "destination": "/frontend/pages/passenger/book-trip"
+    },
+    {
+      "source": "/passenger/book",
+      "destination": "/frontend/pages/passenger/book-trip"
+    },
+    {
+      "source": "/passenger/book-trip",
+      "destination": "/frontend/pages/passenger/book-trip"
+    },
+    {
+      "source": "/passenger/seat-selection",
+      "destination": "/frontend/pages/passenger/seat-selection"
     },
     {
       "source": "/seat-selection",
-      "destination": "/frontend/pages/passenger/seat-selection.html"
+      "destination": "/frontend/pages/passenger/seat-selection"
+    },
+    {
+      "source": "/passenger/passenger-details",
+      "destination": "/frontend/pages/passenger/passenger-details"
     },
     {
       "source": "/passenger-details",
-      "destination": "/frontend/pages/passenger/passenger-details.html"
+      "destination": "/frontend/pages/passenger/passenger-details"
+    },
+    {
+      "source": "/passenger/checkout",
+      "destination": "/frontend/pages/passenger/checkout"
     },
     {
       "source": "/checkout",
-      "destination": "/frontend/pages/passenger/checkout.html"
+      "destination": "/frontend/pages/passenger/checkout"
+    },
+    {
+      "source": "/passenger/booking-confirmation",
+      "destination": "/frontend/pages/passenger/booking-confirmation"
+    },
+    {
+      "source": "/booking-confirmation",
+      "destination": "/frontend/pages/passenger/booking-confirmation"
+    },
+    {
+      "source": "/passenger/my-tickets",
+      "destination": "/frontend/pages/passenger/my-tickets"
     },
     {
       "source": "/my-tickets",
-      "destination": "/frontend/pages/passenger/my-tickets.html"
+      "destination": "/frontend/pages/passenger/my-tickets"
+    },
+    {
+      "source": "/passenger/ticket-details",
+      "destination": "/frontend/pages/passenger/ticket-details"
     },
     {
       "source": "/ticket-details",
-      "destination": "/frontend/pages/passenger/ticket-details.html"
+      "destination": "/frontend/pages/passenger/ticket-details"
+    },
+    {
+      "source": "/passenger/booking-history",
+      "destination": "/frontend/pages/passenger/booking-history"
     },
     {
       "source": "/booking-history",
-      "destination": "/frontend/pages/passenger/booking-history.html"
+      "destination": "/frontend/pages/passenger/booking-history"
+    },
+    {
+      "source": "/passenger/profile",
+      "destination": "/frontend/pages/passenger/profile"
     },
     {
       "source": "/profile",
-      "destination": "/frontend/pages/passenger/profile.html"
+      "destination": "/frontend/pages/passenger/profile"
+    },
+    {
+      "source": "/passenger/notifications",
+      "destination": "/frontend/pages/passenger/notifications"
     },
     {
       "source": "/notifications",
-      "destination": "/frontend/pages/passenger/notifications.html"
+      "destination": "/frontend/pages/passenger/notifications"
+    },
+    {
+      "source": "/passenger/trip-details",
+      "destination": "/frontend/pages/passenger/trip-details"
     },
     {
       "source": "/trip-details",
-      "destination": "/frontend/pages/passenger/trip-details.html"
+      "destination": "/frontend/pages/passenger/trip-details"
     },
     {
       "source": "/passenger",
-      "destination": "/frontend/pages/passenger/dashboard.html"
+      "destination": "/frontend/pages/passenger/dashboard"
+    },
+    {
+      "source": "/passenger/dashboard",
+      "destination": "/frontend/pages/passenger/dashboard"
     },
     {
       "source": "/passenger/:page",
-      "destination": "/frontend/pages/passenger/:page.html"
+      "destination": "/frontend/pages/passenger/:page"
     },
     {
       "source": "/admin",
-      "destination": "/frontend/pages/admin/dashboard.html"
+      "destination": "/frontend/pages/admin/dashboard"
+    },
+    {
+      "source": "/admin/dashboard",
+      "destination": "/frontend/pages/admin/dashboard"
     },
     {
       "source": "/admin/:page",
-      "destination": "/frontend/pages/admin/:page.html"
+      "destination": "/frontend/pages/admin/:page"
     },
     {
       "source": "/staff",
-      "destination": "/frontend/pages/staff/dashboard.html"
+      "destination": "/frontend/pages/staff/dashboard"
+    },
+    {
+      "source": "/staff/dashboard",
+      "destination": "/frontend/pages/staff/dashboard"
     },
     {
       "source": "/staff/:page",
-      "destination": "/frontend/pages/staff/:page.html"
+      "destination": "/frontend/pages/staff/:page"
     }
   ]
 }
