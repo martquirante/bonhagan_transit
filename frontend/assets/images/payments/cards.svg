@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <defs>
+    <linearGradient id="card-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <!-- Background Card -->
+  <rect width="80" height="80" rx="18" fill="url(#card-bg)"/>
+  <rect x="2" y="2" width="76" height="76" rx="16" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Mastercard Interlocking Circles (Top Half) -->
+  <g transform="translate(18, 16)">
+    <circle cx="15" cy="14" r="13" fill="#EB001B"/>
+    <circle cx="29" cy="14" r="13" fill="#F79E1B"/>
+    <path d="M22 4.6 C24.5 7.1 26 10.4 26 14 C26 17.6 24.5 20.9 22 23.4 C19.5 20.9 18 17.6 18 14 C18 10.4 19.5 7.1 22 4.6 Z" fill="#FF5F00"/>
+  </g>
+
+  <!-- Visa Wordmark (Bottom Half) -->
+  <g transform="translate(14, 50)">
+    <rect width="52" height="18" rx="4" fill="#FFFFFF"/>
+    <text x="26" y="14" font-family="'Arial Black', Impact, sans-serif" font-size="13" font-style="italic" font-weight="900" fill="#1A1F71" text-anchor="middle" letter-spacing="1">VISA</text>
+    <path d="M11 6 L14 6 L11.5 13 L8.5 13 Z" fill="#F7B600"/>
+  </g>
+</svg>

@@ -55,7 +55,8 @@ const API_CONFIG = {
         PAYMENTS: {
             CREATE: '/payments/create-payment.php',
             VERIFY: '/payments/verify-payment.php',
-            STATUS: '/payments/payment-status.php'
+            STATUS: '/payments/payment-status.php',
+            METHODS: '/payments/get-payment-methods.php'
         },
         TICKETS: {
             GENERATE: '/tickets/generate-ticket.php',

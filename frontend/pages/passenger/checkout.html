@@ -77,7 +77,10 @@
                         <!-- GCash Option -->
                         <label class="payment-option-card selected">
                             <input type="radio" name="payment_method" value="gcash" checked style="accent-color: var(--color-accent-amber);">
-                            <div class="payment-icon" style="color: var(--color-info);"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                            <div class="payment-icon">
+                                <img src="/assets/images/payments/gcash.svg" alt="GCash" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                <i class="fa-solid fa-mobile-screen-button" style="display: none; color: var(--color-info);"></i>
+                            </div>
                             <div style="flex: 1;">
                                 <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">GCash Express</strong>
                                 <span style="font-size: 0.75rem; color: var(--text-muted);">Instant e-wallet clearance & immediate confirmed e-ticket QR</span>
@@ -88,17 +91,24 @@
                         <!-- Maya Option -->
                         <label class="payment-option-card">
                             <input type="radio" name="payment_method" value="maya" style="accent-color: var(--color-accent-amber);">
-                            <div class="payment-icon" style="color: var(--color-success);"><i class="fa-solid fa-wallet"></i></div>
+                            <div class="payment-icon">
+                                <img src="/assets/images/payments/maya.svg" alt="Maya" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                <i class="fa-solid fa-wallet" style="display: none; color: var(--color-success);"></i>
+                            </div>
                             <div style="flex: 1;">
                                 <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">Maya / Digital Wallet</strong>
                                 <span style="font-size: 0.75rem; color: var(--text-muted);">Scan QR Ph or pay via linked Maya account</span>
                             </div>
+                            <span class="badge badge-info">QR Ph Ready</span>
                         </label>
 
                         <!-- Card Option -->
                         <label class="payment-option-card">
                             <input type="radio" name="payment_method" value="card" style="accent-color: var(--color-accent-amber);">
-                            <div class="payment-icon" style="color: var(--color-info);"><i class="fa-solid fa-credit-card"></i></div>
+                            <div class="payment-icon">
+                                <img src="/assets/images/payments/cards.svg" alt="Visa / Mastercard" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                <i class="fa-solid fa-credit-card" style="display: none; color: var(--color-info);"></i>
+                            </div>
                             <div style="flex: 1;">
                                 <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">Visa / Mastercard Debit & Credit</strong>
                                 <span style="font-size: 0.75rem; color: var(--text-muted);">Secure 3D-secure card authentication</span>
@@ -108,7 +118,10 @@
                         <!-- Cash at Terminal Counter / Onboard -->
                         <label class="payment-option-card">
                             <input type="radio" name="payment_method" value="cash" style="accent-color: var(--color-accent-amber);">
-                            <div class="payment-icon" style="color: var(--color-success);"><i class="fa-solid fa-money-bill-wave"></i></div>
+                            <div class="payment-icon">
+                                <img src="/assets/images/payments/cash.svg" alt="Cash" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                <i class="fa-solid fa-money-bill-wave" style="display: none; color: var(--color-success);"></i>
+                            </div>
                             <div style="flex: 1;">
                                 <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">Cash at Dispatch Counter or Onboard</strong>
                                 <span style="font-size: 0.75rem; color: var(--text-muted);">Pay directly to station teller or conductor prior to departure</span>
@@ -252,19 +265,57 @@
                 </div>
             `).join('');
 
-            // Payment radio styling
-            const radioOptions = document.querySelectorAll('.payment-option-card');
-            radioOptions.forEach(opt => {
-                opt.addEventListener('click', () => {
-                    radioOptions.forEach(o => o.classList.remove('selected'));
-                    opt.classList.add('selected');
-                    const radio = opt.querySelector('input[type="radio"]');
-                    radio.checked = true;
+            // Payment radio styling & API integration
+            function bindPaymentRadios() {
+                const radioOptions = document.querySelectorAll('.payment-option-card');
+                radioOptions.forEach(opt => {
+                    opt.addEventListener('click', () => {
+                        radioOptions.forEach(o => o.classList.remove('selected'));
+                        opt.classList.add('selected');
+                        const radio = opt.querySelector('input[type="radio"]');
+                        radio.checked = true;
 
-                    const isOnline = radio.value === 'gcash' || radio.value === 'maya';
-                    document.getElementById('online-fields-box').style.display = isOnline ? 'block' : 'none';
+                        const isOnline = radio.value === 'gcash' || radio.value === 'maya';
+                        document.getElementById('online-fields-box').style.display = isOnline ? 'block' : 'none';
+                    });
                 });
-            });
+            }
+
+            async function loadPaymentMethods() {
+                try {
+                    const res = await Api.get(API_CONFIG.ENDPOINTS.PAYMENTS.METHODS);
+                    if (res && res.success && res.data && res.data.channels && res.data.channels.length > 0) {
+                        const container = document.getElementById('payment-options-container');
+                        const currentSelected = (document.querySelector('input[name="payment_method"]:checked') || {}).value || 'gcash';
+
+                        container.innerHTML = res.data.channels.map((ch, idx) => {
+                            const isChecked = ch.id === currentSelected || (idx === 0 && !currentSelected);
+                            const badgeHtml = ch.badge ? `<span class="badge badge-${ch.badge_type || 'info'}">${DOM.escapeHtml(ch.badge)}</span>` : '';
+                            return `
+                                <label class="payment-option-card ${isChecked ? 'selected' : ''}">
+                                    <input type="radio" name="payment_method" value="${ch.id}" ${isChecked ? 'checked' : ''} style="accent-color: var(--color-accent-amber);">
+                                    <div class="payment-icon">
+                                        <img src="${ch.logo_url}" alt="${DOM.escapeHtml(ch.name)}" class="payment-brand-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';">
+                                        <i class="${ch.fallback_icon || 'fa-solid fa-wallet'}" style="display: none; color: ${ch.accent_color || 'var(--color-info)'};"></i>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <strong style="display: block; font-size: 0.95rem; color: var(--text-primary);">${DOM.escapeHtml(ch.name)}</strong>
+                                        <span style="font-size: 0.75rem; color: var(--text-muted);">${DOM.escapeHtml(ch.description)}</span>
+                                    </div>
+                                    ${badgeHtml}
+                                </label>
+                            `;
+                        }).join('');
+
+                        bindPaymentRadios();
+                    }
+                } catch (e) {
+                    console.warn('Using pre-rendered payment channels', e);
+                }
+            }
+
+            bindPaymentRadios();
+            loadPaymentMethods();
 
             // Confirm & submit booking
             const confirmBtn = document.getElementById('btn-confirm-checkout');
