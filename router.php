@@ -28,6 +28,12 @@ if ($uri !== '/' && str_ends_with($uri, '/')) {
 
 // 1. API requests routed to backend public entry point
 if (str_starts_with($uri, '/api/')) {
+    $apiRel = substr($uri, 5);
+    $apiTarget = __DIR__ . '/backend/api/' . $apiRel;
+    if (file_exists($apiTarget) && !is_dir($apiTarget)) {
+        require $apiTarget;
+        exit;
+    }
     $_SERVER['SCRIPT_NAME'] = '/index.php';
     require __DIR__ . '/backend/public/index.php';
     exit;

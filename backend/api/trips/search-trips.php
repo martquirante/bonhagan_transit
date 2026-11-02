@@ -101,29 +101,63 @@ try {
     $stmt->execute($params);
     $trips = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Fast Batch Processing: Pre-cache fares and batch-fetch occupied seats
+    $fareCache = [];
+    $getFare = function($rId, $btId, $bId, $dId) use (&$fareCache) {
+        $key = "{$rId}-{$btId}-{$bId}-{$dId}";
+        if (!isset($fareCache[$key])) {
+            try {
+                $f = FareService::calculate($rId, $btId, $bId, $dId, 'regular');
+                $fareCache[$key] = (float)$f['final_fare'];
+            } catch (Exception $e) {
+                $fareCache[$key] = ($btId == 1) ? 65.00 : 50.00;
+            }
+        }
+        return $fareCache[$key];
+    };
+
+    $tripIds = array_map('intval', array_column($trips, 'trip_id'));
+    $occupiedSeatsMap = [];
+
+    if (!empty($tripIds)) {
+        $placeholders = implode(',', array_fill(0, count($tripIds), '?'));
+
+        // Batch single query for confirmed or active held seats
+        $occStmt = $pdo->prepare("
+            SELECT trip_id, COUNT(*) AS occupied_count
+            FROM public.passenger_allocations
+            WHERE trip_id IN ($placeholders)
+              AND allocation_type = 'seat'
+              AND (
+                  allocation_status = 'confirmed'
+                  OR (allocation_status = 'held' AND hold_expires_at > NOW())
+              )
+            GROUP BY trip_id
+        ");
+        $occStmt->execute($tripIds);
+        while ($row = $occStmt->fetch(PDO::FETCH_ASSOC)) {
+            $occupiedSeatsMap[(int)$row['trip_id']] = (int)$row['occupied_count'];
+        }
+    }
+
     $results = [];
 
     foreach ($trips as $trip) {
+        $tId = (int)$trip['trip_id'];
         $bStopId = (int)$trip['boarding_route_stop_id'];
         $dStopId = (int)$trip['dropoff_route_stop_id'];
 
-        $availableSeats = (int)$trip['seating_capacity'];
-        $fareEstimate = 0.00;
+        $capacity = (int)$trip['seating_capacity'];
+        $occupied = $occupiedSeatsMap[$tId] ?? 0;
+        $availableSeats = max(0, $capacity - $occupied);
 
-        if ($bStopId > 0 && $dStopId > 0) {
-            try {
-                $seatData = SeatReservationService::getSeatMap((int)$trip['trip_id'], $bStopId, $dStopId);
-                $availableSeats = $seatData['available_seats_count'];
-                $availableStanding = $seatData['available_standing_count'];
+        $availableStanding = (bool)$trip['standing_enabled']
+            ? (int)($trip['standing_capacity_override'] ?? $trip['standing_capacity'])
+            : 0;
 
-                $fare = FareService::calculate((int)$trip['route_id'], (int)$trip['bus_type_id'], $bStopId, $dStopId, 'regular');
-                $fareEstimate = $fare['final_fare'];
-            } catch (Exception $e) {
-                $availableStanding = 0;
-            }
-        } else {
-            $availableStanding = (bool)$trip['standing_enabled'] ? (int)($trip['standing_capacity_override'] ?? $trip['standing_capacity']) : 0;
-        }
+        $fareEstimate = ($bStopId > 0 && $dStopId > 0)
+            ? $getFare((int)$trip['route_id'], (int)$trip['bus_type_id'], $bStopId, $dStopId)
+            : 0.00;
 
         $results[] = [
             'trip_id' => (int)$trip['trip_id'],

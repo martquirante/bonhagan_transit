@@ -3,6 +3,17 @@
  * BONHAGAN TRANSIT — Public Backend API Entry Point & Health Check
  */
 
+// Dispatch API endpoint requests if routed through front controller
+$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+if (preg_match('#^/api/(.+)$#', $requestPath, $matches)) {
+    $subPath = $matches[1];
+    $apiFile = dirname(__DIR__) . '/api/' . $subPath;
+    if (file_exists($apiFile) && !is_dir($apiFile)) {
+        require $apiFile;
+        exit;
+    }
+}
+
 require_once dirname(__DIR__) . '/config/database.php';
 require_once dirname(__DIR__) . '/helpers/response.php';
 

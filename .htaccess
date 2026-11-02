@@ -3,6 +3,9 @@
     RewriteBase /
 
     # 1. Route API requests to PHP Backend
+    RewriteCond %{DOCUMENT_ROOT}/backend/api/$1 -f
+    RewriteRule ^api/(.*)$ backend/api/$1 [QSA,L]
+    RewriteRule ^api/?$ backend/public/index.php [QSA,L]
     RewriteRule ^api/(.*)$ backend/public/index.php [QSA,L]
 
     # 2. Route storage uploads
