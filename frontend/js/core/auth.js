@@ -6,6 +6,7 @@ const Auth = {
     async login(identifier, password) {
         const payload = {
             login: identifier,
+            email: identifier,
             password: password
         };
 

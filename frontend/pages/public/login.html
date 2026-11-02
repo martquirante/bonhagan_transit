@@ -239,7 +239,7 @@
         <div class="auth-card">
             <!-- Header with Centered Logo -->
             <div class="auth-header">
-                <a href="../../index.html" class="auth-logo-link" title="Return to Bonhagan Transit Homepage">
+                <a href="/" class="auth-logo-link" title="Return to Bonhagan Transit Homepage">
                     <img src="../../assets/images/logo/bonhagan-logo.png" alt="Bonhagan Transit Official Logo" class="auth-logo">
                 </a>
                 <h1 class="auth-title">Sign In to Bonhagan</h1>
@@ -250,15 +250,20 @@
             <form id="login-form">
                 <div class="form-group">
                     <label class="form-label" for="login-identifier">Email Address or Username</label>
-                    <input type="text" id="login-identifier" class="form-control" placeholder="e.g. juan@example.com or admin" required autocomplete="username">
+                    <input type="text" id="login-identifier" class="form-control" placeholder="e.g. passenger@bonhagan.com or admin" required autocomplete="username">
                 </div>
 
                 <div class="form-group">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                         <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
-                        <a href="contact.html" class="forgot-link">Forgot Password?</a>
+                        <a href="/contact" class="forgot-link">Forgot Password?</a>
                     </div>
-                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                    <div style="position: relative;">
+                        <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password" style="padding-right: 42px;">
+                        <button type="button" id="toggle-password" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;" aria-label="Toggle password visibility">
+                            <i class="fa-solid fa-eye" id="toggle-password-icon"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" id="btn-login" class="auth-submit-btn">
@@ -266,15 +271,33 @@
                 </button>
             </form>
 
+            <!-- Quick Demo Accounts for Testing / Evaluation -->
+            <div class="demo-accounts-box" style="margin-top: var(--space-4); padding: var(--space-3); background: rgba(254, 204, 2, 0.08); border: 1px dashed rgba(254, 204, 2, 0.35); border-radius: var(--radius-md); text-align: left;">
+                <div style="font-size: 0.75rem; font-weight: 700; color: var(--color-accent-amber); text-transform: uppercase; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-key"></i> Quick Fill Demo Accounts
+                </div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-outline btn-xs demo-fill-btn" data-login="passenger@bonhagan.com" data-pass="Passenger123!" style="font-size: 0.75rem; padding: 4px 8px; border-radius: 6px;">
+                        👤 Passenger
+                    </button>
+                    <button type="button" class="btn btn-outline btn-xs demo-fill-btn" data-login="admin@bonhagan.com" data-pass="AdminPassword123!" style="font-size: 0.75rem; padding: 4px 8px; border-radius: 6px;">
+                        🛡️ Admin
+                    </button>
+                    <button type="button" class="btn btn-outline btn-xs demo-fill-btn" data-login="conductor@bonhagan.com" data-pass="StaffPassword123!" style="font-size: 0.75rem; padding: 4px 8px; border-radius: 6px;">
+                        🎫 Conductor
+                    </button>
+                </div>
+            </div>
+
             <!-- Registration Link -->
             <div class="auth-footer-prompt">
                 Don't have an account yet? 
-                <a href="register.html">Register as Passenger</a>
+                <a href="/register">Register as Passenger</a>
             </div>
 
             <!-- Back to Homepage -->
             <div style="text-align: center;">
-                <a href="../../index.html" class="auth-back-link">
+                <a href="/" class="auth-back-link">
                     <i class="fa-solid fa-arrow-left"></i> Back to Homepage
                 </a>
             </div>
@@ -297,6 +320,28 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Demo accounts quick-fill
+            document.querySelectorAll('.demo-fill-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('login-identifier').value = btn.dataset.login;
+                    document.getElementById('login-password').value = btn.dataset.pass;
+                    document.getElementById('login-identifier').focus();
+                    Toast.info(`Filled credentials for ${btn.textContent.trim()}`);
+                });
+            });
+
+            // Password show/hide toggle
+            const togglePassBtn = document.getElementById('toggle-password');
+            const passInput = document.getElementById('login-password');
+            const passIcon = document.getElementById('toggle-password-icon');
+            if (togglePassBtn) {
+                togglePassBtn.addEventListener('click', () => {
+                    const isPass = passInput.type === 'password';
+                    passInput.type = isPass ? 'text' : 'password';
+                    passIcon.className = isPass ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+                });
+            }
+
             // Login submission
             const form = document.getElementById('login-form');
             const submitBtn = document.getElementById('btn-login');

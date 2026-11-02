@@ -13,17 +13,15 @@ require_once dirname(dirname(__DIR__)) . '/middleware/csrf-middleware.php';
 
 $input = getJsonInput(true);
 
-$validator = Validator::make($input)
-    ->required('email')
-    ->email('email')
-    ->required('password');
+$identifier = trim((string)($input['login'] ?? $input['email'] ?? $input['identifier'] ?? $input['username'] ?? ''));
+$password = (string)($input['password'] ?? '');
 
-if ($validator->fails()) {
-    sendError('Validation failed.', $validator->getErrors(), 422);
+if (empty($identifier) || empty($password)) {
+    sendError('Validation failed.', [
+        'login' => empty($identifier) ? 'Email address or username is required.' : null,
+        'password' => empty($password) ? 'Password is required.' : null
+    ], 422);
 }
-
-$email = strtolower(trim($input['email']));
-$password = $input['password'];
 
 try {
     $pdo = Database::getConnection();
@@ -31,15 +29,17 @@ try {
     $stmt = $pdo->prepare("
         SELECT id, full_name, email, password_hash, mobile_number, role, account_status, profile_image_url
         FROM public.profiles
-        WHERE LOWER(email) = LOWER(:email)
+        WHERE LOWER(email) = LOWER(:ident)
+           OR mobile_number = :ident
+           OR (LOWER(SPLIT_PART(email, '@', 1)) = LOWER(:ident) AND :ident NOT LIKE '%@%')
         LIMIT 1
     ");
-    $stmt->execute([':email' => $email]);
+    $stmt->execute([':ident' => $identifier]);
     $user = $stmt->fetch();
 
     if (!$user || !password_verify($password, $user['password_hash'])) {
-        AuditLogger::log('login_failed', 'profiles', null, ['email' => $email]);
-        sendError('Invalid email or password.', ['credentials' => 'Credentials do not match our records.'], 401);
+        AuditLogger::log('login_failed', 'profiles', null, ['identifier' => $identifier]);
+        sendError('Invalid email, username, or password.', ['credentials' => 'Credentials do not match our records.'], 401);
     }
 
     if ($user['account_status'] !== 'active') {
