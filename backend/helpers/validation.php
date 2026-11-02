@@ -16,7 +16,13 @@ class Validator {
     }
 
     public function required(string $field, ?string $customMessage = null): self {
-        if (!isset($this->data[$field]) || trim((string)$this->data[$field]) === '') {
+        if (!isset($this->data[$field])) {
+            $this->addError($field, $customMessage ?? "The {$field} field is required.");
+        } elseif (is_array($this->data[$field])) {
+            if (empty($this->data[$field])) {
+                $this->addError($field, $customMessage ?? "The {$field} field is required.");
+            }
+        } elseif (trim((string)$this->data[$field]) === '') {
             $this->addError($field, $customMessage ?? "The {$field} field is required.");
         }
         return $this;
@@ -24,7 +30,7 @@ class Validator {
 
     public function email(string $field, ?string $customMessage = null): self {
         if (isset($this->data[$field]) && !empty($this->data[$field])) {
-            if (!filter_var($this->data[$field], FILTER_VALIDATE_EMAIL)) {
+            if (is_array($this->data[$field]) || !filter_var($this->data[$field], FILTER_VALIDATE_EMAIL)) {
                 $this->addError($field, $customMessage ?? "The {$field} must be a valid email address.");
             }
         }
@@ -32,21 +38,33 @@ class Validator {
     }
 
     public function minLength(string $field, int $length, ?string $customMessage = null): self {
-        if (isset($this->data[$field]) && mb_strlen((string)$this->data[$field]) < $length) {
-            $this->addError($field, $customMessage ?? "The {$field} must be at least {$length} characters.");
+        if (isset($this->data[$field])) {
+            if (is_array($this->data[$field])) {
+                if (count($this->data[$field]) < $length) {
+                    $this->addError($field, $customMessage ?? "The {$field} must contain at least {$length} items.");
+                }
+            } elseif (mb_strlen((string)$this->data[$field]) < $length) {
+                $this->addError($field, $customMessage ?? "The {$field} must be at least {$length} characters.");
+            }
         }
         return $this;
     }
 
     public function maxLength(string $field, int $length, ?string $customMessage = null): self {
-        if (isset($this->data[$field]) && mb_strlen((string)$this->data[$field]) > $length) {
-            $this->addError($field, $customMessage ?? "The {$field} must not exceed {$length} characters.");
+        if (isset($this->data[$field])) {
+            if (is_array($this->data[$field])) {
+                if (count($this->data[$field]) > $length) {
+                    $this->addError($field, $customMessage ?? "The {$field} must not contain more than {$length} items.");
+                }
+            } elseif (mb_strlen((string)$this->data[$field]) > $length) {
+                $this->addError($field, $customMessage ?? "The {$field} must not exceed {$length} characters.");
+            }
         }
         return $this;
     }
 
     public function in(string $field, array $allowed, ?string $customMessage = null): self {
-        if (isset($this->data[$field]) && !in_array($this->data[$field], $allowed, true)) {
+        if (isset($this->data[$field]) && !is_array($this->data[$field]) && !in_array($this->data[$field], $allowed, true)) {
             $allowedList = implode(', ', $allowed);
             $this->addError($field, $customMessage ?? "The {$field} must be one of: {$allowedList}.");
         }
@@ -54,14 +72,14 @@ class Validator {
     }
 
     public function numeric(string $field, ?string $customMessage = null): self {
-        if (isset($this->data[$field]) && !is_numeric($this->data[$field])) {
+        if (isset($this->data[$field]) && (is_array($this->data[$field]) || !is_numeric($this->data[$field]))) {
             $this->addError($field, $customMessage ?? "The {$field} must be a numeric value.");
         }
         return $this;
     }
 
     public function integer(string $field, ?string $customMessage = null): self {
-        if (isset($this->data[$field]) && filter_var($this->data[$field], FILTER_VALIDATE_INT) === false) {
+        if (isset($this->data[$field]) && (is_array($this->data[$field]) || filter_var($this->data[$field], FILTER_VALIDATE_INT) === false)) {
             $this->addError($field, $customMessage ?? "The {$field} must be a valid integer.");
         }
         return $this;

@@ -121,6 +121,58 @@
     text-transform: uppercase;
 }
 
+/* Primary actions for conductor operations */
+.staff-quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.staff-quick-action {
+    min-height: 58px;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.staff-quick-action i {
+    font-size: 1.05rem;
+}
+
+.staff-quick-action-primary {
+    background-color: var(--color-accent-amber);
+    color: var(--color-primary-navy);
+    box-shadow: 0 3px 10px rgba(254, 204, 2, 0.28);
+}
+
+.staff-quick-action-primary:hover {
+    background-color: var(--color-accent-amber-hover);
+    color: var(--color-primary-navy);
+    box-shadow: 0 5px 14px rgba(254, 204, 2, 0.38);
+    transform: translateY(-1px);
+}
+
+.staff-quick-action-secondary {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-strong);
+    color: var(--text-primary);
+}
+
+.staff-quick-action-secondary:hover {
+    background-color: var(--bg-surface-muted);
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
 /* Bottom Nav for Mobile Operations */
 .staff-bottom-nav {
     position: fixed;
@@ -175,8 +227,24 @@
     justify-content: center;
 }
 
+.staff-scan-highlight:hover {
+    background-color: var(--color-accent-amber-hover);
+    color: var(--color-primary-navy) !important;
+    transform: translateY(-2px);
+}
+
 .staff-scan-highlight svg {
     width: 26px;
     height: 26px;
 }
 
+@media (max-width: 560px) {
+    .staff-quick-actions {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+    }
+
+    .staff-quick-action {
+        min-height: 52px;
+    }
+}

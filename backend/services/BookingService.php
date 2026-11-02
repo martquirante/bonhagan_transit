@@ -19,7 +19,7 @@ class BookingService {
      * @param array $passengersList Array of passenger descriptors
      * @return array
      */
-    public static function createBooking(string $userId, int $tripId, array $passengersList): array {
+    public static function createBooking(string $userId, int $tripId, array $passengersList, array $context = []): array {
         if (empty($passengersList)) {
             throw new InvalidArgumentException("At least one passenger is required for a booking.");
         }
@@ -50,48 +50,102 @@ class BookingService {
                 throw new RuntimeException("Trip is {$trip['status']}. Bookings are closed for this trip.");
             }
 
-            if (strtotime($trip['departure_datetime']) < time()) {
+            // Allow active boarding trips, or scheduled departures within terminal grace window (45 mins)
+            $depTs = strtotime($trip['departure_datetime']);
+            if ($trip['status'] !== 'boarding' && $depTs < (time() - 2700)) {
                 throw new RuntimeException("Trip has already departed. Cannot book past departures.");
             }
 
-            // 2. Fetch all route stops for this trip's route to validate sequences
+            // 2. Fetch all route stops for this trip's route to validate sequences and map identifiers
             $stmtStops = $pdo->prepare("
-                SELECT id, sequence_number FROM public.route_stops
-                WHERE route_id = :route_id
+                SELECT rs.id, rs.stop_id, rs.sequence_number, rs.route_id, s.stop_name
+                FROM public.route_stops rs
+                JOIN public.stops s ON s.id = rs.stop_id
+                WHERE rs.route_id = :route_id
+                ORDER BY rs.sequence_number ASC
             ");
             $stmtStops->execute([':route_id' => $trip['route_id']]);
-            $routeStopSeq = [];
-            foreach ($stmtStops->fetchAll() as $rs) {
-                $routeStopSeq[$rs['id']] = (int)$rs['sequence_number'];
+            $allRouteStops = $stmtStops->fetchAll();
+
+            if (empty($allRouteStops)) {
+                throw new RuntimeException("Route stops not configured for this trip corridor.");
             }
+
+            $routeStopById = [];      // route_stops.id -> row
+            $routeStopByStopId = [];  // stops.id -> row
+            $routeStopBySeq = [];     // sequence_number -> row
+
+            foreach ($allRouteStops as $rs) {
+                $routeStopById[(int)$rs['id']] = $rs;
+                $routeStopByStopId[(int)$rs['stop_id']] = $rs;
+                $routeStopBySeq[(int)$rs['sequence_number']] = $rs;
+            }
+
+            $firstStop = $allRouteStops[0];
+            $lastStop = $allRouteStops[count($allRouteStops) - 1];
+
+            $resolveRouteStop = function($val, bool $isDropoff) use ($routeStopById, $routeStopByStopId, $routeStopBySeq, $firstStop, $lastStop) {
+                if ($val === null || $val === '') {
+                    return $isDropoff ? $lastStop : $firstStop;
+                }
+                $digits = preg_replace('/\D/', '', (string)$val);
+                if ($digits === '') {
+                    return $isDropoff ? $lastStop : $firstStop;
+                }
+                $num = (int)$digits;
+                // 1. Direct route_stops.id
+                if (isset($routeStopById[$num])) {
+                    return $routeStopById[$num];
+                }
+                // 2. Stop ID
+                if (isset($routeStopByStopId[$num])) {
+                    return $routeStopByStopId[$num];
+                }
+                // 3. UI 1..8 dropdown indices (1 -> 7, 8 -> 14)
+                $normalized = ($num >= 1 && $num <= 8) ? ($num + 6) : $num;
+                if (isset($routeStopByStopId[$normalized])) {
+                    return $routeStopByStopId[$normalized];
+                }
+                // 4. Sequence number
+                if (isset($routeStopBySeq[$num])) {
+                    return $routeStopBySeq[$num];
+                }
+                return $isDropoff ? $lastStop : $firstStop;
+            };
+
+            // Booking-level fallback stops
+            $rootOrigin = $context['origin_stop_id'] ?? $context['boarding_route_stop_id'] ?? $context['boarding_stop_id'] ?? null;
+            $rootDest = $context['destination_stop_id'] ?? $context['dropoff_route_stop_id'] ?? $context['dropoff_stop_id'] ?? null;
+            $defaultBoardStop = $resolveRouteStop($rootOrigin, false);
+            $defaultDropStop = $resolveRouteStop($rootDest, true);
 
             $bookingTotal = 0.00;
             $preparedPassengers = [];
 
             // 3. Validate each passenger, check segment sequences, calculate server-side fares
             foreach ($passengersList as $idx => $p) {
-                $pName = trim((string)($p['passenger_name'] ?? ''));
+                $pName = trim((string)($p['passenger_name'] ?? $p['full_name'] ?? $p['name'] ?? ''));
                 if (empty($pName)) {
-                    throw new InvalidArgumentException("Passenger name is required for passenger #" . ($idx + 1));
+                    $pName = "Passenger " . ($idx + 1);
                 }
 
-                $pType = strtolower(trim((string)($p['passenger_type'] ?? 'regular')));
-                if (!in_array($pType, ['regular', 'student', 'senior_citizen'], true)) {
+                $rawType = strtolower(trim((string)($p['passenger_type'] ?? $p['discount_type'] ?? 'regular')));
+                if (in_array($rawType, ['student', 'senior', 'senior_citizen', 'pwd', 'pwd_discount'], true)) {
+                    $pType = ($rawType === 'student') ? 'student' : 'senior_citizen';
+                } else {
                     $pType = 'regular';
                 }
 
-                $boardStopId = (int)($p['boarding_stop_id'] ?? $p['boarding_route_stop_id'] ?? 0);
-                $dropStopId = (int)($p['dropoff_stop_id'] ?? $p['dropoff_route_stop_id'] ?? 0);
+                $pBoardVal = $p['boarding_route_stop_id'] ?? $p['boarding_stop_id'] ?? null;
+                $boardStop = ($pBoardVal !== null && $pBoardVal !== '') ? $resolveRouteStop($pBoardVal, false) : $defaultBoardStop;
 
-                if (!isset($routeStopSeq[$boardStopId])) {
-                    throw new InvalidArgumentException("Boarding stop for {$pName} does not exist on this route.");
-                }
-                if (!isset($routeStopSeq[$dropStopId])) {
-                    throw new InvalidArgumentException("Drop-off stop for {$pName} does not exist on this route.");
-                }
+                $pDropVal = $p['dropoff_route_stop_id'] ?? $p['dropoff_stop_id'] ?? null;
+                $dropStop = ($pDropVal !== null && $pDropVal !== '') ? $resolveRouteStop($pDropVal, true) : $defaultDropStop;
 
-                $startSeq = $routeStopSeq[$boardStopId];
-                $endSeq = $routeStopSeq[$dropStopId];
+                $boardStopId = (int)$boardStop['id'];
+                $dropStopId = (int)$dropStop['id'];
+                $startSeq = (int)$boardStop['sequence_number'];
+                $endSeq = (int)$dropStop['sequence_number'];
 
                 if ($startSeq >= $endSeq) {
                     throw new InvalidArgumentException("Boarding stop must precede drop-off stop for passenger {$pName}.");
@@ -99,8 +153,18 @@ class BookingService {
 
                 $allocType = strtolower(trim((string)($p['allocation_type'] ?? 'seat')));
                 $seatId = !empty($p['seat_id']) ? (int)$p['seat_id'] : null;
+                $seatNum = trim((string)($p['seat_number'] ?? ''));
 
                 if ($allocType === 'seat') {
+                    if (!$seatId && !empty($seatNum)) {
+                        $stmtSeat = $pdo->prepare("SELECT id FROM public.bus_seats WHERE bus_id = :b_id AND seat_number = :num LIMIT 1");
+                        $stmtSeat->execute([':b_id' => $trip['bus_id'], ':num' => $seatNum]);
+                        $sId = $stmtSeat->fetchColumn();
+                        if ($sId) {
+                            $seatId = (int)$sId;
+                        }
+                    }
+
                     if (!$seatId) {
                         throw new InvalidArgumentException("Seat selection is required for passenger {$pName}.");
                     }

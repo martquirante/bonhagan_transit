@@ -30,8 +30,12 @@ $tripId = (int)$input['trip_id'];
 $passengers = $input['passengers'];
 
 try {
-    $result = BookingService::createBooking($user['id'], $tripId, $passengers);
-    sendSuccess('Booking created successfully. Please settle payment to confirm your seats.', $result, 201);
+    $result = BookingService::createBooking($user['id'], $tripId, $passengers, $input);
+    sendSuccess('Booking created successfully. Please settle payment to confirm your seats.', array_merge($result, [
+        'booking_id' => $result['booking']['id'],
+        'id' => $result['booking']['id'],
+        'booking_reference' => $result['booking']['booking_reference']
+    ]), 201);
 } catch (InvalidArgumentException $e) {
     sendError($e->getMessage(), ['booking' => $e->getMessage()], 422);
 } catch (RuntimeException $e) {

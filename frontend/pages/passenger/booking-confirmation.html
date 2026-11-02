@@ -125,13 +125,19 @@
                 
                 try {
                     const res = await Api.get(API_CONFIG.ENDPOINTS.BOOKINGS.GET, { booking_id: bookingId });
-                    if (res.success && res.data) {
-                        const b = res.data;
-                        document.getElementById('conf-reference').textContent = b.booking_reference || ('BTH-BK-' + b.booking_id);
+                    if (res && res.success && res.data) {
+                        const b = res.data.booking || res.data;
+                        document.getElementById('conf-reference').textContent = b.booking_reference || ('BTH-BK-' + (b.id || bookingId));
                         document.getElementById('conf-route').textContent = `${b.origin_name || 'Monumento'} → ${b.destination_name || 'Sapang Palay'}`;
                         document.getElementById('conf-bus').textContent = `${b.bus_number || 'Route 6 Bus'} (${(b.bus_type || 'aircon').toUpperCase()})`;
-                        document.getElementById('conf-departure').textContent = `${FormatUtil.date(b.departure_time)} at ${FormatUtil.time(b.departure_time)}`;
-                        document.getElementById('conf-seats').textContent = b.seat_numbers || 'Seat Assigned';
+                        
+                        const depTime = b.departure_datetime || b.departure_time || new Date().toISOString();
+                        document.getElementById('conf-departure').textContent = `${FormatUtil.date(depTime)} at ${FormatUtil.time(depTime)}`;
+                        
+                        const seatsText = Array.isArray(b.passengers) && b.passengers.length > 0
+                            ? b.passengers.map(p => p.seat_number).filter(Boolean).join(', ')
+                            : (b.seat_numbers || 'Seat Assigned');
+                        document.getElementById('conf-seats').textContent = seatsText;
                         document.getElementById('conf-total').textContent = FormatUtil.currency(b.total_amount || 0);
                     }
                 } catch (e) {

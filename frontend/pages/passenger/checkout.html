@@ -338,17 +338,29 @@
                     const res = await Api.post(API_CONFIG.ENDPOINTS.BOOKINGS.CREATE, payload);
                     Loading.hide();
 
-                    if (res.success && res.data) {
+                    if (res && res.success && res.data) {
                         Toast.success('Reservation confirmed successfully!');
                         // Clear draft
                         sessionStorage.removeItem('bonhagan_booking_draft');
                         
-                        const bookingId = res.data.booking_id || res.data.id;
+                        const bookingId = res.data.booking_id || res.data.id || (res.data.booking && res.data.booking.id);
                         setTimeout(() => {
                             window.location.href = `${Router.toUrl('booking-confirmation.html')}?booking_id=${bookingId}`;
                         }, 800);
                     } else {
-                        Toast.error(res.message || 'Booking failed. One or more seats may have been reserved.');
+                        let errorMsg = (res && res.message) || 'Booking failed. Please try again.';
+                        if (res && res.errors) {
+                            if (typeof res.errors === 'string') {
+                                errorMsg = res.errors;
+                            } else if (typeof res.errors === 'object') {
+                                const firstVal = Object.values(res.errors)[0];
+                                if (firstVal) errorMsg = Array.isArray(firstVal) ? firstVal[0] : firstVal;
+                            }
+                        }
+                        if (typeof errorMsg === 'string') {
+                            errorMsg = errorMsg.replace(/<[^>]*>?/gm, '').trim();
+                        }
+                        Toast.error(errorMsg);
                         DOM.setLoading(confirmBtn, false, 'Confirm & Complete Reservation');
                     }
                 } catch (e) {

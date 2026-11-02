@@ -74,3 +74,4 @@ sendSuccess('Available payment channels retrieved successfully.', [
     'count' => count($paymentMethods),
     'currency' => 'PHP'
 ]);
+
