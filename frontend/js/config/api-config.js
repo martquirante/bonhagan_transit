@@ -3,11 +3,23 @@
  */
 
 const API_CONFIG = {
-    // If backend is running on port 8000 (typical php -S localhost:8000 -t backend/public)
-    // or relative if served from same origin
-    BASE_URL: (window.location.port === '8000' || window.location.pathname.startsWith('/backend/public'))
-        ? '/api'
-        : 'http://localhost:8000/api',
+    // Dynamic Base URL resolver supporting Localhost, Vercel proxy, and Render backend
+    BASE_URL: (() => {
+        if (window.__API_URL__) return window.__API_URL__;
+        
+        const host = window.location.hostname;
+        const port = window.location.port;
+
+        // Local development
+        if (host === 'localhost' || host === '127.0.0.1') {
+            return (port === '8000' || window.location.pathname.startsWith('/backend/public'))
+                ? '/api'
+                : 'http://localhost:8000/api';
+        }
+
+        // Production on Render (same origin) or Vercel with rewrites proxy
+        return '/api';
+    })(),
 
     ENDPOINTS: {
         AUTH: {

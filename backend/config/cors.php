@@ -20,7 +20,11 @@ $allowedOrigins = array_filter([
 ]);
 
 if (!empty($origin)) {
-    if (in_array($origin, $allowedOrigins, true) || env('APP_ENV') === 'development') {
+    $parsedHost = parse_url($origin, PHP_URL_HOST) ?? '';
+    if (in_array($origin, $allowedOrigins, true) ||
+        str_ends_with($parsedHost, 'vercel.app') ||
+        str_ends_with($parsedHost, 'onrender.com') ||
+        env('APP_ENV') === 'development') {
         header("Access-Control-Allow-Origin: {$origin}");
     }
 } else {

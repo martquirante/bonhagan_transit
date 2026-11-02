@@ -1,0 +1,127 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://bonhagan-transit.onrender.com/api/$1"
+    },
+    {
+      "source": "/css/(.*)",
+      "destination": "/frontend/css/$1"
+    },
+    {
+      "source": "/js/(.*)",
+      "destination": "/frontend/js/$1"
+    },
+    {
+      "source": "/assets/(.*)",
+      "destination": "/frontend/assets/$1"
+    },
+    {
+      "source": "/",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/home",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/routes",
+      "destination": "/frontend/pages/public/routes.html"
+    },
+    {
+      "source": "/schedules",
+      "destination": "/frontend/pages/public/schedules.html"
+    },
+    {
+      "source": "/services",
+      "destination": "/frontend/pages/public/services.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/frontend/pages/public/about.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/frontend/pages/public/contact.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/frontend/pages/public/login.html"
+    },
+    {
+      "source": "/register",
+      "destination": "/frontend/pages/public/register.html"
+    },
+    {
+      "source": "/book",
+      "destination": "/frontend/pages/passenger/book-trip.html"
+    },
+    {
+      "source": "/book-trip",
+      "destination": "/frontend/pages/passenger/book-trip.html"
+    },
+    {
+      "source": "/seat-selection",
+      "destination": "/frontend/pages/passenger/seat-selection.html"
+    },
+    {
+      "source": "/passenger-details",
+      "destination": "/frontend/pages/passenger/passenger-details.html"
+    },
+    {
+      "source": "/checkout",
+      "destination": "/frontend/pages/passenger/checkout.html"
+    },
+    {
+      "source": "/my-tickets",
+      "destination": "/frontend/pages/passenger/my-tickets.html"
+    },
+    {
+      "source": "/ticket-details",
+      "destination": "/frontend/pages/passenger/ticket-details.html"
+    },
+    {
+      "source": "/booking-history",
+      "destination": "/frontend/pages/passenger/booking-history.html"
+    },
+    {
+      "source": "/profile",
+      "destination": "/frontend/pages/passenger/profile.html"
+    },
+    {
+      "source": "/notifications",
+      "destination": "/frontend/pages/passenger/notifications.html"
+    },
+    {
+      "source": "/trip-details",
+      "destination": "/frontend/pages/passenger/trip-details.html"
+    },
+    {
+      "source": "/passenger",
+      "destination": "/frontend/pages/passenger/dashboard.html"
+    },
+    {
+      "source": "/passenger/:page",
+      "destination": "/frontend/pages/passenger/:page.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/frontend/pages/admin/dashboard.html"
+    },
+    {
+      "source": "/admin/:page",
+      "destination": "/frontend/pages/admin/:page.html"
+    },
+    {
+      "source": "/staff",
+      "destination": "/frontend/pages/staff/dashboard.html"
+    },
+    {
+      "source": "/staff/:page",
+      "destination": "/frontend/pages/staff/:page.html"
+    }
+  ]
+}

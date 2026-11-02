@@ -69,15 +69,21 @@ if (session_status() === PHP_SESSION_NONE) {
         $sessionName = env('SESSION_NAME', 'BONHAGAN_SESSION');
         session_name($sessionName);
 
-        $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+        // Detect HTTPS including Render / Cloudflare / reverse proxy SSL termination
+        $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+                   (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) ||
+                   (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+
+        $isCrossOrigin = !empty($_SERVER['HTTP_ORIGIN']) && !str_contains($_SERVER['HTTP_ORIGIN'], $_SERVER['HTTP_HOST'] ?? '');
+        $sameSite = ($isCrossOrigin && $isHttps) ? 'None' : 'Lax';
 
         session_set_cookie_params([
             'lifetime' => 86400 * 7, // 7 days
             'path' => '/',
             'domain' => '',
-            'secure' => $isSecure,
+            'secure' => $isHttps,
             'httponly' => true,
-            'samesite' => 'Lax'
+            'samesite' => $sameSite
         ]);
 
         session_start();
