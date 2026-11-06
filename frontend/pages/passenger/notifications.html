@@ -54,9 +54,11 @@
             </div>
 
             <!-- Notifications Feed -->
-            <div id="notifs-loading" class="text-center py-8">
-                <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
-                <p style="margin-top: 0.5rem; color: var(--text-muted); font-size: 0.85rem;">Retrieving notifications...</p>
+            <div id="notifs-loading" style="display: flex; flex-direction: column; gap: var(--space-3);">
+                <div style="display: flex; gap: var(--space-4); align-items: flex-start;"><span class="skeleton skeleton-circle" style="width:40px;height:40px;"></span><div style="flex:1;"><span class="skeleton skeleton-line w-3-4"></span><span class="skeleton skeleton-line w-full"></span><span class="skeleton skeleton-line w-1-2"></span></div></div>
+                <div style="display: flex; gap: var(--space-4); align-items: flex-start;"><span class="skeleton skeleton-circle" style="width:40px;height:40px;"></span><div style="flex:1;"><span class="skeleton skeleton-line w-3-4"></span><span class="skeleton skeleton-line w-full"></span><span class="skeleton skeleton-line w-1-2"></span></div></div>
+                <div style="display: flex; gap: var(--space-4); align-items: flex-start;"><span class="skeleton skeleton-circle" style="width:40px;height:40px;"></span><div style="flex:1;"><span class="skeleton skeleton-line w-3-4"></span><span class="skeleton skeleton-line w-full"></span><span class="skeleton skeleton-line w-1-2"></span></div></div>
+                <div style="display: flex; gap: var(--space-4); align-items: flex-start;"><span class="skeleton skeleton-circle" style="width:40px;height:40px;"></span><div style="flex:1;"><span class="skeleton skeleton-line w-3-4"></span><span class="skeleton skeleton-line w-full"></span><span class="skeleton skeleton-line w-1-2"></span></div></div>
             </div>
 
             <div id="notifs-list" style="display: flex; flex-direction: column; gap: var(--space-3);">

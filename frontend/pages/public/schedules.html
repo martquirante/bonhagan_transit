@@ -96,9 +96,11 @@
             </div>
 
             <!-- Schedule Trips Container -->
-            <div id="schedules-loading" class="text-center py-8">
-                <div class="spinner-border text-primary" role="status" style="width: 2.5rem; height: 2.5rem; border: 3px solid var(--border-subtle); border-top-color: var(--color-accent-amber); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div>
-                <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">Loading live trip schedule from server...</p>
+            <div id="schedules-loading">
+                <span class="skeleton skeleton-trip-card"></span>
+                <span class="skeleton skeleton-trip-card"></span>
+                <span class="skeleton skeleton-trip-card"></span>
+                <span class="skeleton skeleton-trip-card"></span>
             </div>
 
             <div id="schedules-list" style="display: none;">

@@ -60,6 +60,7 @@ class Database {
             ];
 
             self::$connection = new PDO($dsn, $user, $pass, $options);
+            self::$connection->exec("SET timezone = 'Asia/Manila'");
             return self::$connection;
 
         } catch (PDOException $e) {
